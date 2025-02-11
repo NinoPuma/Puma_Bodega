@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "865546498715",
+    "project_id": "pumabodega-15b54",
+    "storage_bucket": "pumabodega-15b54.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865546498715:android:bb33fc1d96f1ce68938c3e",
+        "android_client_info": {
+          "package_name": "es.uem.android_grupo03"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeejOz4etneKMf4ZOoQu4MY8iletIBZSk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
