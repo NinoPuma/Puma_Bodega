@@ -37,6 +37,7 @@ struct ContentView: View {
 	                .disableAutocorrection(true)
         	        .autocapitalization(.none)
                 	.font(.headline)
+	                
         	        .cornerRadius(6)
                 	.padding(.horizontal, 60)
 	                .foregroundStyle(Color.black)
