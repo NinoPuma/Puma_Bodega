@@ -1,0 +1,53 @@
+{
+  "perfil": {
+    "id": 202,
+    "nombre": "Antonino Puma",
+    "email": "antonino@example.com",
+    "direccion": "Av. Siempre Viva 742, Lima, Perú",
+    "tarjeta": "**** **** **** 1234",
+    "pedido": [
+      {
+        "id": 1,
+        "licor": [
+          {
+            "id": 101,
+            "tipo": "Whisky",
+            "nombre": "Johnnie Walker Black Label",
+            "precio": 45.99,
+            "imagen": "https://example.com/whisky.jpg",
+            "descripcion": "Un whisky escocés de 12 años con un sabor suave y equilibrado."
+          }
+        ],
+        "estado": "Pendiente",
+        "fecha": "2025-02-15",
+        "precioTotal": 45.99
+      }
+    ]
+  },
+  "licores": [
+    {
+      "id": 101,
+      "tipo": "Whisky",
+      "nombre": "Johnnie Walker Black Label",
+      "precio": 45.99,
+      "imagen": "https://example.com/whisky.jpg",
+      "descripcion": "Un whisky escocés de 12 años con un sabor suave y equilibrado."
+    },
+    {
+      "id": 102,
+      "tipo": "Tequila",
+      "nombre": "Don Julio 1942",
+      "precio": 149.99,
+      "imagen": "https://example.com/tequila.jpg",
+      "descripcion": "Un tequila premium con notas de vainilla y caramelo."
+    },
+    {
+      "id": 103,
+      "tipo": "Ron",
+      "nombre": "Bacardí Añejo",
+      "precio": 29.99,
+      "imagen": "https://example.com/ron.jpg",
+      "descripcion": "Un ron dorado con un equilibrio de dulzura y especias."
+    }
+  ]
+}
