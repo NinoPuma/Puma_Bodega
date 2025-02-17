@@ -50,6 +50,12 @@ dependencies {
 
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")
+        // ...
+
+    implementation("com.firebaseui:firebase-ui-auth:7.2.0")
+
+        // Required only if Facebook login support is required
+        // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L9
 
 
     // Add the dependencies for any other desired Firebase products
