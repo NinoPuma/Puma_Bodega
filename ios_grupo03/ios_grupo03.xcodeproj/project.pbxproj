@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B76225D02D60B847008ABBAA /* BBDD.json in Resources */ = {isa = PBXBuildFile; fileRef = B76225CF2D60B847008ABBAA /* BBDD.json */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B7C3CE612D5BD2BB009CF60B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B76225CF2D60B847008ABBAA /* BBDD.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = BBDD.json; sourceTree = "<group>"; };
 		B7C3CE502D5BD2B9009CF60B /* ios_grupo03.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios_grupo03.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C3CE602D5BD2BB009CF60B /* ios_grupo03Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ios_grupo03Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C3CE6A2D5BD2BB009CF60B /* ios_grupo03UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ios_grupo03UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +80,7 @@
 		B7C3CE472D5BD2B9009CF60B = {
 			isa = PBXGroup;
 			children = (
+				B76225CF2D60B847008ABBAA /* BBDD.json */,
 				B7C3CE522D5BD2B9009CF60B /* ios_grupo03 */,
 				B7C3CE632D5BD2BB009CF60B /* ios_grupo03Tests */,
 				B7C3CE6D2D5BD2BB009CF60B /* ios_grupo03UITests */,
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B76225D02D60B847008ABBAA /* BBDD.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
