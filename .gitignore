@@ -1,1 +1,4 @@
-ios_grupo03.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+*.DS_Store
