@@ -9,18 +9,22 @@ struct VistaPrincipal: View {
                     Label("Inicio", systemImage: "wineglass")
                 }
                 .tag(1)
+            Carrito()
+                .tabItem{
+                    Label("Carrito", systemImage: "cart")
+                }
             
+                .tag(2)
+            Envio()
+                .tabItem {
+                    Label("Pedidos", systemImage: "cube.box.fill")
+                }
+                .tag(3)
             VistaPerfil()
                 .tabItem {
                     Label("Perfil", systemImage: "person.circle")
                 }
-                .tag(2)
-            
-            Envio()
-                .tabItem {
-                    Label("Envio", systemImage: "cube.box.fill")
-                }
-                .tag(3)
+                .tag(4)
         }
     }
 }

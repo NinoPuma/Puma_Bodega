@@ -20,7 +20,7 @@ public class WineAdapter extends RecyclerView.Adapter<WineAdapter.WineViewHolder
     @NonNull
     @Override
     public WineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_wine_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.Item_wine_card, parent, false);
         return new WineViewHolder(view);
     }
 
