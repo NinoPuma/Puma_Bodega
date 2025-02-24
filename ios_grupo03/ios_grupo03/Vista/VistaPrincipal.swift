@@ -9,13 +9,13 @@ struct VistaPrincipal: View {
                     Label("Inicio", systemImage: "wineglass")
                 }
                 .tag(1)
-            Carrito()
+            VistaCarrito()
                 .tabItem{
                     Label("Carrito", systemImage: "cart")
                 }
             
                 .tag(2)
-            Envio()
+            VistaPedidos()
                 .tabItem {
                     Label("Pedidos", systemImage: "cube.box.fill")
                 }

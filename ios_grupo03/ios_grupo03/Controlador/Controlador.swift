@@ -5,6 +5,7 @@ class GestorDatos: ObservableObject {
     @Published var perfiles: [Perfil] = []
     @Published var licores: [Licor] = []
     @Published var pedidos: [Pedido] = []
+    //@Published var carritos:
     private let nomFichJSON = "BBDD.json"
 
     init() {

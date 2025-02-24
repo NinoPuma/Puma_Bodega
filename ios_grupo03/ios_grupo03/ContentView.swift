@@ -57,6 +57,9 @@ struct ContentView: View {
                 // Botón de Iniciar Sesión
                 Button(action: {
                     if autenticarUsuario(usuario: usr, contraseña: pwd) && isOn {
+                        isOn = false
+                        pwd = ""
+                        usr = ""
                         autenticacionExitoso = true
                     }
                 }) {
