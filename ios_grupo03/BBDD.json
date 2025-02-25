@@ -8,7 +8,7 @@
     "pedido": [
       {
         "id": 101,
-        "licor": [
+        "licores": [
           {
             "id": 201,
             "tipo": "Whisky",
@@ -21,6 +21,30 @@
         "estado": "Pendiente",
         "fecha": "2025-02-15",
         "precioTotal": 45.99
+      }
+    ],
+    "carrito": [
+      {
+        "licor": {
+          "id": 201,    
+          "tipo": "Whisky",
+          "nombre": "Johnnie Walker Black Label",
+          "precio": 45.99,
+          "imagen": "url",
+          "descripcion": "Un whisky escocés de 12 años con un sabor suave y equilibrado."
+        },
+        "cantidad": 1
+      },
+      {
+        "licor": {
+          "id": 205,
+          "tipo": "Ron",
+          "nombre": "Bacardí Añejo",
+          "precio": 29.99,
+          "imagen": "url",
+          "descripcion": "Un ron dorado con un equilibrio de dulzura y especias."
+        },
+        "cantidad": 2
       }
     ]
   },
