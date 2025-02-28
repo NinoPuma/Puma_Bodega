@@ -1,4 +1,4 @@
-package es.uem.android_grupo03;
+package es.uem.android_grupo03.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import es.uem.android_grupo03.R;
 
 public class AdaptadorBebidas extends RecyclerView.Adapter<AdaptadorBebidas.BebidasHolder> {
 

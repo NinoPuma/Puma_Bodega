@@ -1,4 +1,4 @@
-package es.uem.android_grupo03;
+package es.uem.android_grupo03.models;
 
 public class LicorModelo {
     private int id;

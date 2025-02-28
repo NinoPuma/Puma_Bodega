@@ -12,7 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import es.uem.android_grupo03.fragments.CarritoFragment;
 import es.uem.android_grupo03.fragments.InicioFragment;
 import es.uem.android_grupo03.fragments.PedidosFragment;
-import es.uem.android_grupo03.fragments.PerfilFragment;
+import es.uem.android_grupo03.fragments.VistaPerfil;
 
 public class PaginaPrincipal extends AppCompatActivity {
 
@@ -29,7 +29,7 @@ public class PaginaPrincipal extends AppCompatActivity {
         adapter.addFragment(new InicioFragment(), "Inicio");
         adapter.addFragment(new CarritoFragment(), "Carrito");
         adapter.addFragment(new PedidosFragment(), "Pedidos");
-        adapter.addFragment(new PerfilFragment(), "Perfil");
+        adapter.addFragment(new VistaPerfil(), "Perfil");
 
         viewPager.setAdapter(adapter);
 

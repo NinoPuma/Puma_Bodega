@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import es.uem.android_grupo03.AdaptadorBebidas;
+import es.uem.android_grupo03.adapters.AdaptadorBebidas;
 import es.uem.android_grupo03.R;
 
 public class InicioFragment extends Fragment {
