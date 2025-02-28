@@ -1,0 +1,192 @@
+<!-- res/layout/fragment_profile.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal">
+
+    <!-- Título del Perfil -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- TextView "Perfil" -->
+
+        <!-- Botón Cerrar Sesión -->
+        <TextView
+            android:id="@+id/perfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:text="Perfil"
+            android:textColor="#333333"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/botonCerrarSesion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="#000000"
+            android:padding="8dp"
+            android:text="Cerrar Sesión"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+
+    <!-- Imagen de Perfil -->
+    <ImageView
+        android:id="@+id/fotoPerfil"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="16dp"
+        android:src="@mipmap/ic_launcher"
+
+        android:scaleType="centerCrop"/>
+
+    <!-- Botón para Cambiar Foto -->
+    <Button
+        android:id="@+id/botonFoto"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:minHeight="48dp"
+        android:text="Cambiar foto"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#6200EE"
+        android:padding="8dp"
+        android:layout_marginBottom="24dp"
+        android:elevation="4dp"/>
+
+    <!-- Nombre de Usuario -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="start">
+
+        <TextView
+            android:id="@+id/nombreUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre: "
+            android:textSize="18sp"
+            android:textColor="#555555"/>
+
+        <EditText
+            android:id="@+id/editarNombreUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:hint="Ingrese su nombre"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:backgroundTint="#CCCCCC"
+            android:padding="8dp"/>
+
+    </LinearLayout>
+
+    <!-- Dirección Postal -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="start">
+
+        <TextView
+            android:id="@+id/textDireccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dirección Postal: "
+            android:textSize="18sp"
+            android:textColor="#555555"/>
+
+        <EditText
+            android:id="@+id/editarDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:backgroundTint="#CCCCCC"
+            android:hint="Ingrese su dirección"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:textColor="#333333"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <!-- Correo Electrónico (No Editable) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="start">
+
+        <TextView
+            android:id="@+id/textCorreo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correo Electrónico: "
+            android:textSize="18sp"
+            android:textColor="#555555"/>
+
+        <TextView
+            android:id="@+id/cargarCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:text="correo@ejemplo.com"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:textStyle="bold"
+            android:backgroundTint="#F5F5F5"
+            android:padding="8dp"
+            android:enabled="false"/>
+
+    </LinearLayout>
+
+    <!-- Toggle para Newsletter -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:minHeight="48dp"
+            android:text="Suscribirse a la Newsletter"
+            android:textSize="18sp"
+            android:textColor="#555555"/>
+
+        <Switch
+            android:id="@+id/toggleNewsletter"
+            android:layout_width="60dp"
+            android:layout_height="48dp"
+            android:minHeight="48dp" />
+
+    </LinearLayout>
+
+    <!-- Botón Guardar Cambios -->
+    <Button
+        android:id="@+id/botonGuardarCambios"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#4CAF50"
+        android:elevation="4dp"
+        android:minHeight="48dp"
+        android:padding="8dp"
+        android:text="Guardar cambios"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

@@ -2,11 +2,8 @@ import SwiftUI
 
 // Vista para Vino
 struct Vino: View {
-    let vinos: [Licor] = [
-        Licor(id: 2, tipo: "Vino", nombre: "Alta", precio: 149.99, imagen: "Vino_Tintoalta", descripcion: "Tinto con aroma afrutado."),
-        Licor(id: 3, tipo: "Vino", nombre: "Flor", precio: 29.99, imagen: "Vino_Tintoflor", descripcion: "Tinto con olor a miel."),
-        Licor(id: 4, tipo: "Vino", nombre: "Valserrano", precio: 19.99, imagen: "Vino_Blancovalserrano", descripcion: "Blanco con fuerte olor a roble.")
-    ]
+    @StateObject private var controlador = GestorDatos()
+    List vinos: Vino[]
     var body: some View {
         NavigationStack {
             List {
