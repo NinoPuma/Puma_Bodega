@@ -1,59 +1,60 @@
 package es.uem.android_grupo03;
 
 import android.os.Bundle;
-import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import java.util.ArrayList;
-import java.util.List;
+import androidx.viewpager2.widget.ViewPager2;
+
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
+import es.uem.android_grupo03.fragments.CarritoFragment;
+import es.uem.android_grupo03.fragments.InicioFragment;
+import es.uem.android_grupo03.fragments.PedidosFragment;
+import es.uem.android_grupo03.fragments.PerfilFragment;
 
 public class PaginaPrincipal extends AppCompatActivity {
-
-    private EditText searchEditText;
-    private RecyclerView winesRecyclerView;
-    private WineAdapter wineAdapter;
-    private List<Wine> wineList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagina_principal);
 
-        searchEditText = findViewById(R.id.searchEditText);
-        winesRecyclerView = findViewById(R.id.winesRecyclerView);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        ViewPager2 viewPager = findViewById(R.id.view_pager);
 
-        // Initialize the wine list
-        wineList = new ArrayList<>();
-        populateWineList();
+        // Configurar el adaptador del ViewPager2
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        adapter.addFragment(new InicioFragment(), "Inicio");
+        adapter.addFragment(new CarritoFragment(), "Carrito");
+        adapter.addFragment(new PedidosFragment(), "Pedidos");
+        adapter.addFragment(new PerfilFragment(), "Perfil");
 
-        // Set up the RecyclerView
-        wineAdapter = new WineAdapter(wineList);
-        winesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        winesRecyclerView.setAdapter(wineAdapter);
-    }
+        viewPager.setAdapter(adapter);
 
-    private void populateWineList() {
-        // Add sample wines to the list
-        wineList.add(new Wine("Vino Tinto", "Un delicioso vino tinto.", R.drawable.ic_wine));
-        wineList.add(new Wine("Vino Blanco", "Un refrescante vino blanco.", R.drawable.ic_wine));
-        // Add more wines as needed
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        // Vincular el TabLayout con el ViewPager2
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {
+                    switch (position) {
+                        case 0:
+                            tab.setText("Inicio");
+                            tab.setIcon(R.drawable.ic_home);
+                            break;
+                        case 1:
+                            tab.setText("Carrito");
+                            tab.setIcon(R.drawable.ic_carrito);
+                            break;
+                        case 2:
+                            tab.setText("Pedidos");
+                            tab.setIcon(R.drawable.ic_pedidos);
+                            break;
+                        case 3:
+                            tab.setText("Perfil");
+                            tab.setIcon(R.drawable.ic_perfil);
+                            break;
+                    }
+                }
+        ).attach();
     }
 }
