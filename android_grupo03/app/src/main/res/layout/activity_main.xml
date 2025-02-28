@@ -8,32 +8,35 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="187dp"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        app:srcCompat="@drawable/logo_proyecto_integrador" />
+        app:srcCompat="@drawable/icono" />
 
     <EditText
-        android:id="@+id/usr"
+        android:id="@+id/emailOrPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:hint="Correo electrónico o teléfono"
-        android:padding="12dp" />
+        android:inputType="textEmailAddress|textPhone"
+        android:padding="12dp"
+        android:background="@drawable/edit_text_background" />
 
     <EditText
-        android:id="@+id/pwd"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Contraseña"
         android:inputType="textPassword"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:background="@drawable/edit_text_background" />
 
     <CheckBox
-        android:id="@+id/condiciones"
+        android:id="@+id/termsCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -42,25 +45,14 @@
         android:gravity="center" />
 
     <Button
-        android:id="@+id/botonLogin"
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:backgroundTint="#000000"
-        android:onClick="signOut"
-        android:padding="12dp"
         android:text="Iniciar Sesión"
-        android:textColor="@android:color/white" />
-
-    <TextView
-        android:id="@+id/loginGoogle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:text="Inicia sesión con google"
-        android:textColor="#2196F3"
-        android:textStyle="bold" />
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@android:color/white"
+        android:padding="12dp" />
 
     <TextView
         android:id="@+id/createAccount"

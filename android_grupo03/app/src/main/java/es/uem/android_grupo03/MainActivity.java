@@ -2,8 +2,6 @@ package es.uem.android_grupo03;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -50,33 +48,14 @@ public class MainActivity extends AppCompatActivity {
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
-            // Inicio de sesión exitoso
+            // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user != null) {
-                // Redirigir a la actividad principal
-                startActivity(new Intent(this, HomeActivity.class));
-                finish();
-            }
+            // ...
         } else {
-            // Inicio de sesión fallido
-            if (response == null) {
-                // El usuario canceló el inicio de sesión
-                Toast.makeText(this, "Inicio de sesión cancelado", Toast.LENGTH_SHORT).show();
-            } else {
-                // Manejar el error
-                Toast.makeText(this, "Error: " + response.getError().getMessage(), Toast.LENGTH_SHORT).show();
-            }
+            // Sign in failed. If response is null the user canceled the
+            // sign-in flow using the back button. Otherwise check
+            // response.getError().getErrorCode() and handle the error.
+            // ...
         }
-    }
-
-    // Método para cerrar sesión
-    public void signOut(View view) {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(task -> {
-                    // Redirigir a la actividad de inicio de sesión
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
-                });
     }
 }
