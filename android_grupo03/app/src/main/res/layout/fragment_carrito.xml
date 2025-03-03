@@ -3,12 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:gravity="center"
     android:orientation="vertical">
 
+    <!-- Título en la parte superior -->
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tituloTienda"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bienvenido a la sección de Carrito"
+        android:background="#787777"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Bienvenido a la tienda Pumabodega"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- RecyclerView para mostrar los productos del carrito -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp" />
+
+    <!-- Botón para realizar el pedido -->
+    <Button
+        android:id="@+id/btn_realizar_pedido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="#FF9800"
+        android:text="Realizar Pedido"
+        android:textColor="@android:color/white"
         android:textSize="18sp" />
+
 </LinearLayout>

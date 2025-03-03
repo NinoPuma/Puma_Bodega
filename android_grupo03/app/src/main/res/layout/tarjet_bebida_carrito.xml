@@ -17,76 +17,76 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <!-- Imagen de la bebida con bordes redondeados -->
+        <!-- Imagen del producto -->
         <ImageView
-            android:id="@+id/iv1"
+            android:id="@+id/ivCarrito"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginEnd="16dp"
-            android:clipToOutline="true"
             android:contentDescription="Imagen de la bebida"
-            android:padding="4dp"
             android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <!-- Nombre de la bebida con estilo negrita -->
+            <!-- Nombre del producto -->
             <TextView
-                android:id="@+id/tvName"
+                android:id="@+id/tvNombreCarrito"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="Nombre de la bebida"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <!-- Precio de la bebida con color destacado -->
-            <TextView
-                android:id="@+id/tvPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="4dp"
-                android:text="$0.00"
+                android:text="Nombre del producto"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Descripción breve con color suave -->
+            <!-- Precio -->
+            <TextView
+                android:id="@+id/tvPrecioCarrito"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$0.00"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <!-- Stepper (Cantidad + -) -->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <ImageView
+                    android:id="@+id/btnRestar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@android:color/darker_gray"
+                    android:padding="6dp"
+                    android:src="@android:drawable/ic_media_previous" />
 
                 <TextView
-                    android:id="@+id/tvDescription"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvCantidad"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:paddingTop="2dp"
-                    android:text="Descripción breve"
+                    android:gravity="center"
+                    android:text="1"
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
+                <ImageView
+                    android:id="@+id/btnSumar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@android:color/darker_gray"
+                    android:padding="6dp"
+                    android:src="@android:drawable/ic_media_next" />
             </LinearLayout>
-
-            <Button
-                android:id="@+id/boton_anadir"
-                android:layout_width="106dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="125dp"
-                android:layout_weight="1"
-                android:backgroundTint="#4CAF50"
-                android:text="Añade al carrito"
-                android:textColor="#000000" />
 
         </LinearLayout>
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

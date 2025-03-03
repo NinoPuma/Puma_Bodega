@@ -48,14 +48,20 @@ public class MainActivity extends AppCompatActivity {
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
-            // Successfully signed in
+            // Usuario autenticado correctamente
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            // ...
+
+            // Redirigir a PaginaPrincipal
+            Intent intent = new Intent(MainActivity.this, PaginaPrincipal.class);
+            startActivity(intent);
+            finish(); // Cierra MainActivity para que no vuelva atrás al presionar el botón de retroceso
         } else {
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
+            // Manejo de error si falla el login
+            if (response != null) {
+                int errorCode = response.getError().getErrorCode();
+                System.out.println("Error de autenticación: " + errorCode);
+            }
         }
     }
+
 }
