@@ -1,4 +1,4 @@
-package es.uem.android_grupo03;
+package es.uem.android_grupo03.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

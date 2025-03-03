@@ -9,10 +9,11 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import es.uem.android_grupo03.adapters.ViewPagerAdapter;
 import es.uem.android_grupo03.fragments.CarritoFragment;
 import es.uem.android_grupo03.fragments.InicioFragment;
 import es.uem.android_grupo03.fragments.PedidosFragment;
-import es.uem.android_grupo03.fragments.VistaPerfil;
+import es.uem.android_grupo03.fragments.PerfilFragment;
 
 public class PaginaPrincipal extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class PaginaPrincipal extends AppCompatActivity {
         adapter.addFragment(new InicioFragment(), "Inicio");
         adapter.addFragment(new CarritoFragment(), "Carrito");
         adapter.addFragment(new PedidosFragment(), "Pedidos");
-        adapter.addFragment(new VistaPerfil(), "Perfil");
+        adapter.addFragment(new PerfilFragment(), "Perfil");
 
         viewPager.setAdapter(adapter);
 
