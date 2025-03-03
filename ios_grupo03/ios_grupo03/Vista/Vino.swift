@@ -3,7 +3,7 @@ import SwiftUI
 // Vista para Vino
 struct Vino: View {
     @StateObject private var controlador = GestorDatos()
-    List vinos: Vino[]
+    @State private var vinos: [Licor] = []
     var body: some View {
         NavigationStack {
             List {
@@ -39,7 +39,28 @@ struct Vino: View {
             }
             .navigationTitle("Vinos")
         }
+        .onAppear {
+            cargarVinos()
+        }
     }
+    func cargarVinos() {
+            guard let url = Bundle.main.url(forResource: "licores", withExtension: "json") else {
+                print("No se ha encontrado el archivo .json")
+                return
+            }
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let decodedLicores = try decoder.decode([Licor].self, from: data)
+                
+                // ✅ Actualizar en el hilo principal para evitar errores con @State
+                DispatchQueue.main.async {
+                    self.vinos = decodedLicores.filter { $0.tipo == "Vino" }
+                }
+            } catch {
+                print("Error al decodificar el JSON: \(error)")
+            }
+        }
 }
 #Preview {
     Vino()
