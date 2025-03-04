@@ -1,26 +1,106 @@
 [
-{
-      "id": 202,
-      "tipo": "Whisky",
-      "nombre": "Johnnie Walker Black Label",
-      "precio": 45.99,
-      "imagen": "whisky_image",
-      "descripcion": "Un whisky escocés de 12 años con un sabor suave y equilibrado."
-    },
-    {
-      "id": 203,
-      "tipo": "Vino",
-      "nombre": "Alta",
-      "precio": 149.99,
-      "imagen": "vino_alta",
-      "descripcion": "Tinto con aroma afrutado."
-    },
-    {
-      "id": 204,
-      "tipo": "Vino",
-      "nombre": "Flor",
-      "precio": 29.99,
-      "imagen": "vino_flor",
-      "descripcion": "Tinto con olor a miel."
-    }
+  {
+    "id": 202,
+    "tipo": "Whiskey",
+    "nombre": "Johnnie Walker Black Label",
+    "precio": 45.99,
+    "imagen": "whiskey_image",
+    "descripcion": "Un whisky escocés de 12 años con un sabor suave y equilibrado."
+  },
+  {
+    "id": 203,
+    "tipo": "Vino",
+    "nombre": "Alta",
+    "precio": 149.99,
+    "imagen": "Vino_Tintoalta",
+    "descripcion": "Tinto con aroma afrutado."
+  },
+  {
+    "id": 204,
+    "tipo": "Vino",
+    "nombre": "Flor",
+    "precio": 29.99,
+    "imagen": "Vino_Tintoflor",
+    "descripcion": "Tinto con olor a miel."
+  },
+  {
+    "id": 205,
+    "tipo": "Ron",
+    "nombre": "Ron Abuelo",
+    "precio": 35.99,
+    "imagen": "Ron_Abuelo",
+    "descripcion": "Ron añejo con notas de caramelo y vainilla."
+  },
+  {
+    "id": 206,
+    "tipo": "Ron",
+    "nombre": "Ron Barceló",
+    "precio": 29.50,
+    "imagen": "Ron_Barcelo",
+    "descripcion": "Un ron dominicano con un toque de roble tostado y frutos secos."
+  },
+  {
+    "id": 207,
+    "tipo": "Ron",
+    "nombre": "Ron Diplomático",
+    "precio": 49.99,
+    "imagen": "Ron_Diplomatico",
+    "descripcion": "Ron premium con notas de chocolate y frutas tropicales."
+  },
+  {
+    "id": 208,
+    "tipo": "Ron",
+    "nombre": "Ron Santa Teresa",
+    "precio": 42.75,
+    "imagen": "Ron_Santateresa",
+    "descripcion": "Un ron añejo venezolano con matices de especias y miel."
+  },
+  {
+    "id": 209,
+    "tipo": "Ron",
+    "nombre": "Ron Genérico",
+    "precio": 19.99,
+    "imagen": "Ron_Generico",
+    "descripcion": "Un ron económico ideal para cócteles."
+  },
+  {
+    "id": 210,
+    "tipo": "Whiskey",
+    "nombre": "Jhonnie Walker Blue Label",
+    "precio": 299.99,
+    "imagen": "Whiskey_Bluelabel",
+    "descripcion": "Un whisky escocés de lujo con un sabor intenso y ahumado."
+  },
+  {
+    "id": 211,
+    "tipo": "Whiskey",
+    "nombre": "Buchanan's",
+    "precio": 59.99,
+    "imagen": "Whiskey_Buchanans",
+    "descripcion": "Un whisky suave con notas de miel y madera."
+  },
+  {
+    "id": 212,
+    "tipo": "Whiskey",
+    "nombre": "DYC",
+    "precio": 25.99,
+    "imagen": "Whiskey_Dyc",
+    "descripcion": "Un whisky español con un toque ligero y afrutado."
+  },
+  {
+    "id": 213,
+    "tipo": "Whiskey",
+    "nombre": "Old Parr",
+    "precio": 64.99,
+    "imagen": "Whiskey_Oldparr",
+    "descripcion": "Un whisky añejo con notas de caramelo y especias."
+  },
+  {
+    "id": 214,
+    "tipo": "Whiskey",
+    "nombre": "Genérico",
+    "precio": 20.99,
+    "imagen": "Whiskey_Generico",
+    "descripcion": "Un whisky accesible con un sabor equilibrado."
+  }
 ]
