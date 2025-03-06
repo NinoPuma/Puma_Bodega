@@ -4,29 +4,32 @@ import SwiftUI
 struct Inicio: View {
     var body: some View {
         TabView {
-            Vino()
+            ListaLicores(tipo: "Vino")
                 .tabItem {
                     Label("Vino", systemImage: "wineglass.fill")
                 }
                 .tag(1)
             
-            Whiskey()
+            ListaLicores(tipo: "Whiskey")
                 .tabItem {
                     Label("Whiskey", systemImage: "drop.fill")
                 }
                 .tag(2)
             
-            Ron()
+            ListaLicores(tipo: "Ron")
                 .tabItem {
                     Label("Ron", systemImage: "flame.fill")
                 }
                 .tag(3)
             
-            Vodka()
+            ListaLicores(tipo: "Vodka")
                 .tabItem {
                     Label("Vodka", systemImage: "bolt.fill")
                 }
                 .tag(4)
         }
     }
+}
+#Preview {
+    Inicio()
 }

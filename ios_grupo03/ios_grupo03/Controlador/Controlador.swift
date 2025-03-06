@@ -5,6 +5,12 @@ class GestorDatos: ObservableObject {
     @Published var perfiles: [Perfil] = []
     @Published var licores: [Licor] = []
     @Published var pedidos: [Pedido] = []
+    
+    @Published var rones: [Licor] = []
+    @Published var vinos: [Licor] = []
+    @Published var whiskeys: [Licor] = []
+    @Published var vodkas: [Licor] = []
+    
     //@Published var carritos:
     private let nomFichJSON = "BBDD.json"
 
@@ -59,10 +65,59 @@ class GestorDatos: ObservableObject {
             print("Error al guardar el JSON: \(error)")
         }
     }
+    //Carga cada licor con el parametro para indicar que tipo de licor va a cargar
+    func cargarLicores(tipo: String) {
+        guard let url = Bundle.main.url(forResource: "licores", withExtension: "json") else {
+            print("No se ha encontrado el archivo .json")
+            return
+        }
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let decodedLicores = try decoder.decode([Licor].self, from: data)
+
+            // Actualizar en el hilo principal para evitar errores con @State
+            DispatchQueue.main.async {
+                self.licores = decodedLicores.filter { $0.tipo == tipo } // Agregar esto
+                
+                switch tipo {
+                case "Ron":
+                    self.rones = decodedLicores.filter { $0.tipo == "Ron" }
+                case "Vino":
+                    self.vinos = decodedLicores.filter { $0.tipo == "Vino" }
+                case "Whiskey":
+                    self.whiskeys = decodedLicores.filter { $0.tipo == "Whiskey" }
+                case "Vodka":
+                    self.vodkas = decodedLicores.filter { $0.tipo == "Vodka" }
+                default:
+                    print("Tipo de licor no reconocido")
+                }
+            }
+        } catch {
+            print("Error al decodificar el JSON: \(error)")
+        }
+    }
+//    func cargarPerfil() {
+//            if let url = Bundle.main.url(forResource: "data", withExtension: "json") {
+//                do {
+//                    let data = try Data(contentsOf: url)
+//                    let decoder = JSONDecoder()
+//                    let perfilesData = try decoder.decode([String: [Perfil]].self, from: data)
+//                    DispatchQueue.main.async {
+//                        self.perfil = perfilesData["perfiles"]?.first
+//                    }
+//                } catch {
+//                    print("Error al cargar el JSON: \(error)")
+//                }
+//            }
+//        }
+
+    
+    
     
     // Agrega una nueva persona y guarda los cambios
-    func agregarPerfil(nombre: String, email: String, tarjeta: String, direccion: String, pedido: [Pedido]) {
-        let newPerfil = Perfil(id: (perfiles.last?.id ?? 0) + 1, nombre: nombre, email: email, direccion: direccion, pedido: pedido, tarjeta: tarjeta)
+    func agregarPerfil(nombre: String, email: String, tarjeta: String, direccion: String, pedido: [Pedido], carrito: Carrito) {
+        let newPerfil = Perfil(id: (perfiles.last?.id ?? 0) + 1, nombre: nombre, email: email, direccion: direccion, pedido: pedido, tarjeta: tarjeta, carrito: carrito)
         perfiles.append(newPerfil)
         salvarJSON()
     }
@@ -97,4 +152,5 @@ class GestorDatos: ObservableObject {
 //            salvarJSON()
 //        }
 //    }
+    
 }

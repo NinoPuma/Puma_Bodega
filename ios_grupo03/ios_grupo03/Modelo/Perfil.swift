@@ -12,4 +12,5 @@ struct Perfil: Codable, Identifiable{
     let direccion: String
     let pedido: [Pedido]
     let tarjeta: String
+    let carrito: Carrito
 }

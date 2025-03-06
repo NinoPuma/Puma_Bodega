@@ -52,8 +52,6 @@ struct ContentView: View {
                 }
                 .padding(.horizontal, 20)
                 
-                
-                
                 // Botón de Iniciar Sesión
                 Button(action: {
                     if autenticarUsuario(usuario: usr, contraseña: pwd) && isOn {
@@ -77,7 +75,6 @@ struct ContentView: View {
             .padding()
             .navigationDestination(isPresented: $autenticacionExitoso) {
                 VistaPrincipal()
-        
             }
         }
     }
