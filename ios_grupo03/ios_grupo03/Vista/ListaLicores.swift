@@ -1,22 +1,15 @@
-//
-//  ListaLicores.swift
-//  ios_grupo03
-//
-//  Created by Antonino Puma on 4/3/25.
-//
-
 import SwiftUI
 
 struct ListaLicores: View {
-    @StateObject private var controlador = GestorDatos()
-    var tipo: String  // Esto permite que sea reutilizable para cualquier tipo de licor
-    
+    @ObservedObject var gestorDatos: GestorDatos // 🔹 Ahora recibe `GestorDatos`
+    var tipo: String  // 🔹 Permite mostrar diferentes tipos de licores
+
     var body: some View {
         NavigationStack {
             List {
                 // Sección del título centrado dentro de la lista
                 Section {
-                    Text(tipo)
+                    Text(tipo) // ✅ Muestra el tipo de licor
                         .font(.title)
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -24,7 +17,7 @@ struct ListaLicores: View {
                 }
                 
                 // Lista de licores filtrados por tipo
-                ForEach(controlador.licores.filter { $0.tipo == tipo }) { licor in
+                ForEach(gestorDatos.licores.filter { $0.tipo == tipo }) { licor in
                     NavigationLink(destination: InfoLicor(licor: licor)) {
                         HStack(alignment: .top, spacing: 10) {
                             Image(licor.imagen)
@@ -49,7 +42,8 @@ struct ListaLicores: View {
             }
         }
         .onAppear {
-            controlador.cargarLicores(tipo: tipo)
+            gestorDatos.cargarLicores(tipo: tipo) // 🔹 Cargar solo el tipo necesario
         }
     }
 }
+

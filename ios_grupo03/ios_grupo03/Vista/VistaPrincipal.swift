@@ -2,33 +2,39 @@ import SwiftUI
 
 // Vista principal con la barra de pestañas inferior
 struct VistaPrincipal: View {
+    @ObservedObject var gestorDatos: GestorDatos // 🔹 Recibe `GestorDatos` desde `ContentView`
+    let usuario: String
+
     var body: some View {
         TabView {
-            Inicio()
+            Inicio(gestorDatos: gestorDatos)
                 .tabItem {
                     Label("Inicio", systemImage: "wineglass")
                 }
-                .tag(1)
-            VistaCarrito()
-                .tabItem{
+
+            VistaCarrito(/*gestorDatos: gestorDatos*/)
+                .tabItem {
                     Label("Carrito", systemImage: "cart")
                 }
-            
-                .tag(2)
-            VistaPedidos()
+
+            VistaPedidos(/*gestorDatos: gestorDatos*/)
                 .tabItem {
                     Label("Pedidos", systemImage: "cube.box.fill")
                 }
-                .tag(3)
-            VistaPerfil()
+
+            VistaPerfil(gestorDatos: gestorDatos, usuario: usuario)
                 .tabItem {
                     Label("Perfil", systemImage: "person.circle")
                 }
-                .tag(4)
+        }
+        .onAppear {
+            gestorDatos.cargarPerfiles() // 🔹 Cargar datos al iniciar sesión
+            gestorDatos.cargarLicoresDesdeJSON()
         }
     }
 }
 
-#Preview {
-    VistaPrincipal()
-}
+
+//#Preview {
+//    VistaPrincipal(usuario: "Antonino Puma")
+//}

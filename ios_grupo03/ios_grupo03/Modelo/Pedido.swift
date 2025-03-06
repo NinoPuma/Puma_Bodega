@@ -7,7 +7,7 @@
 
 struct Pedido: Codable, Identifiable{
     let id: Int
-    let licor: [Licor]
+    let licores: [Licor]
     let estado: String
     let fecha: String
     let precioTotal: Float

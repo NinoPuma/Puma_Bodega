@@ -1,19 +1,20 @@
 import SwiftUI
 
 let usuarios = [
-    "NinoPuma": "12345",
-    "Hurogojo": "password",
-    "Irene": "contraseña1"
+    "Antonino Puma": "12345",
+    "Hugo Rojo": "password",
+    "Irene Profe": "contrasena1"
 ]
 
 struct ContentView: View {
-    // Instanciación de usuario y contraseña
+    @StateObject private var gestorDatos = GestorDatos() // 🔹 Se crea aquí para mantenerlo en toda la app
+
     @State private var usr: String = ""
     @State private var pwd: String = ""
     @State private var isOn: Bool = false
     @State private var mostrarError: Bool = false
-    @State private var autenticacionExitoso: Bool = false
-    
+    @State private var usuarioAutenticado: String? = nil // Guarda el usuario autenticado
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
@@ -21,8 +22,7 @@ struct ContentView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 700, height: 300)
-                
-                // Campo de correo electrónico o usuario
+
                 TextField("Usuario o Correo electrónico", text: $usr)
                     .keyboardType(.emailAddress)
                     .disableAutocorrection(true)
@@ -32,8 +32,7 @@ struct ContentView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
                     .padding(.horizontal, 20)
-                
-                // Campo de contraseña
+
                 SecureField("Contraseña", text: $pwd)
                     .disableAutocorrection(true)
                     .autocapitalization(.none)
@@ -42,8 +41,7 @@ struct ContentView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
                     .padding(.horizontal, 20)
-                
-                // Toggle para aceptar términos y condiciones
+
                 HStack {
                     Toggle("", isOn: $isOn)
                         .labelsHidden()
@@ -51,14 +49,15 @@ struct ContentView: View {
                         .font(.subheadline)
                 }
                 .padding(.horizontal, 20)
-                
-                // Botón de Iniciar Sesión
+
                 Button(action: {
                     if autenticarUsuario(usuario: usr, contraseña: pwd) && isOn {
+                        usuarioAutenticado = usr // Guarda el usuario autenticado
                         isOn = false
                         pwd = ""
                         usr = ""
-                        autenticacionExitoso = true
+                    } else {
+                        mostrarError = true
                     }
                 }) {
                     Text("Iniciar Sesión")
@@ -71,14 +70,25 @@ struct ContentView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 100)
+
+                if mostrarError {
+                    Text("Usuario o contraseña incorrectos")
+                        .foregroundColor(.red)
+                        .padding()
+                }
             }
             .padding()
-            .navigationDestination(isPresented: $autenticacionExitoso) {
-                VistaPrincipal()
+            .navigationDestination(isPresented: Binding(
+                get: { usuarioAutenticado != nil },
+                set: { if !$0 { usuarioAutenticado = nil } }
+            )) {
+                if let usuario = usuarioAutenticado {
+                    VistaPrincipal(gestorDatos: gestorDatos, usuario: usuario) // 🔹 Pasamos gestorDatos
+                }
             }
         }
     }
-    
+
     func autenticarUsuario(usuario: String, contraseña: String) -> Bool {
         if let contraseñaGuardada = usuarios[usuario] {
             return contraseñaGuardada == contraseña

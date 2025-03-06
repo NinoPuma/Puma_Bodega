@@ -2,27 +2,29 @@ import SwiftUI
 
 // Vista de Inicio con pestañas anidadas
 struct Inicio: View {
+    @ObservedObject var gestorDatos: GestorDatos // 🔹 Recibe gestorDatos
+
     var body: some View {
         TabView {
-            ListaLicores(tipo: "Vino")
+            ListaLicores(gestorDatos: gestorDatos ,tipo: "Vino") // 🔹 Pasamos gestorDatos
                 .tabItem {
                     Label("Vino", systemImage: "wineglass.fill")
                 }
                 .tag(1)
             
-            ListaLicores(tipo: "Whiskey")
+            ListaLicores(gestorDatos: gestorDatos, tipo: "Whiskey")
                 .tabItem {
                     Label("Whiskey", systemImage: "drop.fill")
                 }
                 .tag(2)
             
-            ListaLicores(tipo: "Ron")
+            ListaLicores(gestorDatos: gestorDatos, tipo: "Ron")
                 .tabItem {
                     Label("Ron", systemImage: "flame.fill")
                 }
                 .tag(3)
             
-            ListaLicores(tipo: "Vodka")
+            ListaLicores(gestorDatos: gestorDatos, tipo: "Vodka")
                 .tabItem {
                     Label("Vodka", systemImage: "bolt.fill")
                 }
@@ -30,6 +32,7 @@ struct Inicio: View {
         }
     }
 }
+
 #Preview {
-    Inicio()
+    Inicio(gestorDatos: GestorDatos()) // 🔹 Se pasa una instancia para la vista previa
 }

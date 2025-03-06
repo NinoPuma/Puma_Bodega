@@ -4,7 +4,8 @@
 //
 //  Created by Antonino Puma on 24/2/25.
 //
-struct Carrito: Codable, Identifiable{
-    let id: Int
-    let licor: Licor
+struct Carrito: Codable{
+    let licores: [Licor]
+    let cantidad: Int    // 🔹 Mantiene la clave "cantidad"
+
     }
