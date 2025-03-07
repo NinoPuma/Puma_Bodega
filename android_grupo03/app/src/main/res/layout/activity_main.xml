@@ -64,4 +64,15 @@
         android:textColor="#2196F3"
         android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/googleSignInButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Acceder con Google"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#DB4437"
+        android:padding="12dp" />
+
+
 </LinearLayout>
