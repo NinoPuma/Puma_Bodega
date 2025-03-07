@@ -1,5 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Colores principales -->
+    <color name="primary">#FF5722</color> <!-- Naranja vibrante -->
+    <color name="primary_dark">#E64A19</color> <!-- Naranja oscuro -->
+    <color name="accent">#FFC107</color> <!-- Amarillo fuerte -->
+
+    <!-- Colores de fondo y bordes -->
+    <color name="light_gray">#D6D6D6</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#212121</color>
+
+    <!-- Para el stepper (fondos con gradientes en xml) -->
+    <color name="stepper_start">#E3F2FD</color>
+    <color name="stepper_end">#BBDEFB</color>
+
+    <!-- Botón de eliminar -->
+    <color name="red_primary">#F44336</color>
+    <color name="dark_red">#D32F2F</color>
 </resources>
