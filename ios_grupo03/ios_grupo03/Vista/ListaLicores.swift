@@ -43,7 +43,6 @@ struct ListaLicores: View {
             gestorDatos.cargarLicores(tipo: tipo)
         }
     }
-    
     // ✅ Función para obtener licores filtrados y evitar recargar la lista innecesariamente
     private func obtenerLicoresFiltrados() -> [Licor] {
         return gestorDatos.licores.filter { $0.tipo == tipo }

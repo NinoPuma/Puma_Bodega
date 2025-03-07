@@ -1,14 +1,8 @@
-//
-//  VistaPedidos.swift
-//  ios_grupo03
-//
-//  Created by Antonino Puma on 24/2/25.
-//
-
 import SwiftUI
 
 struct VistaPedidos: View {
-    @ObservedObject var gestorDatos: GestorDatos // ✅ Se agrega para acceder a los pedidos
+    @ObservedObject var gestorDatos: GestorDatos
+    @State private var pedidoSeleccionado: Pedido?
 
     var body: some View {
         NavigationStack {
@@ -16,29 +10,37 @@ struct VistaPedidos: View {
                 Text("Pedidos Realizados")
                     .font(.largeTitle)
                     .bold()
+                    .foregroundColor(Color("vinoTinto")) // Color temático
                     .padding()
 
                 if let pedidos = gestorDatos.perfilActual?.pedidos, !pedidos.isEmpty {
                     List(pedidos) { pedido in
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Pedido #\(pedido.id)")
-                                .font(.headline)
-                                .bold()
+                        Button(action: {
+                            pedidoSeleccionado = pedido
+                        }) {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text("Pedido #\(pedido.id)")
+                                        .font(.headline)
+                                        .bold()
+                                        .foregroundColor(.white)
 
-                            Text("Fecha: \(pedido.fecha)")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-
-                            Text("Estado: \(pedido.estado)")
-                                .font(.subheadline)
-                                .foregroundColor(pedido.estado == "Pendiente" ? .orange : .green)
-
-                            Text("Total: \(String(format: "%.2f €", pedido.precioTotal))")
-                                .font(.subheadline)
-                                .bold()
+                                    Text("\(pedido.fecha)")
+                                        .font(.subheadline)
+                                        .foregroundColor(Color(.lightGray))
+                                }
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.white)
+                            }
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 12)
+                                .fill(Color("vinoTinto"))) // Fondo temático
+                            .shadow(radius: 3)
                         }
-                        .padding()
+                        .listRowBackground(Color.clear) // Hace la lista más limpia
                     }
+                    .listStyle(PlainListStyle()) // Quita líneas innecesarias
                 } else {
                     Text("No hay pedidos realizados")
                         .foregroundColor(.gray)
@@ -48,6 +50,9 @@ struct VistaPedidos: View {
             .navigationTitle("Pedidos")
             .onAppear {
                 gestorDatos.cargarPerfil(nombre: gestorDatos.perfilActual?.nombre ?? "")
+            }
+            .sheet(item: $pedidoSeleccionado) { pedido in
+                InfoPedido(pedido: pedido)
             }
         }
     }

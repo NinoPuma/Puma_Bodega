@@ -1,41 +1,60 @@
-//
-//  InfoLicor.swift
-//  ios_grupo03
-//
-//  Created by Antonino Puma on 4/3/25.
-//
 import SwiftUI
 
 struct InfoLicor: View {
-    @ObservedObject var gestorDatos: GestorDatos // 🔹 Recibe gestorDatos
+    @ObservedObject var gestorDatos: GestorDatos
     var licor: Licor
+    @State private var cantidad = 1
 
     var body: some View {
         VStack(spacing: 20) {
             Text(licor.nombre)
                 .font(.title)
                 .bold()
+                .multilineTextAlignment(.center)
             
             Image(licor.imagen)
                 .resizable()
                 .frame(width: 150, height: 150)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-            
+                .shadow(radius: 5)
+
             Text(licor.descripcion)
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding()
-            
+
             Text(String(format: "$%.2f", licor.precio))
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding()
+                .font(.title2)
+                .bold()
+                .foregroundColor(Color("vinoTinto"))
+                .padding(.bottom, 10)
             
+            HStack {
+                Text("Cantidad:")
+                    .font(.headline)
+                
+                Stepper(value: $cantidad, in: 1...10) {
+                    Text("\(cantidad)")
+                        .font(.headline)
+                        .bold()
+                        .frame(width: 40)
+                }
+            }
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 12).fill(Color(.systemGray6)))
             
+            Text("Total: \(String(format: "$%.2f", licor.precio * Float(cantidad)))")
+                .font(.title3)
+                .bold()
+                .padding(.top, 5)
+                .foregroundColor(.green)
+
             Button(action: {
-                gestorDatos.agregarAlCarrito(licor: licor)
+                for _ in 1...cantidad {
+                    gestorDatos.agregarAlCarrito(licor: licor)
+                }
+                cantidad = 1
             }) {
                 Text("Agregar al Carrito")
                     .padding()
@@ -49,6 +68,8 @@ struct InfoLicor: View {
             Spacer()
         }
         .padding()
-        .navigationTitle("Información detallada")
+        .navigationTitle("Detalles del Licor")
+        .navigationBarTitleDisplayMode(.inline) // 🔹 Hace el título más compacto
+        .toolbar(.hidden, for: .tabBar) // 🔹 Oculta el TabView completamente
     }
 }

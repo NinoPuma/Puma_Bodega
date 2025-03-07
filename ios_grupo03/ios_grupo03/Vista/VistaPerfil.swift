@@ -1,12 +1,11 @@
 import SwiftUI
 
 struct VistaPerfil: View {
-    @ObservedObject var gestorDatos: GestorDatos // 🔹 Se pasa desde la vista anterior
-    let usuario: String
+    @ObservedObject var gestorDatos: GestorDatos // 🔹 Solo necesita `gestorDatos`
 
     var body: some View {
         VStack(spacing: 20) {
-            if let perfil = gestorDatos.perfilActual { // 🔹 Usar `perfilActual` en lugar de `perfil`
+            if let perfil = gestorDatos.perfilActual { // 🔹 Usar `perfilActual`
                 Text("Perfil de Usuario")
                     .font(.largeTitle)
                     .bold()
@@ -51,7 +50,9 @@ struct VistaPerfil: View {
         .padding()
         .navigationTitle("Perfil")
         .onAppear {
-            gestorDatos.cargarPerfil(nombre: usuario) // 🔹 Cargar el perfil autenticado
+            if gestorDatos.perfilActual == nil {
+                gestorDatos.cargarPerfil(nombre: gestorDatos.perfilActual?.nombre ?? "") // 🔹 Cargar el perfil autenticado
+            }
         }
     }
 }

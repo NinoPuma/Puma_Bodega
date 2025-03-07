@@ -145,7 +145,7 @@ class GestorDatos: ObservableObject {
         let nuevoPedido = Pedido(
             id: (perfil.pedidos.map { $0.id }.max() ?? 0) + 1, // Generar ID basado en el máximo actual
             licores: perfil.carrito.flatMap { $0.licores }, // Extraer licores del carrito
-            estado: "Pendiente",
+            estado: "Realizado",
             fecha: obtenerFechaActual(),
             precioTotal: precioTotal
         )
