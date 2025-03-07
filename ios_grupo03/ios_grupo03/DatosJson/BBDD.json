@@ -1,22 +1,81 @@
 {
-  "perfiles": [
+  "perfiles" : [
     {
-      "id": 1,
-      "nombre": "Antonino Puma",
-      "email": "antonino@gmail.com",
-      "direccion": "Calle Fernando IV, 47",
-      "tarjeta": "1111 2222 3333 1234",
-      "pedido": [],
-      "carrito": []
+      "id" : 1,
+      "carrito" : [
+
+      ],
+      "pedidos" : [
+        {
+          "estado" : "Pendiente",
+          "licores" : [
+            {
+              "precio" : 149.99,
+              "imagen" : "Vino_Tintoalta",
+              "id" : 203,
+              "nombre" : "Alta",
+              "tipo" : "Vino",
+              "descripcion" : "Tinto con aroma afrutado."
+            },
+            {
+              "precio" : 19.99,
+              "descripcion" : "Un ron económico ideal para cócteles.",
+              "nombre" : "Ron Genérico",
+              "id" : 209,
+              "tipo" : "Ron",
+              "imagen" : "Ron_Generico"
+            }
+          ],
+          "fecha" : "06\/03\/2025",
+          "precioTotal" : 169.98001,
+          "id" : 1
+        },
+        {
+          "fecha" : "06\/03\/2025",
+          "precioTotal" : 59.99,
+          "id" : 2,
+          "estado" : "Pendiente",
+          "licores" : [
+            {
+              "descripcion" : "Un whisky suave con notas de miel y madera.",
+              "precio" : 59.99,
+              "imagen" : "Whiskey_Buchanans",
+              "nombre" : "Buchanan's",
+              "id" : 211,
+              "tipo" : "Whiskey"
+            }
+          ]
+        }
+      ],
+      "direccion" : "Calle Fernando IV, 47",
+      "nombre" : "Antonino Puma",
+      "tarjeta" : "1111 2222 3333 1234",
+      "email" : "antonino@gmail.com"
     },
     {
-      "id": 2,
-      "nombre": "Hugo Rojo",
-      "email": "hugorojo@gmail.com",
-      "direccion": "Avenida Principal, 123",
-      "tarjeta": "5555 6666 7777 8888",
-      "pedido": [],
-      "carrito": []
+      "tarjeta" : "5555 6666 7777 8888",
+      "nombre" : "Hugo Rojo",
+      "id" : 2,
+      "email" : "hugorojo@gmail.com",
+      "pedidos" : [
+
+      ],
+      "direccion" : "Avenida Principal, 123",
+      "carrito" : [
+        {
+          "cantidad" : 1,
+          "licores" : [
+            {
+              "id" : 206,
+              "precio" : 29.5,
+              "nombre" : "Ron Barceló",
+              "tipo" : "Ron",
+              "descripcion" : "Un ron dominicano con un toque de roble tostado y frutos secos.",
+              "imagen" : "Ron_Barcelo"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

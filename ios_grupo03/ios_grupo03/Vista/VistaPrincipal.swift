@@ -12,12 +12,12 @@ struct VistaPrincipal: View {
                     Label("Inicio", systemImage: "wineglass")
                 }
 
-            VistaCarrito(/*gestorDatos: gestorDatos*/)
+            VistaCarrito(gestorDatos: gestorDatos)
                 .tabItem {
                     Label("Carrito", systemImage: "cart")
                 }
 
-            VistaPedidos(/*gestorDatos: gestorDatos*/)
+            VistaPedidos(gestorDatos: gestorDatos)
                 .tabItem {
                     Label("Pedidos", systemImage: "cube.box.fill")
                 }
@@ -35,6 +35,3 @@ struct VistaPrincipal: View {
 }
 
 
-//#Preview {
-//    VistaPrincipal(usuario: "Antonino Puma")
-//}

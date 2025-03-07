@@ -1,24 +1,22 @@
 import SwiftUI
 
 struct ListaLicores: View {
-    @ObservedObject var gestorDatos: GestorDatos // 🔹 Ahora recibe `GestorDatos`
-    var tipo: String  // 🔹 Permite mostrar diferentes tipos de licores
+    @ObservedObject var gestorDatos: GestorDatos
+    var tipo: String
 
     var body: some View {
         NavigationStack {
             List {
-                // Sección del título centrado dentro de la lista
                 Section {
-                    Text(tipo) // ✅ Muestra el tipo de licor
+                    Text(tipo)
                         .font(.title)
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .listRowBackground(Color.clear) // Evita el fondo gris en algunos dispositivos
+                        .listRowBackground(Color.clear)
                 }
                 
-                // Lista de licores filtrados por tipo
-                ForEach(gestorDatos.licores.filter { $0.tipo == tipo }) { licor in
-                    NavigationLink(destination: InfoLicor(licor: licor)) {
+                ForEach(obtenerLicoresFiltrados()) { licor in
+                    NavigationLink(destination: InfoLicor(gestorDatos: gestorDatos, licor: licor)) {
                         HStack(alignment: .top, spacing: 10) {
                             Image(licor.imagen)
                                 .resizable()
@@ -42,8 +40,12 @@ struct ListaLicores: View {
             }
         }
         .onAppear {
-            gestorDatos.cargarLicores(tipo: tipo) // 🔹 Cargar solo el tipo necesario
+            gestorDatos.cargarLicores(tipo: tipo)
         }
     }
+    
+    // ✅ Función para obtener licores filtrados y evitar recargar la lista innecesariamente
+    private func obtenerLicoresFiltrados() -> [Licor] {
+        return gestorDatos.licores.filter { $0.tipo == tipo }
+    }
 }
-

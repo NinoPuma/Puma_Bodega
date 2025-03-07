@@ -7,8 +7,9 @@
 import SwiftUI
 
 struct InfoLicor: View {
+    @ObservedObject var gestorDatos: GestorDatos // 🔹 Recibe gestorDatos
     var licor: Licor
-    
+
     var body: some View {
         VStack(spacing: 20) {
             Text(licor.nombre)
@@ -34,7 +35,7 @@ struct InfoLicor: View {
             
             
             Button(action: {
-                // Lógica para agregar al carrito
+                gestorDatos.agregarAlCarrito(licor: licor)
             }) {
                 Text("Agregar al Carrito")
                     .padding()
