@@ -5,11 +5,12 @@ struct InfoPedido: View {
 
     var body: some View {
         VStack(spacing: 20) {
+            // Título estilizado
             Text("Detalles del Pedido")
-                .font(.title)
-                .bold()
+                .font(.largeTitle)
+                .fontWeight(.bold)
                 .padding(.top)
-
+            
             VStack(alignment: .leading, spacing: 15) {
                 HStack {
                     Image(systemName: "number.circle.fill")
@@ -18,7 +19,8 @@ struct InfoPedido: View {
                         .font(.headline)
                         .bold()
                 }
-
+                .padding(.vertical, 5)
+                
                 HStack {
                     Image(systemName: "calendar")
                         .foregroundColor(.purple)
@@ -26,7 +28,8 @@ struct InfoPedido: View {
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
-
+                .padding(.vertical, 5)
+                
                 HStack {
                     Image(systemName: "hourglass")
                         .foregroundColor(pedido.estado == "Pendiente" ? .orange : .green)
@@ -35,7 +38,8 @@ struct InfoPedido: View {
                         .bold()
                         .foregroundColor(pedido.estado == "Pendiente" ? .orange : .green)
                 }
-
+                .padding(.vertical, 5)
+                
                 HStack {
                     Image(systemName: "cart.fill")
                         .foregroundColor(.blue)
@@ -43,16 +47,18 @@ struct InfoPedido: View {
                         .font(.headline)
                         .bold()
                 }
+                .padding(.vertical, 5)
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(RoundedRectangle(cornerRadius: 15)
                 .fill(Color(.systemGray6))
-                .shadow(radius: 3))
-
+                .shadow(radius: 5))
+            .padding(.horizontal)
+            
             Spacer()
         }
         .padding()
-        .presentationDetents([.medium, .large]) // 🔹 Define el tamaño del popup
+        .presentationDetents([.medium, .large]) // Define el tamaño del popup
     }
 }

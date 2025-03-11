@@ -6,9 +6,10 @@ struct VistaCarrito: View {
     var body: some View {
         NavigationStack {
             VStack {
+                // Título estilizado
                 Text("Carrito de Compras")
                     .font(.largeTitle)
-                    .bold()
+                    .fontWeight(.bold)
                     .padding()
                 
                 if let carrito = gestorDatos.perfilActual?.carrito, !carrito.isEmpty {
@@ -18,10 +19,12 @@ struct VistaCarrito: View {
                             HStack {
                                 Image(item.licores.first?.imagen ?? "placeholder")
                                     .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                                    .scaledToFit()
+                                    .frame(width: 60, height: 60)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .shadow(radius: 3)
                                 
-                                VStack(alignment: .leading) {
+                                VStack(alignment: .leading, spacing: 5) {
                                     Text(item.licores.first?.nombre ?? "Sin nombre")
                                         .font(.headline)
                                     Text("Cantidad: \(item.cantidad)")
@@ -31,14 +34,23 @@ struct VistaCarrito: View {
                                 Spacer()
                                 Text(String(format: "%.2f €", item.licores.first?.precio ?? 0))
                                     .font(.headline)
+                                    .foregroundColor(.green)
                             }
                         }
                         .onDelete(perform: gestorDatos.eliminarLicor)
                     }
                 } else {
-                    Text("El carrito está vacío")
-                        .foregroundColor(.gray)
-                        .padding()
+                    VStack {
+                        Image(systemName: "cart.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.gray)
+                        Text("El carrito está vacío")
+                            .foregroundColor(.gray)
+                            .font(.headline)
+                            .padding()
+                    }
                 }
                 
                 Spacer()
@@ -50,9 +62,10 @@ struct VistaCarrito: View {
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green)
+                        .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.blue]), startPoint: .leading, endPoint: .trailing))
                         .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .shadow(radius: 4)
                         .padding(.horizontal)
                 }
             }

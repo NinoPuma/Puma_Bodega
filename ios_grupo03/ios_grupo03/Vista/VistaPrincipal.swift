@@ -1,6 +1,6 @@
 import SwiftUI
 
-// Vista principal con la barra de pestañas inferior
+// Vista principal con la barra de pestañas inferior estilizada
 struct VistaPrincipal: View {
     @ObservedObject var gestorDatos: GestorDatos // 🔹 Recibe `GestorDatos` desde `ContentView`
     let usuario: String // 🔹 Se mantiene el usuario aquí
@@ -9,24 +9,25 @@ struct VistaPrincipal: View {
         TabView {
             Inicio(gestorDatos: gestorDatos)
                 .tabItem {
-                    Label("Inicio", systemImage: "wineglass")
+                    Label("Inicio", systemImage: "wineglass.fill")
                 }
-
+            
             VistaCarrito(gestorDatos: gestorDatos)
                 .tabItem {
-                    Label("Carrito", systemImage: "cart")
+                    Label("Carrito", systemImage: "cart.fill")
                 }
-
+            
             VistaPedidos(gestorDatos: gestorDatos)
                 .tabItem {
                     Label("Pedidos", systemImage: "cube.box.fill")
                 }
-
+            
             VistaPerfil(gestorDatos: gestorDatos) // 🔹 No se pasa usuario aquí
                 .tabItem {
-                    Label("Perfil", systemImage: "person.circle")
+                    Label("Perfil", systemImage: "person.crop.circle.fill")
                 }
         }
+        .accentColor(.blue) // 🔹 Personaliza el color de la pestaña activa
         .onAppear {
             gestorDatos.cargarPerfiles()
             gestorDatos.cargarLicoresDesdeJSON()
