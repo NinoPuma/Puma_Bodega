@@ -1,112 +1,158 @@
 {
   "perfiles" : [
     {
+      "tarjeta" : "1111 2222 3333 1234",
+      "email" : "antonino@gmail.com",
       "pedidos" : [
         {
-          "fecha" : "06\/03\/2025",
+          "id" : 1,
+          "estado" : "Pendiente",
           "precioTotal" : 169.98001,
+          "fecha" : "06\/03\/2025",
           "licores" : [
             {
-              "tipo" : "Vino",
-              "nombre" : "Alta",
-              "id" : 203,
-              "descripcion" : "Tinto con aroma afrutado.",
               "precio" : 149.99,
-              "imagen" : "Vino_Tintoalta"
+              "nombre" : "Alta",
+              "imagen" : "Vino_Tintoalta",
+              "id" : 203,
+              "tipo" : "Vino",
+              "descripcion" : "Tinto con aroma afrutado."
             },
             {
-              "precio" : 19.99,
-              "descripcion" : "Un ron económico ideal para cócteles.",
-              "nombre" : "Ron Genérico",
-              "id" : 209,
               "tipo" : "Ron",
-              "imagen" : "Ron_Generico"
+              "nombre" : "Ron Genérico",
+              "precio" : 19.99,
+              "imagen" : "Ron_Generico",
+              "descripcion" : "Un ron económico ideal para cócteles.",
+              "id" : 209
             }
-          ],
-          "id" : 1,
-          "estado" : "Pendiente"
+          ]
         },
         {
-          "licores" : [
-            {
-              "nombre" : "Buchanan's",
-              "imagen" : "Whiskey_Buchanans",
-              "tipo" : "Whiskey",
-              "descripcion" : "Un whisky suave con notas de miel y madera.",
-              "id" : 211,
-              "precio" : 59.99
-            }
-          ],
+          "fecha" : "06\/03\/2025",
           "precioTotal" : 59.99,
           "estado" : "Pendiente",
           "id" : 2,
-          "fecha" : "06\/03\/2025"
+          "licores" : [
+            {
+              "descripcion" : "Un whisky suave con notas de miel y madera.",
+              "imagen" : "Whiskey_Buchanans",
+              "id" : 211,
+              "nombre" : "Buchanan's",
+              "tipo" : "Whiskey",
+              "precio" : 59.99
+            }
+          ]
         },
         {
           "licores" : [
             {
-              "nombre" : "Flor",
-              "tipo" : "Vino",
               "precio" : 29.99,
-              "imagen" : "Vino_Tintoflor",
               "descripcion" : "Tinto con olor a miel.",
-              "id" : 204
+              "id" : 204,
+              "tipo" : "Vino",
+              "nombre" : "Flor",
+              "imagen" : "Vino_Tintoflor"
             }
           ],
-          "estado" : "Pendiente",
           "fecha" : "07\/03\/2025",
           "precioTotal" : 29.99,
+          "estado" : "Pendiente",
           "id" : 3
         },
         {
+          "estado" : "Pendiente",
           "licores" : [
             {
-              "tipo" : "Whiskey",
               "descripcion" : "Un whisky añejo con notas de caramelo y especias.",
               "imagen" : "Whiskey_Oldparr",
-              "precio" : 64.99,
+              "id" : 213,
+              "tipo" : "Whiskey",
               "nombre" : "Old Parr",
-              "id" : 213
+              "precio" : 64.99
             }
           ],
-          "id" : 4,
-          "estado" : "Pendiente",
           "fecha" : "07\/03\/2025",
-          "precioTotal" : 64.99
+          "precioTotal" : 64.99,
+          "id" : 4
+        },
+        {
+          "estado" : "Realizado",
+          "precioTotal" : 89.97,
+          "fecha" : "07\/03\/2025",
+          "id" : 5,
+          "licores" : [
+            {
+              "descripcion" : "Tinto con olor a miel.",
+              "id" : 204,
+              "precio" : 29.99,
+              "imagen" : "Vino_Tintoflor",
+              "nombre" : "Flor",
+              "tipo" : "Vino"
+            }
+          ]
+        },
+        {
+          "estado" : "Realizado",
+          "precioTotal" : 25.99,
+          "licores" : [
+            {
+              "precio" : 25.99,
+              "descripcion" : "Un whisky español con un toque ligero y afrutado.",
+              "nombre" : "DYC",
+              "imagen" : "Whiskey_Dyc",
+              "tipo" : "Whiskey",
+              "id" : 212
+            }
+          ],
+          "fecha" : "13\/03\/2025",
+          "id" : 6
         },
         {
           "licores" : [
             {
-              "tipo" : "Vino",
-              "nombre" : "Flor",
-              "precio" : 29.99,
-              "id" : 204,
-              "imagen" : "Vino_Tintoflor",
-              "descripcion" : "Tinto con olor a miel."
+              "imagen" : "Ron_Generico",
+              "tipo" : "Ron",
+              "nombre" : "Ron Genérico",
+              "precio" : 19.99,
+              "id" : 209,
+              "descripcion" : "Un ron económico ideal para cócteles."
             }
           ],
-          "fecha" : "07\/03\/2025",
-          "id" : 5,
-          "precioTotal" : 89.97,
+          "id" : 7,
+          "precioTotal" : 19.99,
+          "fecha" : "13\/03\/2025",
           "estado" : "Realizado"
+        },
+        {
+          "id" : 8,
+          "licores" : [
+            {
+              "descripcion" : "Tinto con olor a miel.",
+              "imagen" : "Vino_Tintoflor",
+              "id" : 204,
+              "tipo" : "Vino",
+              "nombre" : "Flor",
+              "precio" : 29.99
+            }
+          ],
+          "fecha" : "13\/03\/2025",
+          "estado" : "Realizado",
+          "precioTotal" : 29.99
         }
       ],
       "nombre" : "Antonino Puma",
+      "direccion" : "Calle Fernando IV, 47",
+      "id" : 1,
       "carrito" : [
 
-      ],
-      "id" : 1,
-      "tarjeta" : "1111 2222 3333 1234",
-      "email" : "antonino@gmail.com",
-      "direccion" : "Calle Fernando IV, 47"
+      ]
     },
     {
       "direccion" : "Avenida Principal, 123",
       "email" : "hugorojo@gmail.com",
-      "pedidos" : [
-
-      ],
       "id" : 2,
+      "nombre" : "Hugo Rojo",
       "carrito" : [
         {
           "licores" : [
@@ -115,15 +161,17 @@
               "precio" : 29.5,
               "imagen" : "Ron_Barcelo",
               "id" : 206,
-              "tipo" : "Ron",
-              "descripcion" : "Un ron dominicano con un toque de roble tostado y frutos secos."
+              "descripcion" : "Un ron dominicano con un toque de roble tostado y frutos secos.",
+              "tipo" : "Ron"
             }
           ],
           "cantidad" : 1
         }
       ],
-      "tarjeta" : "5555 6666 7777 8888",
-      "nombre" : "Hugo Rojo"
+      "pedidos" : [
+
+      ],
+      "tarjeta" : "5555 6666 7777 8888"
     }
   ]
 }
