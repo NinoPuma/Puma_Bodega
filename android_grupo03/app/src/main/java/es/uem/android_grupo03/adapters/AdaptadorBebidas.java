@@ -47,19 +47,18 @@ public class AdaptadorBebidas extends RecyclerView.Adapter<AdaptadorBebidas.Bebi
         holder.tvPrice.setText("$" + licor.getPrecio());
         holder.tvDescription.setText(licor.getDescripcion());
 
-        // Convertir el nombre de la imagen en Firebase a un recurso en drawable
+        // 🔹 Convertir el nombre de la imagen en Firebase a un recurso en drawable
         int imagenRes = getDrawableResourceId(licor.getImagen());
-        if (imagenRes != 0) {
-            holder.iv.setImageResource(imagenRes);
-        } else {
-            holder.iv.setImageResource(R.drawable.whiskey_generico);
-        }
+        holder.iv.setImageResource(imagenRes);
 
         // Evento de clic para agregar al carrito
         holder.btnAddToCart.setOnClickListener(v -> agregarAlCarrito(licor));
     }
 
     private int getDrawableResourceId(String imageName) {
+        if (imageName == null || imageName.isEmpty()) {
+            return R.drawable.whiskey_generico;  // 🔹 Imagen por defecto
+        }
         return context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
     }
 
@@ -74,7 +73,7 @@ public class AdaptadorBebidas extends RecyclerView.Adapter<AdaptadorBebidas.Bebi
                 .getReference("perfiles")
                 .child(user.getUid())
                 .child("carrito")
-                .child(String.valueOf(licor.getId()));
+                .child(licor.getNombre().replace(" ", "_")); // 🔹 Evita IDs nulos
 
         carritoRef.child("licor").setValue(licor);
         carritoRef.child("cantidad").setValue(1)
@@ -102,5 +101,12 @@ public class AdaptadorBebidas extends RecyclerView.Adapter<AdaptadorBebidas.Bebi
             tvDescription = itemView.findViewById(R.id.tvDescription);
             btnAddToCart = itemView.findViewById(R.id.boton_anadir);
         }
+    }
+
+    // **Método para actualizar la lista en el RecyclerView**
+    public void actualizarLista(List<LicorModelo> nuevaLista) {
+        this.licorList.clear();
+        this.licorList.addAll(nuevaLista);
+        notifyDataSetChanged();
     }
 }

@@ -2,4 +2,13 @@
     <string name="app_name">android_grupo03</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- 🔹 Agregar el array de categorías de bebidas -->
+    <string-array name="categorias_bebidas">
+        <item>Vino</item>
+        <item>Whiskey</item>
+        <item>Ron</item>
+        <item>Vodka</item>
+    </string-array>
+
 </resources>

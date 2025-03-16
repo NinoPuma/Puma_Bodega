@@ -1,6 +1,5 @@
 package es.uem.android_grupo03.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,43 +45,46 @@ public class InicioFragment extends Fragment {
         adaptadorBebidas = new AdaptadorBebidas(getContext(), licorList);
         recyclerView.setAdapter(adaptadorBebidas);
 
-        // Obtener datos desde Firebase
+        // Cargar las bebidas desde Firebase
+        cargarBebidasDesdeFirebase();
+
+        return view;
+    }
+
+    private void cargarBebidasDesdeFirebase() {
         databaseReference = FirebaseDatabase.getInstance().getReference("licores");
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (getContext() == null) return;
+
                 licorList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     LicorModelo licor = dataSnapshot.getValue(LicorModelo.class);
-
-                    // Convertir nombre de imagen de Firebase a R.drawable
-                    int imagenRes = getDrawableResourceId(licor.getImagen());
-
-                    LicorModelo licorConImagen = new LicorModelo(
-                            licor.getTipo(),
-                            licor.getNombre(),
-                            String.valueOf(imagenRes),  // 🔹 Convertir int a String si es necesario
-                            licor.getPrecio(),
-                            licor.getDescripcion()
-                    );
-
-                    licorList.add(licorConImagen);
+                    if (licor != null) {
+                        licorList.add(licor);
+                    }
                 }
                 adaptadorBebidas.notifyDataSetChanged();
             }
 
-            private int getDrawableResourceId(String imageName) {
-                Context context = getContext();
-                return context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
-            }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Error al cargar los datos", Toast.LENGTH_SHORT).show();
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Error al cargar los datos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
 
-        return view;
+    public void actualizarBebidas(String categoria) {
+        List<LicorModelo> bebidasFiltradas = new ArrayList<>();
+        for (LicorModelo licor : licorList) {
+            if (licor.getTipo().equalsIgnoreCase(categoria)) {
+                bebidasFiltradas.add(licor);
+            }
+        }
+        adaptadorBebidas.actualizarLista(bebidasFiltradas);
     }
 }
-

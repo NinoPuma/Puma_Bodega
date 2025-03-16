@@ -16,4 +16,11 @@
     <!-- Botón de eliminar -->
     <color name="red_primary">#F44336</color>
     <color name="dark_red">#D32F2F</color>
+
+    <color name="colorPrecio">#FF5722</color> <!-- Naranja vibrante -->
+    <color name="colorTextoPrincipal">#212121</color> <!-- Negro suave -->
+    <color name="colorTextoSecundario">#757575</color> <!-- Gris medio -->
+    <color name="colorDivider">#E0E0E0</color> <!-- Gris claro -->
+
+
 </resources>
