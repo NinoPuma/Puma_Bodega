@@ -4,35 +4,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CarritoModelo {
-    private Map<LicorModelo, Integer> licores;
+    private Map<String, Integer> licores; // 🔥 Ahora usamos String como clave
 
     public CarritoModelo() {
         this.licores = new HashMap<>();
     }
 
-    public CarritoModelo(Map<LicorModelo, Integer> licores) {
-        this.licores = licores;
-    }
-    public Map<LicorModelo, Integer> getLicores() {
+    public Map<String, Integer> getLicores() {
         return licores;
     }
 
-    public void setLicores(Map<LicorModelo, Integer> licores) {
+    public void setLicores(Map<String, Integer> licores) {
         this.licores = licores;
     }
 
     // Método para agregar un licor al carrito
     public void agregarLicor(LicorModelo licor, int cantidad) {
-        if (licores.containsKey(licor)) {
-            licores.put(licor, licores.get(licor) + cantidad);
+        String licorId = licor.getNombre();  // 🔥 Usamos el nombre como clave
+
+        if (licores.containsKey(licorId)) {
+            licores.put(licorId, licores.get(licorId) + cantidad);
         } else {
-            licores.put(licor, cantidad);
+            licores.put(licorId, cantidad);
         }
     }
 
     // Método para eliminar un licor del carrito
-    public void eliminarLicor(LicorModelo licor) {
-        licores.remove(licor);
+    public void eliminarLicor(String licorId) {
+        licores.remove(licorId);
     }
 
     // Método para limpiar el carrito

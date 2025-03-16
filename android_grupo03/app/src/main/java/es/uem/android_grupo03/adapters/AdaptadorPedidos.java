@@ -42,14 +42,11 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.View
         holder.estadoPedido.setText("Estado: " + pedido.getEstado());
         holder.fechaEntrega.setText("📅 Llega el " + convertirFecha(pedido.getTimestamp()));
 
-        // Limpiar contenedor antes de agregar productos
         holder.contenedorProductos.removeAllViews();
 
         double totalPedido = 0.0;
 
-        // Agregar productos dentro de la CardView
         for (PedidoModelo.LicorPedido licorPedido : pedido.getLicores()) {
-            // Buscar vistas dentro del `contenedorProductos`
             View productoView = LayoutInflater.from(context).inflate(R.layout.tarjet_bebida_pedido, holder.contenedorProductos, false);
 
             TextView nombreProducto = productoView.findViewById(R.id.tvNombreProducto);
@@ -62,11 +59,7 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.View
             precioProducto.setText("$" + String.format(Locale.US, "%.2f", licorPedido.getPrecio()));
 
             int imagenRes = context.getResources().getIdentifier(licorPedido.getImagen(), "drawable", context.getPackageName());
-            if (imagenRes != 0) {
-                imagenProducto.setImageResource(imagenRes);
-            } else {
-                imagenProducto.setImageResource(R.drawable.whiskey_generico);
-            }
+            imagenProducto.setImageResource(imagenRes != 0 ? imagenRes : R.drawable.whiskey_generico);
 
             totalPedido += licorPedido.getPrecio() * licorPedido.getCantidad();
             holder.contenedorProductos.addView(productoView);
@@ -78,6 +71,11 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.View
     @Override
     public int getItemCount() {
         return listaPedidos.size();
+    }
+
+    public void actualizarPedidos(List<PedidoModelo> nuevosPedidos) {
+        this.listaPedidos = nuevosPedidos;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -96,10 +94,5 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.View
     private String convertirFecha(long timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return sdf.format(new Date(timestamp));
-    }
-
-    public void actualizarPedidos(List<PedidoModelo> nuevosPedidos) {
-        this.listaPedidos = nuevosPedidos;
-        notifyDataSetChanged();
     }
 }

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@android:color/white"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -11,7 +11,7 @@
         android:id="@+id/tituloPedidos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#787777"
+        android:background="@color/black"
         android:gravity="center"
         android:padding="16dp"
         android:text="Historial de Pedidos"

@@ -58,17 +58,22 @@ public class PedidosFragment extends Fragment {
     }
 
     private void cargarPedidosUsuario(String userId) {
-        pedidosRef = FirebaseDatabase.getInstance().getReference("pedidos");
+        pedidosRef = FirebaseDatabase.getInstance()
+                .getReference("perfiles")
+                .child(userId)
+                .child("pedidos");
 
-        pedidosRef.orderByChild("usuarioId").equalTo(userId).addValueEventListener(new ValueEventListener() {
+        pedidosRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaPedidos.clear();
                 for (DataSnapshot pedidoSnapshot : snapshot.getChildren()) {
-                    PedidoModelo pedido = pedidoSnapshot.getValue(PedidoModelo.class);
-                    if (pedido != null) {
-                        listaPedidos.add(pedido);
-                    }
+                    PedidoModelo pedido = new PedidoModelo();
+                    pedido.setUsuarioId(pedidoSnapshot.child("usuarioId").getValue(String.class));
+                    pedido.setEstado(pedidoSnapshot.child("estado").getValue(String.class));
+                    pedido.setTimestamp(pedidoSnapshot.child("timestamp").getValue(Long.class));
+                    pedido.setLicores(pedidoSnapshot.child("licores").getValue()); // Convierte HashMap a List
+                    listaPedidos.add(pedido);
                 }
                 adaptadorPedidos.actualizarPedidos(listaPedidos);
             }

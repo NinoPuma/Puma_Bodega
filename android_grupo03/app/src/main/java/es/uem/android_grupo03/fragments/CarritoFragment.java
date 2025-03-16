@@ -75,6 +75,8 @@ public class CarritoFragment extends Fragment {
                 List<LicorModelo> nuevosLicores = new ArrayList<>();
                 List<Integer> nuevasCantidades = new ArrayList<>();
 
+                carritoModelo.vaciarCarrito(); // 💡 Limpiar antes de actualizar
+
                 for (DataSnapshot itemCarrito : snapshot.getChildren()) {
                     LicorModelo licor = itemCarrito.child("licor").getValue(LicorModelo.class);
                     Long cantidadLong = itemCarrito.child("cantidad").getValue(Long.class);
@@ -83,6 +85,9 @@ public class CarritoFragment extends Fragment {
                     if (licor != null) {
                         nuevosLicores.add(licor);
                         nuevasCantidades.add(cantidad);
+
+                        // 💡 Ahora agregamos los productos a `carritoModelo`
+                        carritoModelo.agregarLicor(licor, cantidad);
                     }
                 }
 
@@ -97,24 +102,29 @@ public class CarritoFragment extends Fragment {
     }
 
 
+
     private void realizarPedido() {
-        if (carritoModelo.getLicores().isEmpty()) {
+        if (carritoModelo == null || carritoModelo.getLicores() == null || carritoModelo.getLicores().isEmpty()) {
             Toast.makeText(getContext(), "El carrito está vacío", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        DatabaseReference pedidosRef = FirebaseDatabase.getInstance().getReference("pedidos");
         FirebaseUser currentUser = auth.getCurrentUser();
-
         if (currentUser != null) {
             String userId = currentUser.getUid();
-            String pedidoId = pedidosRef.push().getKey(); // Generar un ID único para el pedido
+
+            // Guardar dentro de "perfiles/{usuarioId}/pedidos"
+            DatabaseReference pedidosRef = FirebaseDatabase.getInstance()
+                    .getReference("perfiles")
+                    .child(userId)
+                    .child("pedidos");
+
+            String pedidoId = pedidosRef.push().getKey(); // Genera un ID único para el pedido
 
             Map<String, Object> pedidoData = new HashMap<>();
-            pedidoData.put("usuarioId", userId);
-            pedidoData.put("licores", carritoModelo.getLicores());
             pedidoData.put("estado", "Pendiente");
-            pedidoData.put("timestamp", System.currentTimeMillis()); // Añadir la fecha de creación
+            pedidoData.put("licores", carritoModelo.getLicores());
+            pedidoData.put("timestamp", System.currentTimeMillis());
 
             pedidosRef.child(pedidoId).setValue(pedidoData)
                     .addOnSuccessListener(aVoid -> {
@@ -124,6 +134,9 @@ public class CarritoFragment extends Fragment {
                     .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al realizar pedido", Toast.LENGTH_SHORT).show());
         }
     }
+
+
+
 
     // Vaciar el carrito después de realizar el pedido
     private void vaciarCarrito() {
