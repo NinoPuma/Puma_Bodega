@@ -60,12 +60,25 @@ public class InicioFragment extends Fragment {
                 if (getContext() == null) return;
 
                 licorList.clear();
+                System.out.println("📌 Cargando licores desde Firebase...");
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     LicorModelo licor = dataSnapshot.getValue(LicorModelo.class);
                     if (licor != null) {
+                        if (licor.getTipo() == null || licor.getTipo().isEmpty()) {
+                            System.out.println("⚠️ Bebida sin tipo en Firebase: " + licor.getNombre());
+                            continue;
+                        }
+
+                        // 🔥 Normaliza la categoría para comparación segura
+                        licor.setTipo(normalizarTexto(licor.getTipo()));
+
+                        System.out.println("✅ Bebida cargada: " + licor.getNombre() + " - Tipo: " + licor.getTipo());
                         licorList.add(licor);
                     }
                 }
+
+                System.out.println("✅ Total de bebidas cargadas: " + licorList.size());
                 adaptadorBebidas.notifyDataSetChanged();
             }
 
@@ -79,12 +92,57 @@ public class InicioFragment extends Fragment {
     }
 
     public void actualizarBebidas(String categoria) {
+        if (licorList.isEmpty()) {
+            Toast.makeText(getContext(), "La lista de bebidas aún no se ha cargado", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         List<LicorModelo> bebidasFiltradas = new ArrayList<>();
+        String categoriaFiltrada = convertirCategoria(categoria.trim()); // Usa el método de conversión
+
+        System.out.println("📌 Filtrando por categoría: " + categoriaFiltrada);
+        System.out.println("📋 Lista de bebidas en memoria:");
+
         for (LicorModelo licor : licorList) {
-            if (licor.getTipo().equalsIgnoreCase(categoria)) {
-                bebidasFiltradas.add(licor);
+            if (licor.getTipo() != null) {
+                String tipoLicor = licor.getTipo().trim();
+                System.out.println("🔍 Revisando: " + licor.getNombre() + " - Tipo en Firebase: " + tipoLicor);
+
+                if (tipoLicor.equalsIgnoreCase(categoriaFiltrada)) {
+                    bebidasFiltradas.add(licor);
+                }
             }
         }
+
+        if (bebidasFiltradas.isEmpty()) {
+            System.out.println("❌ No se encontraron bebidas para: " + categoriaFiltrada);
+            Toast.makeText(getContext(), "No hay bebidas en esta categoría", Toast.LENGTH_SHORT).show();
+        } else {
+            System.out.println("✅ Bebidas encontradas para: " + categoriaFiltrada);
+        }
+
         adaptadorBebidas.actualizarLista(bebidasFiltradas);
+    }
+
+    // 🔥 Normalizar texto (sin tildes y en minúsculas)
+    private String normalizarTexto(String texto) {
+        return texto.trim().toLowerCase();
+    }
+
+    // 🔥 Mapeo correcto de categorías
+    private String convertirCategoria(String categoria) {
+        switch (categoria.toLowerCase()) {
+            case "whiskey":
+            case "whisky":
+                return "whisky"; // Estándar en Firebase
+            case "ron":
+                return "ron";
+            case "vodka":
+                return "vodka";
+            case "vino":
+                return "vino";
+            default:
+                return categoria;
+        }
     }
 }

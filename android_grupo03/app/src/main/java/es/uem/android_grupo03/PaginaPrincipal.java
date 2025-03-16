@@ -67,6 +67,7 @@ public class PaginaPrincipal extends AppCompatActivity {
             }
         });
 
+
         // Vincular el TabLayout con el ViewPager2
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {

@@ -6,9 +6,10 @@
     <!-- 🔹 Agregar el array de categorías de bebidas -->
     <string-array name="categorias_bebidas">
         <item>Vino</item>
-        <item>Whiskey</item>
+        <item>Whisky</item>  <!-- 🔹 Firebase usa "Whisky", no "Whiskey" -->
         <item>Ron</item>
         <item>Vodka</item>
     </string-array>
+
 
 </resources>

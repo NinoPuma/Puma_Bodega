@@ -7,20 +7,25 @@
     <!-- Colores de fondo y bordes -->
     <color name="light_gray">#D6D6D6</color>
     <color name="white">#FFFFFF</color>
-    <color name="black">#212121</color>
+    <color name="black">#9C9393</color>
 
     <!-- Para el stepper (fondos con gradientes en xml) -->
     <color name="stepper_start">#E3F2FD</color>
     <color name="stepper_end">#BBDEFB</color>
+    <color name="yellow">#FFC107</color> <!-- Amarillo fuerte -->
+
 
     <!-- Botón de eliminar -->
-    <color name="red_primary">#F44336</color>
-    <color name="dark_red">#D32F2F</color>
+    <color name="red_primary">#000000</color>
+    <color name="dark_red">#000000</color>
+    <color name="purple_500">#4D11C0FF</color>
+    <color name="gray">#C0BEBE</color>
+    <color name="dark_gray">#979595</color>
 
     <color name="colorPrecio">#FF5722</color> <!-- Naranja vibrante -->
-    <color name="colorTextoPrincipal">#212121</color> <!-- Negro suave -->
-    <color name="colorTextoSecundario">#757575</color> <!-- Gris medio -->
-    <color name="colorDivider">#E0E0E0</color> <!-- Gris claro -->
+    <color name="colorTextoPrincipal">#C6BFBF</color> <!-- Negro suave -->
+    <color name="colorTextoSecundario">#444343</color> <!-- Gris medio -->
+    <color name="colorDivider">#FFFFFF</color> <!-- Gris claro -->
 
 
 </resources>
