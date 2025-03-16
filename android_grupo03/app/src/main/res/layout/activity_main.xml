@@ -24,7 +24,6 @@
         android:inputType="textEmailAddress"
         android:padding="12dp"/>
 
-
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
@@ -32,8 +31,7 @@
         android:layout_marginTop="16dp"
         android:hint="Contraseña"
         android:inputType="textPassword"
-        android:padding="12dp"
-         />
+        android:padding="12dp"/>
 
     <CheckBox
         android:id="@+id/termsCheckbox"
@@ -50,9 +48,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Iniciar Sesión"
-
         android:textColor="@android:color/white"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:backgroundTint="@color/black"/>
+
+    <!-- Botón para iniciar sesión con Google -->
+    <Button
+        android:id="@+id/btn_google"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Iniciar sesión con Google"
+        android:textColor="@android:color/white"
+        android:padding="12dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/createAccount"
@@ -62,6 +72,6 @@
         android:layout_marginTop="32dp"
         android:text="Crear cuenta nueva"
         android:textColor="#2196F3"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
 </LinearLayout>
