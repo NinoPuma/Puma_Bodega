@@ -101,22 +101,46 @@ class GestorDatos: ObservableObject {
     }
 
     // ✅ Agregar licor al carrito
+    // ✅ Agregar licor al carrito con verificación mejorada
     func agregarAlCarrito(licor: Licor) {
         guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else {
             print("❌ ERROR: No hay usuario autenticado.")
             return
         }
 
-        if let index = perfiles[perfilIndex].carrito.firstIndex(where: { $0.licores.first?.id == licor.id }) {
+        // 🔹 Buscar si el licor ya está en el carrito
+        if let index = perfiles[perfilIndex].carrito.firstIndex(where: {
+            $0.licores.contains(where: { $0.id == licor.id })
+        }) {
             perfiles[perfilIndex].carrito[index].cantidad += 1
+            print("🔄 \(licor.nombre) ya estaba en el carrito. Nueva cantidad: \(perfiles[perfilIndex].carrito[index].cantidad)")
         } else {
             perfiles[perfilIndex].carrito.append(Carrito(licores: [licor], cantidad: 1))
+            print("✅ \(licor.nombre) agregado al carrito.")
         }
 
+        // 🔹 Verificar contenido del carrito antes de guardar
+        print("📦 Carrito actualizado: \(perfiles[perfilIndex].carrito.map { "\($0.licores.first?.nombre ?? "Desconocido") - Cantidad: \($0.cantidad)" })")
+
+        // 🔹 Actualizar perfil actual
         perfilActual = perfiles[perfilIndex]
-        print("✅ \(licor.nombre) agregado al carrito.")
+
+        // 🔹 Guardar cambios en el JSON
         salvarJSON()
+
+        // 🔹 Verificar que el JSON se guardó correctamente
+        do {
+            let jsonData = try JSONEncoder().encode(perfiles)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                print("📄 JSON actualizado con carrito:\n\(jsonString)")
+            } else {
+                print("❌ Error al convertir JSON a String")
+            }
+        } catch {
+            print("❌ Error al codificar JSON: \(error)")
+        }
     }
+
 
     // ✅ Eliminar licor del carrito (con Swipe)
     func eliminarLicor(at offsets: IndexSet) {
@@ -129,35 +153,66 @@ class GestorDatos: ObservableObject {
 
     // ✅ Realizar pedido
     func realizarPedido() {
-        guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else { return }
-        
-        let perfil = perfiles[perfilIndex]
-        
+        guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else {
+            print("❌ ERROR: No hay usuario autenticado.")
+            return
+        }
+
+        var perfil = perfiles[perfilIndex]
+
         guard !perfil.carrito.isEmpty else {
             print("❌ ERROR: No hay productos en el carrito para realizar el pedido.")
             return
         }
 
         // 🔹 Calcular el precio total del pedido
-        let precioTotal = perfil.carrito.reduce(0) { $0 + ($1.licores.first?.precio ?? 0) * Float($1.cantidad) }
-        
+        let precioTotal = perfil.carrito.reduce(0) { total, item in
+            total + item.licores.reduce(0) { subtotal, licor in
+                subtotal + (licor.precio * Float(item.cantidad))
+            }
+        }
+
+        // 🔹 Generar un ID único para el nuevo pedido
+        let nuevoID = (perfil.pedidos.map { $0.id }.max() ?? 0) + 1
+
         // 🔹 Crear el nuevo pedido
         let nuevoPedido = Pedido(
-            id: (perfil.pedidos.map { $0.id }.max() ?? 0) + 1, // Generar ID basado en el máximo actual
+            id: nuevoID,
             licores: perfil.carrito.flatMap { $0.licores }, // Extraer licores del carrito
             estado: "Realizado",
             fecha: obtenerFechaActual(),
             precioTotal: precioTotal
         )
 
-        // 🔹 Agregar pedido y vaciar carrito
-        perfiles[perfilIndex].pedidos.append(nuevoPedido)
-        perfiles[perfilIndex].carrito.removeAll()
-        perfilActual = perfiles[perfilIndex]
-        
-        print("✅ Pedido realizado con éxito: \(nuevoPedido.id)")
+        // 🔹 Agregar el nuevo pedido a la lista de pedidos
+        perfil.pedidos.append(nuevoPedido)
+
+        // 🔹 Vaciar el carrito después de agregar el pedido
+        perfil.carrito.removeAll()
+
+        // 🔹 Actualizar el perfil en la lista de perfiles
+        perfiles[perfilIndex] = perfil
+        perfilActual = perfil
+
+        print("✅ Pedido realizado con éxito. ID: \(nuevoID)")
+        print("📦 Pedidos actuales del usuario: \(perfil.pedidos.map { "ID: \($0.id) - Total: \($0.precioTotal)" })")
+
+        // 🔹 Guardar cambios en el JSON
         salvarJSON()
+
+        // 🔹 Verificar que el JSON se guardó correctamente
+        do {
+            let jsonData = try JSONEncoder().encode(perfiles)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                print("📄 JSON actualizado con pedidos:\n\(jsonString)")
+            } else {
+                print("❌ Error al convertir JSON a String")
+            }
+        } catch {
+            print("❌ Error al codificar JSON: \(error)")
+        }
     }
+
 
     // ✅ Guardar JSON
     func salvarJSON() {
