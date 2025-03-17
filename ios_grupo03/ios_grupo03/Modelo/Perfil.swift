@@ -8,9 +8,9 @@
 struct Perfil: Codable, Identifiable{
     let id: Int
     let nombre: String
-    let email: String
-    let direccion: String
+    var email: String
+    var direccion: String
     var pedidos: [Pedido]
-    let tarjeta: String
+    var tarjeta: String
     var carrito: [Carrito]
 }

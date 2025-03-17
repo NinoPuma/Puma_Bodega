@@ -1,13 +1,15 @@
 import SwiftUI
 
 struct VistaPerfil: View {
-    @ObservedObject var gestorDatos: GestorDatos // 🔹 Solo necesita `gestorDatos`
-
+    @ObservedObject var gestorDatos: GestorDatos
+    @State private var email: String = ""
+    @State private var direccion: String = ""
+    @State private var tarjeta: String = ""
+    
     var body: some View {
         VStack(spacing: 20) {
-            if let perfil = gestorDatos.perfilActual { // 🔹 Usar `perfilActual`
+            if let perfil = gestorDatos.perfilActual {
                 VStack {
-                    // Imagen de perfil predeterminada
                     Image(systemName: "person.circle.fill")
                         .resizable()
                         .scaledToFit()
@@ -23,15 +25,36 @@ struct VistaPerfil: View {
                 
                 VStack(spacing: 12) {
                     perfilItem(titulo: "Nombre", valor: perfil.nombre)
-                    perfilItem(titulo: "Email", valor: perfil.email)
-                    perfilItem(titulo: "Dirección", valor: perfil.direccion)
-                    perfilItem(titulo: "Tarjeta", valor: perfil.tarjeta)
+                    TextField("Email", text: $email)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                    
+                    TextField("Dirección", text: $direccion)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                    
+                    TextField("Tarjeta", text: $tarjeta)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
                 }
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 12)
                                 .fill(Color(.systemBackground))
                                 .shadow(radius: 5))
                 .padding()
+                
+                Button(action: {
+                    gestorDatos.actualizarPerfil(email: email, direccion: direccion, tarjeta: tarjeta)
+                }) {
+                    Text("Guardar Cambios")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
             } else {
                 VStack {
                     ProgressView()
@@ -44,8 +67,10 @@ struct VistaPerfil: View {
         .padding()
         .navigationTitle("Perfil")
         .onAppear {
-            if gestorDatos.perfilActual == nil {
-                gestorDatos.cargarPerfil(nombre: gestorDatos.perfilActual?.nombre ?? "") // 🔹 Cargar el perfil autenticado
+            if let perfil = gestorDatos.perfilActual {
+                email = perfil.email
+                direccion = perfil.direccion
+                tarjeta = perfil.tarjeta
             }
         }
     }

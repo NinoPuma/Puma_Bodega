@@ -257,7 +257,20 @@ class GestorDatos: ObservableObject {
                 }
             }
         }
-
+        
+    // ✅ Permitir editar perfil y guardar cambios
+        func actualizarPerfil(email: String, direccion: String, tarjeta: String) {
+            guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else {
+                print("❌ ERROR: No se encontró el perfil")
+                return
+            }
+            
+            perfiles[perfilIndex].email = email
+            perfiles[perfilIndex].direccion = direccion
+            perfiles[perfilIndex].tarjeta = tarjeta
+            perfilActual = perfiles[perfilIndex]
+            salvarJSON()
+        }
         // ✅ Llamar a la copia en la inicialización
         init() {
             copiarJSONSiNoExiste()
