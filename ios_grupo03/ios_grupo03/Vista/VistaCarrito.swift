@@ -13,7 +13,7 @@ struct VistaCarrito: View {
                 
                 if let carrito = gestorDatos.perfilActual?.carrito, !carrito.isEmpty {
                     List {
-                        ForEach(carrito.indices, id: \.self) { index in
+                        ForEach(carrito.indices, id: \ .self) { index in
                             let item = carrito[index]
                             HStack {
                                 Image(item.licores.first?.imagen ?? "placeholder")
@@ -60,3 +60,4 @@ struct VistaCarrito: View {
         }
     }
 }
+

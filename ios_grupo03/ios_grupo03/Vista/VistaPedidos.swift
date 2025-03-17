@@ -2,45 +2,38 @@ import SwiftUI
 
 struct VistaPedidos: View {
     @ObservedObject var gestorDatos: GestorDatos
-    @State private var pedidoSeleccionado: Pedido?
-
+    
     var body: some View {
         NavigationStack {
             VStack {
                 Text("Pedidos Realizados")
                     .font(.largeTitle)
                     .bold()
-                    .foregroundColor(Color("vinoTinto")) // Color temático
                     .padding()
-
+                
                 if let pedidos = gestorDatos.perfilActual?.pedidos, !pedidos.isEmpty {
                     List(pedidos) { pedido in
-                        Button(action: {
-                            pedidoSeleccionado = pedido
-                        }) {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 5) {
-                                    Text("Pedido #\(pedido.id)")
-                                        .font(.headline)
-                                        .bold()
-                                        .foregroundColor(.white)
-
-                                    Text("\(pedido.fecha)")
+                        VStack(alignment: .leading) {
+                            Text("Pedido #\(pedido.id)")
+                                .font(.headline)
+                                .bold()
+                            Text("Fecha: \(pedido.fecha)")
+                                .foregroundColor(.gray)
+                            Text("Estado: \(pedido.estado)")
+                                .foregroundColor(pedido.estado == "Pendiente" ? .orange : .green)
+                            
+                            ForEach(pedido.licores) { licor in
+                                HStack {
+                                    Image(licor.imagen)
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                    Text(licor.nombre)
                                         .font(.subheadline)
-                                        .foregroundColor(Color(.lightGray))
                                 }
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.white)
                             }
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 12)
-                                .fill(Color("vinoTinto"))) // Fondo temático
-                            .shadow(radius: 3)
                         }
-                        .listRowBackground(Color.clear) // Hace la lista más limpia
+                        .padding()
                     }
-                    .listStyle(PlainListStyle()) // Quita líneas innecesarias
                 } else {
                     Text("No hay pedidos realizados")
                         .foregroundColor(.gray)
@@ -48,12 +41,6 @@ struct VistaPedidos: View {
                 }
             }
             .navigationTitle("Pedidos")
-            .onAppear {
-                gestorDatos.cargarPerfil(nombre: gestorDatos.perfilActual?.nombre ?? "")
-            }
-            .sheet(item: $pedidoSeleccionado) { pedido in
-                InfoPedido(pedido: pedido)
-            }
         }
     }
 }
