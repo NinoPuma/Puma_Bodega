@@ -29,8 +29,21 @@ struct VistaPedidos: View {
                                         .frame(width: 50, height: 50)
                                     Text(licor.nombre)
                                         .font(.subheadline)
+                                    Spacer()
+                                    Text(String(format: "%.2f €", licor.precio))
+                                        .font(.subheadline)
+                                        .bold()
                                 }
                             }
+                            
+                            let totalPedido = pedido.licores.reduce(0) { total, licor in
+                                total + licor.precio
+                            }
+                            
+                            Text("Total: \(String(format: "%.2f €", totalPedido))")
+                                .font(.title3)
+                                .bold()
+                                .padding(.top)
                         }
                         .padding()
                     }

@@ -1,7 +1,10 @@
 IOS:
-Vista perfil editable
-que se vean mejor los detalles de los pedidos y detalles en el carrito que salga el precio total.
-colores en todas las vistas
+Cambiar el boton de "Back" por "Cerrar sesión".
+Alerta de pedido realizado correctamente
+Alerta de datos de perfil modificados correctamente
+Modificar alerta de "Licor agregado a carrito"
+Agregar licores sobre todo Vodka y que funcionen las fotos
+Colores en todas las vistas
 
 Android:
 Que los pedidos se vean bien

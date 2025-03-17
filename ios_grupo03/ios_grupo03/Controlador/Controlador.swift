@@ -16,6 +16,7 @@ class GestorDatos: ObservableObject {
 
     private let perfilesJSON = "BBDD"
     private let licoresJSON = "licores"
+
     
     // ✅ Cargar los licores desde su propio JSON
         func cargarLicoresDesdeJSON() {
@@ -98,6 +99,19 @@ class GestorDatos: ObservableObject {
                 print("❌ ERROR: No se encontró el perfil de \(nombre)")
             }
         }
+    }
+    
+    func calcularTotalCarrito() -> Float {
+        guard let perfil = perfilActual else { return 0 }
+
+        var total: Float = 0
+        for item in perfil.carrito {
+            if let precio = item.licores.first?.precio {
+                total += precio * Float(item.cantidad)
+            }
+        }
+        
+        return total
     }
 
     // ✅ Agregar licor al carrito con verificación mejorada
