@@ -1,1 +1,10 @@
-meter toggle y terminar inicio y empezar la página principal con tabView
+IOS:
+Vista perfil editable
+que se vean mejor los detalles de los pedidos y detalles en el carrito que salga el precio total.
+colores en todas las vistas
+
+Android:
+Que los pedidos se vean bien
+que se vea la camara bien en la vista perfil, guardar los datos en caso de cambios
+mejorar vista de detalles en pedidos y quizá en carrito
+colores
