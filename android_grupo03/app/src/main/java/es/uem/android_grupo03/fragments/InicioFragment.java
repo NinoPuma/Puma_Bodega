@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,28 +30,62 @@ import es.uem.android_grupo03.models.LicorModelo;
 
 public class InicioFragment extends Fragment {
     private RecyclerView recyclerView;
+    private Spinner spinnerCategorias;
     private DatabaseReference databaseReference;
     private List<LicorModelo> licorList;
     private AdaptadorBebidas adaptadorBebidas;
+    private boolean isDataLoaded = false; // 🔥 Variable para evitar errores de carga
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);
 
-        // Inicializar el RecyclerView
+        // Inicializar vistas
         recyclerView = view.findViewById(R.id.rv);
+        spinnerCategorias = view.findViewById(R.id.spinnerCategorias);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Inicializar la lista y el adaptador
+        // Inicializar lista y adaptador
         licorList = new ArrayList<>();
         adaptadorBebidas = new AdaptadorBebidas(getContext(), licorList);
         recyclerView.setAdapter(adaptadorBebidas);
 
-        // Cargar las bebidas desde Firebase
+        // Configurar el Spinner
+        configurarSpinner();
+
+        // Cargar bebidas desde Firebase
         cargarBebidasDesdeFirebase();
 
         return view;
+    }
+
+    private void configurarSpinner() {
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(
+                getContext(),
+                R.array.categorias_bebidas,
+                android.R.layout.simple_spinner_item
+        );
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategorias.setAdapter(spinnerAdapter);
+
+        spinnerCategorias.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!isDataLoaded) {
+                    Toast.makeText(getContext(), "Cargando bebidas, espera un momento...", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String categoriaSeleccionada = parent.getItemAtPosition(position).toString();
+                actualizarBebidas(categoriaSeleccionada);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No hacer nada
+            }
+        });
     }
 
     private void cargarBebidasDesdeFirebase() {
@@ -64,14 +101,9 @@ public class InicioFragment extends Fragment {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     LicorModelo licor = dataSnapshot.getValue(LicorModelo.class);
-                    if (licor != null) {
-                        if (licor.getTipo() == null || licor.getTipo().isEmpty()) {
-                            System.out.println("⚠️ Bebida sin tipo en Firebase: " + licor.getNombre());
-                            continue;
-                        }
-
-                        // 🔥 Normaliza la categoría para comparación segura
-                        licor.setTipo(normalizarTexto(licor.getTipo()));
+                    if (licor != null && licor.getTipo() != null && !licor.getTipo().isEmpty()) {
+                        // Normaliza el nombre del tipo
+                        licor.setTipo(convertirCategoria(licor.getTipo()));
 
                         System.out.println("✅ Bebida cargada: " + licor.getNombre() + " - Tipo: " + licor.getTipo());
                         licorList.add(licor);
@@ -79,6 +111,11 @@ public class InicioFragment extends Fragment {
                 }
 
                 System.out.println("✅ Total de bebidas cargadas: " + licorList.size());
+                isDataLoaded = true; // 🔥 Ahora los datos están listos
+
+                // 🔥 Filtrar automáticamente después de cargar los datos
+                actualizarBebidas(spinnerCategorias.getSelectedItem().toString());
+
                 adaptadorBebidas.notifyDataSetChanged();
             }
 
@@ -92,20 +129,21 @@ public class InicioFragment extends Fragment {
     }
 
     public void actualizarBebidas(String categoria) {
-        if (licorList.isEmpty()) {
-            Toast.makeText(getContext(), "La lista de bebidas aún no se ha cargado", Toast.LENGTH_SHORT).show();
+        if (!isDataLoaded) {
+            Toast.makeText(getContext(), "Cargando bebidas, espera un momento...", Toast.LENGTH_SHORT).show();
             return;
         }
 
         List<LicorModelo> bebidasFiltradas = new ArrayList<>();
-        String categoriaFiltrada = convertirCategoria(categoria.trim()); // Usa el método de conversión
+        String categoriaFiltrada = convertirCategoria(categoria.trim());
 
         System.out.println("📌 Filtrando por categoría: " + categoriaFiltrada);
         System.out.println("📋 Lista de bebidas en memoria:");
 
         for (LicorModelo licor : licorList) {
             if (licor.getTipo() != null) {
-                String tipoLicor = licor.getTipo().trim();
+                String tipoLicor = convertirCategoria(licor.getTipo().trim());
+
                 System.out.println("🔍 Revisando: " + licor.getNombre() + " - Tipo en Firebase: " + tipoLicor);
 
                 if (tipoLicor.equalsIgnoreCase(categoriaFiltrada)) {
@@ -124,23 +162,20 @@ public class InicioFragment extends Fragment {
         adaptadorBebidas.actualizarLista(bebidasFiltradas);
     }
 
-    // 🔥 Normalizar texto (sin tildes y en minúsculas)
-    private String normalizarTexto(String texto) {
-        return texto.trim().toLowerCase();
-    }
-
-    // 🔥 Mapeo correcto de categorías
     private String convertirCategoria(String categoria) {
-        switch (categoria.toLowerCase()) {
+        if (categoria == null) return "";
+        categoria = categoria.trim().toLowerCase();
+
+        switch (categoria) {
             case "whiskey":
             case "whisky":
-                return "whisky"; // Estándar en Firebase
+                return "whisky"; // En Firebase está como "Whisky"
             case "ron":
-                return "ron";
+                return "ron"; // En Firebase está como "Ron"
             case "vodka":
-                return "vodka";
+                return "vodka"; // En Firebase está como "Vodka"
             case "vino":
-                return "vino";
+                return "vino"; // En Firebase está como "Vino"
             default:
                 return categoria;
         }

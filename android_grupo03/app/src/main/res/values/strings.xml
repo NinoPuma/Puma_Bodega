@@ -4,11 +4,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- 🔹 Agregar el array de categorías de bebidas -->
+
     <string-array name="categorias_bebidas">
-        <item>Vino</item>
-        <item>Whisky</item>  <!-- 🔹 Firebase usa "Whisky", no "Whiskey" -->
+        <item>Whisky</item>
         <item>Ron</item>
         <item>Vodka</item>
+        <item>Vino</item>
     </string-array>
 
 

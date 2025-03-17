@@ -10,7 +10,7 @@ struct Perfil: Codable, Identifiable{
     let nombre: String
     let email: String
     let direccion: String
-    let pedido: [Pedido]
+    var pedidos: [Pedido]
     let tarjeta: String
-    let carrito: [Carrito]
+    var carrito: [Carrito]
 }

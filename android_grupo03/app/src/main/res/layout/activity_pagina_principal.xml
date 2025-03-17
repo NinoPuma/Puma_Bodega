@@ -7,20 +7,6 @@
     android:orientation="vertical">
 
     <!-- Toolbar con Spinner -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <Spinner
-            android:id="@+id/spinnerCategorias"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:padding="8dp"/>
-    </androidx.appcompat.widget.Toolbar>
 
     <!-- ViewPager2 para la navegación entre fragmentos -->
     <androidx.viewpager2.widget.ViewPager2

@@ -58,7 +58,6 @@ public class PerfilFragment extends Fragment {
         editarNombreUsuario = view.findViewById(R.id.editarNombreUsuario);
         editarDireccion = view.findViewById(R.id.editarDireccion);
         cargarCorreo = view.findViewById(R.id.cargarCorreo);
-        toggleNewsletter = view.findViewById(R.id.toggleNewsletter);
         Button botonFoto = view.findViewById(R.id.botonFoto);
         Button botonGuardarCambios = view.findViewById(R.id.botonGuardarCambios);
         Button botonCerrarSesion = view.findViewById(R.id.botonCerrarSesion);

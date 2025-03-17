@@ -105,31 +105,21 @@
                     android:textColor="#555555"
                     android:textStyle="italic"
                     android:padding="10dp"
+
                     android:enabled="false"/>
+
+                <EditText
+                    android:id="@+id/editarCodigoPostal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Código Postal"
+                    android:padding="10dp"
+                    android:textSize="16sp" />
+
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Switch para Newsletter -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Suscribirse a la Newsletter"
-                android:textSize="18sp"
-                android:textColor="#555555"/>
-
-            <Switch
-                android:id="@+id/toggleNewsletter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"/>
-        </LinearLayout>
 
         <!-- Botón Guardar Cambios -->
         <Button
