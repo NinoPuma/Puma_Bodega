@@ -14,10 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import es.uem.android_grupo03.R;
 import es.uem.android_grupo03.models.LicorModelo;
@@ -73,16 +79,53 @@ public class AdaptadorBebidas extends RecyclerView.Adapter<AdaptadorBebidas.Bebi
         DatabaseReference carritoRef = FirebaseDatabase.getInstance()
                 .getReference("perfiles")
                 .child(user.getUid())
-                .child("carrito")
-                .child(String.valueOf(licor.getId()));
+                .child("carrito");
 
-        carritoRef.child("licor").setValue(licor);
-        carritoRef.child("cantidad").setValue(1)
-                .addOnSuccessListener(aVoid ->
-                        Toast.makeText(context, "Añadido al carrito", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e ->
-                        Toast.makeText(context, "Error al añadir", Toast.LENGTH_SHORT).show());
+        carritoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Map<String, Object>> carritoActual = new ArrayList<>();
+
+                boolean encontrado = false;
+
+                // Leer carrito actual y modificar si el producto ya existe
+                for (DataSnapshot item : snapshot.getChildren()) {
+                    Map<String, Object> producto = (Map<String, Object>) item.getValue();
+
+                    if (producto != null && producto.containsKey("licor")) {
+                        Map<String, Object> licorMap = (Map<String, Object>) producto.get("licor");
+
+                        if (licorMap.get("nombre").equals(licor.getNombre())) {
+                            // Si ya existe, aumentar la cantidad
+                            int cantidadActual = ((Long) producto.get("cantidad")).intValue();
+                            producto.put("cantidad", cantidadActual + 1);
+                            encontrado = true;
+                        }
+                    }
+                    carritoActual.add(producto);
+                }
+
+                if (!encontrado) {
+                    // Si el producto no existe, agregarlo con cantidad 1
+                    Map<String, Object> nuevoProducto = new HashMap<>();
+                    nuevoProducto.put("licor", licor);
+                    nuevoProducto.put("cantidad", 1);
+                    carritoActual.add(nuevoProducto);
+                }
+
+                // Guardar la lista actualizada en Firebase
+                carritoRef.setValue(carritoActual)
+                        .addOnSuccessListener(aVoid -> Toast.makeText(context, "Producto añadido al carrito", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(context, "Error al añadir al carrito", Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "Error al acceder al carrito", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {

@@ -1,41 +1,50 @@
 import SwiftUI
 
-// Vista principal con la barra de pestañas inferior estilizada
+// Vista principal con la barra de pestañas inferior
 struct VistaPrincipal: View {
-    @ObservedObject var gestorDatos: GestorDatos // 🔹 Recibe `GestorDatos` desde `ContentView`
-    let usuario: String // 🔹 Se mantiene el usuario aquí
+    @ObservedObject var gestorDatos: GestorDatos
+    let usuario: String
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         TabView {
             Inicio(gestorDatos: gestorDatos)
                 .tabItem {
-                    Label("Inicio", systemImage: "wineglass.fill")
+                    Label("Inicio", systemImage: "wineglass")
                 }
-            
+
             VistaCarrito(gestorDatos: gestorDatos)
                 .tabItem {
-                    Label("Carrito", systemImage: "cart.fill")
+                    Label("Carrito", systemImage: "cart")
                 }
-            
+
             VistaPedidos(gestorDatos: gestorDatos)
                 .tabItem {
                     Label("Pedidos", systemImage: "cube.box.fill")
                 }
-            
-            VistaPerfil(gestorDatos: gestorDatos) // 🔹 No se pasa usuario aquí
+
+            VistaPerfil(gestorDatos: gestorDatos)
                 .tabItem {
-                    Label("Perfil", systemImage: "person.crop.circle.fill")
+                    Label("Perfil", systemImage: "person.circle")
                 }
         }
-        .accentColor(.blue) // 🔹 Personaliza el color de la pestaña activa
+        .padding(.top, 10)
         .onAppear {
             gestorDatos.cargarPerfiles()
             gestorDatos.cargarLicoresDesdeJSON()
-            gestorDatos.cargarPerfil(nombre: usuario) // 🔹 Cargar el perfil con el usuario autenticado
+            gestorDatos.cargarPerfil(nombre: usuario)
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: { dismiss() }) {
+                    HStack {
+                        Image(systemName: "arrow.backward")
+                        Text("Cerrar sesión")
+                    }
+                    .foregroundColor(.blue)
+                }
+            }
         }
     }
-}
-
-#Preview {
-    VistaPrincipal(gestorDatos: GestorDatos(), usuario: "Antonino Puma") // 🔹 Se mantiene el usuario
 }

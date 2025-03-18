@@ -1,1 +1,14 @@
-meter toggle y terminar inicio y empezar la página principal con tabView
+IOS:
+Cambiar el boton de "Back" por "Cerrar sesión".
+Alerta de pedido realizado correctamente
+Alerta de datos de perfil modificados correctamente
+Modificar alerta de "Licor agregado a carrito"
+Agregar licores sobre todo Vodka y que funcionen las fotos
+Poner foto de aplicación
+Colores en todas las vistas
+
+Android:
+Que los pedidos se vean bien
+que se vea la camara bien en la vista perfil, guardar los datos en caso de cambios
+mejorar vista de detalles en pedidos y quizá en carrito
+colores

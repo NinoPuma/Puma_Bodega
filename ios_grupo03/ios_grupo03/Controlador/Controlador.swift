@@ -10,9 +10,13 @@ class GestorDatos: ObservableObject {
     @Published var vinos: [Licor] = []
     @Published var whiskeys: [Licor] = []
     @Published var vodkas: [Licor] = []
+    
+    @Published var mostrarAlerta = false
+    @Published var mensajeAlerta = ""
 
     private let perfilesJSON = "BBDD"
     private let licoresJSON = "licores"
+
     
     // ✅ Cargar los licores desde su propio JSON
         func cargarLicoresDesdeJSON() {
@@ -58,31 +62,28 @@ class GestorDatos: ObservableObject {
             }
 
     // ✅ Cargar perfiles desde JSON
-    func cargarPerfiles() {
-            guard let url = Bundle.main.url(forResource: perfilesJSON, withExtension: "json") else {
-                print("❌ ERROR: No se encontró el archivo JSON de perfiles")
-                return
-            }
-            do {
-                let data = try Data(contentsOf: url)
-                let jsonString = String(data: data, encoding: .utf8) ?? "No se pudo convertir a String"
-                print("📄 JSON Cargado: \(jsonString)") // ✅ Verifica que el JSON se está cargando correctamente
+//    func cargarPerfiles() {
+//        let url = obtenerURLArchivo()
+//        
+//        guard FileManager.default.fileExists(atPath: url.path) else {
+//            print("❌ ERROR: No se encontró el archivo JSON de perfiles")
+//            return
+//        }
+//        
+//        do {
+//            let data = try Data(contentsOf: url)
+//            let decoder = JSONDecoder()
+//            let jsonCompleto = try decoder.decode([String: [Perfil]].self, from: data)
+//            
+//            DispatchQueue.main.async {
+//                self.perfiles = jsonCompleto["perfiles"] ?? []
+//            }
+//        } catch {
+//            print("❌ ERROR al cargar el JSON de perfiles: \(error)")
+//        }
+//    }
 
-                let decoder = JSONDecoder()
-                let jsonCompleto = try decoder.decode([String: [Perfil]].self, from: data)
 
-                if let perfilesData = jsonCompleto["perfiles"] {
-                    DispatchQueue.main.async {
-                        self.perfiles = perfilesData
-                        print("✅ Perfiles cargados correctamente: \(self.perfiles.count) perfiles")
-                    }
-                } else {
-                    print("❌ ERROR: No se encontró la clave 'perfiles' en el JSON")
-                }
-            } catch {
-                print("❌ ERROR al cargar el JSON de perfiles: \(error)")
-            }
-        }
 
     // ✅ Cargar un perfil específico
     func cargarPerfil(nombre: String) {
@@ -99,24 +100,43 @@ class GestorDatos: ObservableObject {
             }
         }
     }
+    
+    func calcularTotalCarrito() -> Float {
+        guard let perfil = perfilActual else { return 0 }
 
-    // ✅ Agregar licor al carrito
-    func agregarAlCarrito(licor: Licor) {
-        guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else {
-            print("❌ ERROR: No hay usuario autenticado.")
-            return
+        var total: Float = 0
+        for item in perfil.carrito {
+            if let precio = item.licores.first?.precio {
+                total += precio * Float(item.cantidad)
+            }
         }
-
-        if let index = perfiles[perfilIndex].carrito.firstIndex(where: { $0.licores.first?.id == licor.id }) {
-            perfiles[perfilIndex].carrito[index].cantidad += 1
-        } else {
-            perfiles[perfilIndex].carrito.append(Carrito(licores: [licor], cantidad: 1))
-        }
-
-        perfilActual = perfiles[perfilIndex]
-        print("✅ \(licor.nombre) agregado al carrito.")
-        salvarJSON()
+        
+        return total
     }
+
+    // ✅ Agregar licor al carrito con verificación mejorada
+    func agregarAlCarrito(licor: Licor) {
+            guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else {
+                print("❌ ERROR: No hay usuario autenticado.")
+                return
+            }
+            
+            if let index = perfiles[perfilIndex].carrito.firstIndex(where: { $0.licores.contains(where: { $0.id == licor.id }) }) {
+                perfiles[perfilIndex].carrito[index].cantidad += 1
+            } else {
+                perfiles[perfilIndex].carrito.append(Carrito(licores: [licor], cantidad: 1))
+            }
+            
+            perfilActual = perfiles[perfilIndex]
+            salvarJSON()
+            
+            DispatchQueue.main.async {
+                self.mensajeAlerta = "\(licor.nombre) ha sido añadido al carrito."
+                self.mostrarAlerta = true
+            }
+        }
+
+
 
     // ✅ Eliminar licor del carrito (con Swipe)
     func eliminarLicor(at offsets: IndexSet) {
@@ -129,50 +149,55 @@ class GestorDatos: ObservableObject {
 
     // ✅ Realizar pedido
     func realizarPedido() {
-        guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else { return }
-        
-        let perfil = perfiles[perfilIndex]
-        
+        guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else {
+            print("❌ ERROR: No hay usuario autenticado.")
+            return
+        }
+
+        var perfil = perfiles[perfilIndex]
+
         guard !perfil.carrito.isEmpty else {
             print("❌ ERROR: No hay productos en el carrito para realizar el pedido.")
             return
         }
 
-        // 🔹 Calcular el precio total del pedido
-        let precioTotal = perfil.carrito.reduce(0) { $0 + ($1.licores.first?.precio ?? 0) * Float($1.cantidad) }
-        
-        // 🔹 Crear el nuevo pedido
-        let nuevoPedido = Pedido(
-            id: (perfil.pedidos.map { $0.id }.max() ?? 0) + 1, // Generar ID basado en el máximo actual
-            licores: perfil.carrito.flatMap { $0.licores }, // Extraer licores del carrito
-            estado: "Realizado",
-            fecha: obtenerFechaActual(),
-            precioTotal: precioTotal
-        )
+        let precioTotal = perfil.carrito.reduce(0) { total, item in
+            total + item.licores.reduce(0) { subtotal, licor in
+                subtotal + (licor.precio * Float(item.cantidad))
+            }
+        }
 
-        // 🔹 Agregar pedido y vaciar carrito
-        perfiles[perfilIndex].pedidos.append(nuevoPedido)
-        perfiles[perfilIndex].carrito.removeAll()
-        perfilActual = perfiles[perfilIndex]
-        
-        print("✅ Pedido realizado con éxito: \(nuevoPedido.id)")
+        let nuevoID = (perfil.pedidos.map { $0.id }.max() ?? 0) + 1
+        let nuevoPedido = Pedido(id: nuevoID, licores: perfil.carrito.flatMap { $0.licores }, estado: "Realizado", fecha: obtenerFechaActual(), precioTotal: precioTotal)
+
+        perfil.pedidos.append(nuevoPedido)
+
+        // **Vaciar carrito**
+        perfil.carrito.removeAll()
+
+        // **Actualizar perfil en la lista y en `perfilActual`**
+        perfiles[perfilIndex] = perfil
+        perfilActual = perfil
+
         salvarJSON()
     }
 
+
+
     // ✅ Guardar JSON
-    func salvarJSON() {
-        let fileURL = obtenerURLArchivo()
-        do {
-            let encoder = JSONEncoder()
-            encoder.outputFormatting = .prettyPrinted
-            let data = try encoder.encode(["perfiles": perfiles])
-            
-            try data.write(to: fileURL, options: .atomicWrite)
-            print("✅ JSON guardado correctamente en: \(fileURL.path)")
-        } catch {
-            print("❌ ERROR al guardar el JSON: \(error)")
-        }
-    }
+//    func salvarJSON() {
+//        let fileURL = obtenerURLArchivo()
+//        do {
+//            let encoder = JSONEncoder()
+//            encoder.outputFormatting = .prettyPrinted
+//            let data = try encoder.encode(["perfiles": perfiles])
+//            
+//            try data.write(to: fileURL, options: .atomicWrite)
+//            print("✅ JSON guardado correctamente en: \(fileURL.path)")
+//        } catch {
+//            print("❌ ERROR al guardar el JSON: \(error)")
+//        }
+//    }
 
     // ✅ Obtener la fecha actual en formato "dd/MM/yyyy"
     private func obtenerFechaActual() -> String {
@@ -182,7 +207,87 @@ class GestorDatos: ObservableObject {
     }
 
     // ✅ Obtener la URL del JSON
+//    private func obtenerURLArchivo() -> URL {
+//        return Bundle.main.url(forResource: "BBDD", withExtension: "json")!
+//    }
     private func obtenerURLArchivo() -> URL {
-        return URL(fileURLWithPath: "/Users/apuma/PI_puma_bodega/ios_grupo03/ios_grupo03/DatosJson/BBDD.json")
-    }
+            let fileManager = FileManager.default
+            let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+            return directory.appendingPathComponent("BBDD.json")
+        }
+
+        // ✅ Cargar perfiles desde JSON
+        func cargarPerfiles() {
+            let url = obtenerURLArchivo()
+            
+            guard FileManager.default.fileExists(atPath: url.path) else {
+                print("❌ ERROR: No se encontró el archivo JSON de perfiles")
+                return
+            }
+            
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let jsonCompleto = try decoder.decode([String: [Perfil]].self, from: data)
+                
+                DispatchQueue.main.async {
+                    self.perfiles = jsonCompleto["perfiles"] ?? []
+                }
+            } catch {
+                print("❌ ERROR al cargar el JSON de perfiles: \(error)")
+            }
+        }
+
+        // ✅ Guardar JSON en Document Directory
+        func salvarJSON() {
+            let fileURL = obtenerURLArchivo()
+            do {
+                let encoder = JSONEncoder()
+                encoder.outputFormatting = .prettyPrinted
+                let data = try encoder.encode(["perfiles": perfiles])
+                
+                try data.write(to: fileURL, options: .atomicWrite)
+                print("✅ JSON guardado correctamente en: \(fileURL.path)")
+            } catch {
+                print("❌ ERROR al guardar el JSON: \(error)")
+            }
+        }
+
+        // ✅ Copiar el JSON del bundle a Document Directory si no existe
+        private func copiarJSONSiNoExiste() {
+            let fileManager = FileManager.default
+            let destinoURL = obtenerURLArchivo()
+
+            if !fileManager.fileExists(atPath: destinoURL.path) {
+                if let origenURL = Bundle.main.url(forResource: "BBDD", withExtension: "json") {
+                    do {
+                        try fileManager.copyItem(at: origenURL, to: destinoURL)
+                        print("✅ Archivo JSON copiado a Document Directory")
+                    } catch {
+                        print("❌ ERROR al copiar el JSON: \(error)")
+                    }
+                } else {
+                    print("❌ ERROR: No se encontró el JSON en el Bundle")
+                }
+            }
+        }
+        
+    // ✅ Permitir editar perfil y guardar cambios
+        func actualizarPerfil(email: String, direccion: String, tarjeta: String) {
+            guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else {
+                print("❌ ERROR: No se encontró el perfil")
+                return
+            }
+            
+            perfiles[perfilIndex].email = email
+            perfiles[perfilIndex].direccion = direccion
+            perfiles[perfilIndex].tarjeta = tarjeta
+            perfilActual = perfiles[perfilIndex]
+            salvarJSON()
+        }
+        // ✅ Llamar a la copia en la inicialización
+        init() {
+            copiarJSONSiNoExiste()
+            cargarPerfiles()
+        }
 }

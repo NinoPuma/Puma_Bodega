@@ -4,45 +4,34 @@ struct InfoLicor: View {
     @ObservedObject var gestorDatos: GestorDatos
     var licor: Licor
     @State private var cantidad = 1
+    @State private var mostrarPopup = false
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 25) {
-                // Imagen destacada
+        ZStack {
+            VStack(spacing: 20) {
+                Text(licor.nombre)
+                    .font(.title)
+                    .bold()
+                    .multilineTextAlignment(.center)
+                
                 Image(licor.imagen)
                     .resizable()
-                    .scaledToFit()
-                    .frame(height: 250)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .shadow(radius: 10)
-                    .padding(.horizontal)
-                    .padding(.top, 20)
+                    .frame(width: 150, height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .shadow(radius: 5)
                 
-                // Nombre del licor
-                Text(licor.nombre)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-                    .foregroundColor(.primary)
-                    .shadow(radius: 2)
-                
-                // Descripción estilizada
                 Text(licor.descripcion)
                     .font(.body)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, 30)
+                    .padding()
                 
-                // Precio destacado
                 Text(String(format: "$%.2f", licor.precio))
-                    .font(.title)
+                    .font(.title2)
                     .bold()
                     .foregroundColor(Color("vinoTinto"))
-                    .padding(.top, 5)
-                    .shadow(radius: 2)
+                    .padding(.bottom, 10)
                 
-                // Selector de cantidad con diseño mejorado
                 HStack {
                     Text("Cantidad:")
                         .font(.headline)
@@ -55,45 +44,55 @@ struct InfoLicor: View {
                     }
                 }
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray6)))
-                .shadow(radius: 3)
-                .padding(.horizontal)
+                .background(RoundedRectangle(cornerRadius: 12).fill(Color(.systemGray6)))
                 
-                // Total calculado con un diseño llamativo
                 Text("Total: \(String(format: "$%.2f", licor.precio * Float(cantidad)))")
-                    .font(.title2)
+                    .font(.title3)
                     .bold()
-                    .foregroundColor(.green)
                     .padding(.top, 5)
-                    .shadow(radius: 2)
+                    .foregroundColor(.green)
                 
-                // Botón de agregar al carrito con efecto de profundidad
                 Button(action: {
                     for _ in 1...cantidad {
                         gestorDatos.agregarAlCarrito(licor: licor)
                     }
                     cantidad = 1
+                    withAnimation {
+                        mostrarPopup = true
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        withAnimation {
+                            mostrarPopup = false
+                        }
+                    }
                 }) {
                     Text("Agregar al Carrito")
-                        .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
+                        .background(Color.blue)
                         .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                        .shadow(radius: 6)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.white.opacity(0.5), lineWidth: 1)
-                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 20)
+                .padding()
+
+                Spacer()
             }
             .padding()
+            .navigationTitle("Detalles del Licor")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .tabBar)
+
+            if mostrarPopup {
+                VStack {
+                    Text("¡Añadido al carrito! 🛒")
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.black.opacity(0.75))
+                        .cornerRadius(12)
+                }
+                .transition(.opacity)
+                .zIndex(1)
+            }
         }
-        .navigationTitle("Detalles del Licor")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar(.hidden, for: .tabBar)
     }
 }

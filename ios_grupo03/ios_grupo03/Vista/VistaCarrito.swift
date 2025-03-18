@@ -6,25 +6,27 @@ struct VistaCarrito: View {
     var body: some View {
         NavigationStack {
             VStack {
-                // Título estilizado
                 Text("Carrito de Compras")
                     .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .bold()
                     .padding()
                 
                 if let carrito = gestorDatos.perfilActual?.carrito, !carrito.isEmpty {
+                    Text("Desliza a la izquierda para eliminar del carrito")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+                        .padding(.bottom, 5)
+
                     List {
-                        ForEach(carrito.indices, id: \.self) { index in
-                            let item = carrito[index]
+                        ForEach(carrito, id: \.licores.first?.nombre) { item in
                             HStack {
                                 Image(item.licores.first?.imagen ?? "placeholder")
                                     .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 60)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    .shadow(radius: 3)
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(RoundedRectangle(cornerRadius: 8))
                                 
-                                VStack(alignment: .leading, spacing: 5) {
+                                VStack(alignment: .leading) {
                                     Text(item.licores.first?.nombre ?? "Sin nombre")
                                         .font(.headline)
                                     Text("Cantidad: \(item.cantidad)")
@@ -32,29 +34,36 @@ struct VistaCarrito: View {
                                         .foregroundColor(.gray)
                                 }
                                 Spacer()
-                                Text(String(format: "%.2f €", item.licores.first?.precio ?? 0))
+                                Text(String(format: "%.2f €", (item.licores.first?.precio ?? 0) * Float(item.cantidad)))
                                     .font(.headline)
-                                    .foregroundColor(.green)
                             }
                         }
                         .onDelete(perform: gestorDatos.eliminarLicor)
                     }
                 } else {
-                    VStack {
-                        Image(systemName: "cart.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .foregroundColor(.gray)
-                        Text("El carrito está vacío")
-                            .foregroundColor(.gray)
-                            .font(.headline)
-                            .padding()
-                    }
+                    Text("El carrito está vacío")
+                        .foregroundColor(.gray)
+                        .padding()
                 }
                 
                 Spacer()
                 
+                VStack {
+                    Text("Total a pagar")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                    Text("\(String(format: "%.2f €", gestorDatos.calcularTotalCarrito()))")
+                        .font(.title)
+                        .bold()
+                        .foregroundColor(.white)
+                }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.black)
+                .cornerRadius(15)
+                .shadow(radius: 5)
+                .padding(.horizontal)
+
                 Button(action: {
                     gestorDatos.realizarPedido()
                 }) {
@@ -62,10 +71,9 @@ struct VistaCarrito: View {
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.blue]), startPoint: .leading, endPoint: .trailing))
+                        .background(Color.blue)
                         .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .shadow(radius: 4)
+                        .cornerRadius(10)
                         .padding(.horizontal)
                 }
             }

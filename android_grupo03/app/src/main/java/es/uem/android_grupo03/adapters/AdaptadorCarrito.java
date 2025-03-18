@@ -11,22 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.List;
 
 import es.uem.android_grupo03.R;
-import es.uem.android_grupo03.models.CarritoModelo;
 import es.uem.android_grupo03.models.LicorModelo;
 
 public class AdaptadorCarrito extends RecyclerView.Adapter<AdaptadorCarrito.ViewHolder> {
     private Context context;
-    private CarritoModelo carrito;
-    private List<Map.Entry<LicorModelo, Integer>> licoresEnCarrito;
+    private List<LicorModelo> licoresEnCarrito;
+    private List<Integer> cantidades; // Nueva lista para almacenar cantidades
 
-    public AdaptadorCarrito(Context context, CarritoModelo carrito) {
+    public AdaptadorCarrito(Context context) {
         this.context = context;
-        this.carrito = carrito;
-        this.licoresEnCarrito = new ArrayList<>(carrito.getLicores().entrySet());
+        this.licoresEnCarrito = new ArrayList<>();
+        this.cantidades = new ArrayList<>();
     }
 
     @NonNull
@@ -38,19 +36,18 @@ public class AdaptadorCarrito extends RecyclerView.Adapter<AdaptadorCarrito.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Map.Entry<LicorModelo, Integer> entry = licoresEnCarrito.get(position);
-        LicorModelo licor = entry.getKey();
-        int cantidad = entry.getValue();
+        LicorModelo licor = licoresEnCarrito.get(position);
+        int cantidad = cantidades.get(position);
 
         holder.nombre.setText(licor.getNombre());
         holder.precio.setText("$" + licor.getPrecio());
-        holder.cantidad.setText(String.valueOf(cantidad));
+        holder.cantidad.setText("Cantidad: " + cantidad);
 
         // Cargar imagen desde recursos si es necesario
         int imagenRes = getDrawableResourceId(licor.getImagen());
-        if (imagenRes != 0) { // Si se encuentra el recurso
+        if (imagenRes != 0) {
             holder.imagen.setImageResource(imagenRes);
-        } else { // Si no se encuentra, usa una imagen por defecto
+        } else {
             holder.imagen.setImageResource(R.drawable.whiskey_generico);
         }
     }
@@ -66,7 +63,7 @@ public class AdaptadorCarrito extends RecyclerView.Adapter<AdaptadorCarrito.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nombre, precio, cantidad;
-        ImageView imagen, btnSumar, btnRestar;
+        ImageView imagen;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,9 +71,13 @@ public class AdaptadorCarrito extends RecyclerView.Adapter<AdaptadorCarrito.View
             precio = itemView.findViewById(R.id.tvPrecioCarrito);
             cantidad = itemView.findViewById(R.id.tvCantidad);
             imagen = itemView.findViewById(R.id.ivCarrito);
-            btnSumar = itemView.findViewById(R.id.btnSumar);
-            btnRestar = itemView.findViewById(R.id.btnRestar);
         }
     }
-}
 
+    // 👇🏽 ACTUALIZAR LA LISTA CUANDO SE MODIFIQUE EL CARRITO
+    public void actualizarCarrito(List<LicorModelo> nuevosLicores, List<Integer> nuevasCantidades) {
+        this.licoresEnCarrito = nuevosLicores;
+        this.cantidades = nuevasCantidades;
+        notifyDataSetChanged();  // 👈 REFRESCAR UI
+    }
+}

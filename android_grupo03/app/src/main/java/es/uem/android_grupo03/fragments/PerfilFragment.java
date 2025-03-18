@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,16 +23,28 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import es.uem.android_grupo03.MainActivity;
 import es.uem.android_grupo03.R;
 
 public class PerfilFragment extends Fragment {
 
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView fotoPerfil;
-    private EditText editarNombreUsuario, editarDireccion;
+    private EditText editarNombreUsuario, editarDireccion, editarCodigoPostal;
     private TextView cargarCorreo;
     private Switch toggleNewsletter;
-    private ActivityResultLauncher<Intent> cameraLauncher;
+    private Button botonGuardarCambios, botonCerrarSesion;
+
+    private ActivityResultLauncher<Void> cameraLauncher;
+    private ActivityResultLauncher<String> requestCameraPermissionLauncher;
+
+    private FirebaseAuth auth;
+    private DatabaseReference userRef;
+    private FirebaseUser currentUser;
 
     @Nullable
     @Override
@@ -44,60 +55,99 @@ public class PerfilFragment extends Fragment {
         fotoPerfil = view.findViewById(R.id.fotoPerfil);
         editarNombreUsuario = view.findViewById(R.id.editarNombreUsuario);
         editarDireccion = view.findViewById(R.id.editarDireccion);
+        editarCodigoPostal = view.findViewById(R.id.editarCodigoPostal);
         cargarCorreo = view.findViewById(R.id.cargarCorreo);
-        Button botonFoto = view.findViewById(R.id.botonFoto);
-        Button botonGuardarCambios = view.findViewById(R.id.botonGuardarCambios);
-        Button botonCerrarSesion = view.findViewById(R.id.botonCerrarSesion);
+        botonGuardarCambios = view.findViewById(R.id.botonGuardarCambios);
+        botonCerrarSesion = view.findViewById(R.id.botonCerrarSesion);
 
-        // Inicializar el ActivityResultLauncher para la cámara
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+
+        if (currentUser != null) {
+            userRef = FirebaseDatabase.getInstance().getReference("perfiles").child(currentUser.getUid());
+            cargarDatosPerfil();
+        } else {
+            Toast.makeText(requireContext(), "Error: Usuario no autenticado", Toast.LENGTH_SHORT).show();
+            cerrarSesion();
+        }
+
+        // Inicializar el lanzador de la cámara
         cameraLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        if (data != null && data.getExtras() != null) {
-                            Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                            fotoPerfil.setImageBitmap(imageBitmap);
-                        }
+                new ActivityResultContracts.TakePicturePreview(),
+                bitmap -> {
+                    if (bitmap != null) {
+                        fotoPerfil.setImageBitmap(bitmap);
                     }
                 });
 
-        // Botón para cambiar foto (Abrir Cámara)
-        botonFoto.setOnClickListener(v -> solicitarPermisoCamara());
+        requestCameraPermissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                isGranted -> {
+                    if (isGranted) {
+                        abrirCamara();
+                    } else {
+                        Toast.makeText(requireContext(), "Permiso de cámara denegado", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        botonGuardarCambios.setOnClickListener(v -> guardarCambiosPerfil());
+        botonCerrarSesion.setOnClickListener(v -> cerrarSesion());
 
         return view;
     }
 
-    // Método para solicitar permisos antes de abrir la cámara
+    private void cargarDatosPerfil() {
+        userRef.get().addOnSuccessListener(dataSnapshot -> {
+            if (dataSnapshot.exists()) {
+                String nombre = dataSnapshot.child("nombre").getValue(String.class);
+                String direccion = dataSnapshot.child("direccion").getValue(String.class);
+                String codigoPostal = dataSnapshot.child("codigoPostal").getValue(String.class);
+                String email = dataSnapshot.child("email").getValue(String.class);
+
+                editarNombreUsuario.setText(nombre != null ? nombre : "");
+                editarDireccion.setText(direccion != null ? direccion : "");
+                editarCodigoPostal.setText(codigoPostal != null ? codigoPostal : "");
+                cargarCorreo.setText(email != null ? email : "Correo no disponible");
+            }
+        }).addOnFailureListener(e ->
+                Toast.makeText(requireContext(), "Error al cargar perfil", Toast.LENGTH_SHORT).show());
+    }
+
+    private void guardarCambiosPerfil() {
+        String nuevoNombre = editarNombreUsuario.getText().toString().trim();
+        String nuevaDireccion = editarDireccion.getText().toString().trim();
+        String nuevoCodigoPostal = editarCodigoPostal.getText().toString().trim();
+
+        if (nuevoNombre.isEmpty() || nuevaDireccion.isEmpty() || nuevoCodigoPostal.isEmpty()) {
+            Toast.makeText(requireContext(), "Todos los campos deben estar completos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        userRef.child("nombre").setValue(nuevoNombre);
+        userRef.child("direccion").setValue(nuevaDireccion);
+        userRef.child("codigoPostal").setValue(nuevoCodigoPostal)
+                .addOnSuccessListener(aVoid ->
+                        Toast.makeText(requireContext(), "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e ->
+                        Toast.makeText(requireContext(), "Error al actualizar perfil", Toast.LENGTH_SHORT).show());
+    }
+
+    private void cerrarSesion() {
+        auth.signOut();
+        startActivity(new Intent(requireContext(), MainActivity.class));
+        requireActivity().finish();
+    }
+
     private void solicitarPermisoCamara() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_IMAGE_CAPTURE);
+            requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA);
         } else {
             abrirCamara();
         }
     }
 
-    // Método para abrir la cámara
     private void abrirCamara() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
-            cameraLauncher.launch(intent);
-        } else {
-            Toast.makeText(getActivity(), "No se puede abrir la cámara", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    // Manejar la respuesta de la solicitud de permisos
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                abrirCamara();
-            } else {
-                Toast.makeText(getActivity(), "Permiso de cámara denegado", Toast.LENGTH_SHORT).show();
-            }
-        }
+        cameraLauncher.launch(null);
     }
 }

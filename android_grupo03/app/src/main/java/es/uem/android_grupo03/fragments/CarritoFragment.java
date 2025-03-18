@@ -21,7 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import es.uem.android_grupo03.R;
@@ -50,11 +52,11 @@ public class CarritoFragment extends Fragment {
         FirebaseUser currentUser = auth.getCurrentUser();
 
         carritoModelo = new CarritoModelo();
-        adaptadorCarrito = new AdaptadorCarrito(getContext(), carritoModelo);
+        adaptadorCarrito = new AdaptadorCarrito(getContext());
         recyclerView.setAdapter(adaptadorCarrito);
 
         if (currentUser != null) {
-            cargarCarritoUsuario(currentUser.getEmail());
+            cargarCarritoUsuario(currentUser.getUid());
         } else {
             Toast.makeText(getContext(), "Usuario no autenticado", Toast.LENGTH_SHORT).show();
         }
@@ -64,25 +66,32 @@ public class CarritoFragment extends Fragment {
         return view;
     }
 
-    private void cargarCarritoUsuario(String emailUsuario) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("perfiles");
+    private void cargarCarritoUsuario(String userId) {
+        databaseReference = FirebaseDatabase.getInstance().getReference("perfiles").child(userId).child("carrito");
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                carritoModelo.getLicores().clear();
-                for (DataSnapshot perfilSnapshot : snapshot.getChildren()) {
-                    String email = perfilSnapshot.child("email").getValue(String.class);
-                    if (email != null && email.equals(emailUsuario)) {
-                        DataSnapshot carritoSnapshot = perfilSnapshot.child("carrito");
-                        for (DataSnapshot itemCarrito : carritoSnapshot.getChildren()) {
-                            LicorModelo licor = itemCarrito.child("licor").getValue(LicorModelo.class);
-                            int cantidad = itemCarrito.child("cantidad").getValue(Integer.class);
-                            carritoModelo.agregarLicor(licor, cantidad);
-                        }
+                List<LicorModelo> nuevosLicores = new ArrayList<>();
+                List<Integer> nuevasCantidades = new ArrayList<>();
+
+                carritoModelo.vaciarCarrito(); // 💡 Limpiar antes de actualizar
+
+                for (DataSnapshot itemCarrito : snapshot.getChildren()) {
+                    LicorModelo licor = itemCarrito.child("licor").getValue(LicorModelo.class);
+                    Long cantidadLong = itemCarrito.child("cantidad").getValue(Long.class);
+                    int cantidad = (cantidadLong != null) ? cantidadLong.intValue() : 1;
+
+                    if (licor != null) {
+                        nuevosLicores.add(licor);
+                        nuevasCantidades.add(cantidad);
+
+                        // 💡 Ahora agregamos los productos a `carritoModelo`
+                        carritoModelo.agregarLicor(licor, cantidad);
                     }
                 }
-                adaptadorCarrito.notifyDataSetChanged();
+
+                adaptadorCarrito.actualizarCarrito(nuevosLicores, nuevasCantidades);
             }
 
             @Override
@@ -92,30 +101,56 @@ public class CarritoFragment extends Fragment {
         });
     }
 
+
+
     private void realizarPedido() {
-        if (carritoModelo.getLicores().isEmpty()) {
+        if (carritoModelo == null || carritoModelo.getLicores() == null || carritoModelo.getLicores().isEmpty()) {
             Toast.makeText(getContext(), "El carrito está vacío", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        DatabaseReference pedidosRef = FirebaseDatabase.getInstance().getReference("pedidos");
         FirebaseUser currentUser = auth.getCurrentUser();
-
         if (currentUser != null) {
             String userId = currentUser.getUid();
-            Map<String, Object> pedidoData = new HashMap<>();
-            pedidoData.put("usuarioId", userId);
-            pedidoData.put("licores", carritoModelo.getLicores());
-            pedidoData.put("estado", "Pendiente");
 
-            pedidosRef.push().setValue(pedidoData)
+            // Guardar dentro de "perfiles/{usuarioId}/pedidos"
+            DatabaseReference pedidosRef = FirebaseDatabase.getInstance()
+                    .getReference("perfiles")
+                    .child(userId)
+                    .child("pedidos");
+
+            String pedidoId = pedidosRef.push().getKey(); // Genera un ID único para el pedido
+
+            Map<String, Object> pedidoData = new HashMap<>();
+            pedidoData.put("estado", "Pendiente");
+            pedidoData.put("licores", carritoModelo.getLicores());
+            pedidoData.put("timestamp", System.currentTimeMillis());
+
+            pedidosRef.child(pedidoId).setValue(pedidoData)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(getContext(), "Pedido realizado con éxito", Toast.LENGTH_SHORT).show();
-                        carritoModelo.vaciarCarrito();
-                        adaptadorCarrito.notifyDataSetChanged();
+                        vaciarCarrito();
                     })
                     .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al realizar pedido", Toast.LENGTH_SHORT).show());
         }
     }
-}
 
+
+
+
+    // Vaciar el carrito después de realizar el pedido
+    private void vaciarCarrito() {
+        DatabaseReference carritoRef = FirebaseDatabase.getInstance()
+                .getReference("perfiles")
+                .child(auth.getCurrentUser().getUid())
+                .child("carrito");
+
+        carritoRef.removeValue()
+                .addOnSuccessListener(aVoid -> {
+                    carritoModelo.getLicores().clear();
+                    adaptadorCarrito.actualizarCarrito(new ArrayList<>(), new ArrayList<>());
+                })
+                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al vaciar el carrito", Toast.LENGTH_SHORT).show());
+    }
+
+}

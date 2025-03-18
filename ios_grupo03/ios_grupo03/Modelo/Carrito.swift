@@ -7,5 +7,4 @@
 struct Carrito: Codable{
     var licores: [Licor]
     var cantidad: Int    // 🔹 Mantiene la clave "cantidad"
-
     }

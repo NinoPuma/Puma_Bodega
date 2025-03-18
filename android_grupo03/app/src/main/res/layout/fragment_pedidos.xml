@@ -2,13 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="#FFFFFF">
+    android:padding="8dp">
 
+    <!-- Título en la parte superior -->
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tituloPedidos"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bienvenido a la sección de Pedidos"
-        android:textSize="18sp" />
+        android:background="@color/black"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Historial de Pedidos"
+        android:textColor="@android:color/white"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- Mensaje cuando no hay pedidos -->
+    <TextView
+        android:id="@+id/tvSinPedidos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No tienes pedidos anteriores."
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"/> <!-- Se oculta hasta que se necesite -->
+
+    <!-- RecyclerView para mostrar los pedidos -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_pedidos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:visibility="visible"/>
+
 </LinearLayout>

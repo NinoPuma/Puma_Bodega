@@ -1,75 +1,91 @@
 import SwiftUI
 
 struct VistaPerfil: View {
-    @ObservedObject var gestorDatos: GestorDatos // 🔹 Solo necesita `gestorDatos`
-
+    @ObservedObject var gestorDatos: GestorDatos
+    @State private var email: String = ""
+    @State private var direccion: String = ""
+    @State private var tarjeta: String = ""
+    
     var body: some View {
         VStack(spacing: 20) {
-            if let perfil = gestorDatos.perfilActual { // 🔹 Usar `perfilActual`
-                VStack(spacing: 15) {
-                    // Imagen de perfil
-                    Image(systemName: "person.crop.circle.fill")
+            if let perfil = gestorDatos.perfilActual {
+                VStack {
+                    Image(systemName: "person.circle.fill")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 100, height: 100)
-                        .foregroundColor(.blue)
-                        .padding(.top)
+                        .foregroundColor(.gray)
+                        .padding(.top, 20)
                     
-                    Text("Perfil de Usuario")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .padding(.bottom, 5)
+                    Text("Datos de Usuario")
+                        .font(.title)
+                        .bold()
+                        .padding(.bottom, 10)
+                }
+                
+                VStack(spacing: 12) {
+                    perfilItem(titulo: "Nombre", valor: perfil.nombre)
+                    TextField("Email", text: $email)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
                     
-                    VStack(alignment: .leading, spacing: 15) {
-                        InfoRow(icon: "person.fill", label: "Nombre", value: perfil.nombre)
-                        InfoRow(icon: "envelope.fill", label: "Email", value: perfil.email)
-                        InfoRow(icon: "house.fill", label: "Dirección", value: perfil.direccion)
-                        InfoRow(icon: "creditcard.fill", label: "Tarjeta", value: perfil.tarjeta, color: .gray)
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray6)))
-                    .shadow(radius: 5)
-                    .padding(.horizontal)
+                    TextField("Dirección", text: $direccion)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                    
+                    TextField("Tarjeta", text: $tarjeta)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                }
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 12)
+                                .fill(Color(.systemBackground))
+                                .shadow(radius: 5))
+                .padding()
+                
+                Button(action: {
+                    gestorDatos.actualizarPerfil(email: email, direccion: direccion, tarjeta: tarjeta)
+                }) {
+                    Text("Guardar Cambios")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
                 }
             } else {
                 VStack {
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .gray))
-                        .scaleEffect(1.5)
                     Text("Cargando perfil...")
                         .font(.headline)
                         .foregroundColor(.gray)
-                        .padding(.top, 8)
                 }
             }
         }
         .padding()
         .navigationTitle("Perfil")
         .onAppear {
-            if gestorDatos.perfilActual == nil {
-                gestorDatos.cargarPerfil(nombre: gestorDatos.perfilActual?.nombre ?? "") // 🔹 Cargar el perfil autenticado
+            if let perfil = gestorDatos.perfilActual {
+                email = perfil.email
+                direccion = perfil.direccion
+                tarjeta = perfil.tarjeta
             }
         }
     }
-}
-
-// Componente reutilizable para mostrar cada fila de información
-struct InfoRow: View {
-    var icon: String
-    var label: String
-    var value: String
-    var color: Color = .primary
     
-    var body: some View {
+    private func perfilItem(titulo: String, valor: String) -> some View {
         HStack {
-            Image(systemName: icon)
-                .foregroundColor(.blue)
-            Text("\(label):")
+            Text(titulo + ":")
                 .bold()
-            Text(value)
-                .foregroundColor(color)
+                .foregroundColor(.primary)
             Spacer()
+            Text(valor)
+                .foregroundColor(.secondary)
         }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 10)
+                        .fill(Color(.systemGray6)))
     }
 }

@@ -35,5 +35,5 @@ struct Inicio: View {
 }
 
 #Preview {
-    Inicio(gestorDatos: GestorDatos()) // 🔹 Se pasa una instancia para la vista previa
+    Inicio(gestorDatos: GestorDatos())
 }
