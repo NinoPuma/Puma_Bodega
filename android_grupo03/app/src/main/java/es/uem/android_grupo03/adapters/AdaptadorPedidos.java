@@ -1,7 +1,6 @@
 package es.uem.android_grupo03.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import es.uem.android_grupo03.PedidoDetalleActivity;
 import es.uem.android_grupo03.R;
 import es.uem.android_grupo03.models.PedidoModelo;
 
@@ -68,13 +66,6 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.View
         }
 
         holder.totalPedido.setText("Total: $" + String.format(Locale.US, "%.2f", totalPedido));
-
-        // Manejo del clic para abrir detalles
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, PedidoDetalleActivity.class);
-            intent.putExtra("pedido", pedido);
-            context.startActivity(intent);
-        });
     }
 
     @Override

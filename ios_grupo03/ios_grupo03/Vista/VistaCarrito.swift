@@ -12,9 +12,14 @@ struct VistaCarrito: View {
                     .padding()
                 
                 if let carrito = gestorDatos.perfilActual?.carrito, !carrito.isEmpty {
+                    Text("Desliza a la izquierda para eliminar del carrito")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+                        .padding(.bottom, 5)
+
                     List {
-                        ForEach(carrito.indices, id: \.self) { index in
-                            let item = carrito[index]
+                        ForEach(carrito, id: \.licores.first?.nombre) { item in
                             HStack {
                                 Image(item.licores.first?.imagen ?? "placeholder")
                                     .resizable()
@@ -29,7 +34,7 @@ struct VistaCarrito: View {
                                         .foregroundColor(.gray)
                                 }
                                 Spacer()
-                                Text(String(format: "%.2f €", item.licores.first?.precio ?? 0))
+                                Text(String(format: "%.2f €", (item.licores.first?.precio ?? 0) * Float(item.cantidad)))
                                     .font(.headline)
                             }
                         }
@@ -43,6 +48,22 @@ struct VistaCarrito: View {
                 
                 Spacer()
                 
+                VStack {
+                    Text("Total a pagar")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                    Text("\(String(format: "%.2f €", gestorDatos.calcularTotalCarrito()))")
+                        .font(.title)
+                        .bold()
+                        .foregroundColor(.white)
+                }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.black)
+                .cornerRadius(15)
+                .shadow(radius: 5)
+                .padding(.horizontal)
+
                 Button(action: {
                     gestorDatos.realizarPedido()
                 }) {
@@ -50,7 +71,7 @@ struct VistaCarrito: View {
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green)
+                        .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         .padding(.horizontal)
