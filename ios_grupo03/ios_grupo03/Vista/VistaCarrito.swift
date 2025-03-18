@@ -12,6 +12,12 @@ struct VistaCarrito: View {
                     .padding()
                 
                 if let carrito = gestorDatos.perfilActual?.carrito, !carrito.isEmpty {
+                    Text("Desliza a la izquierda para eliminar del carrito")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal)
+                        .padding(.bottom, 5)
+
                     List {
                         ForEach(carrito, id: \.licores.first?.nombre) { item in
                             HStack {
@@ -53,7 +59,7 @@ struct VistaCarrito: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(Color.blue)
+                .background(Color.black)
                 .cornerRadius(15)
                 .shadow(radius: 5)
                 .padding(.horizontal)
@@ -65,7 +71,7 @@ struct VistaCarrito: View {
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green)
+                        .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         .padding(.horizontal)

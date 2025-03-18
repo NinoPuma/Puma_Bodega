@@ -17,7 +17,7 @@ struct VistaPerfil: View {
                         .foregroundColor(.gray)
                         .padding(.top, 20)
                     
-                    Text("Perfil de Usuario")
+                    Text("Datos de Usuario")
                         .font(.title)
                         .bold()
                         .padding(.bottom, 10)

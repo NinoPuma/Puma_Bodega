@@ -4,7 +4,7 @@
     "tipo": "Whiskey",
     "nombre": "Johnnie Walker Black Label",
     "precio": 45.99,
-    "imagen": "whiskey_image",
+    "imagen": "Whiskey_Blacklabel",
     "descripcion": "Un whisky escocés de 12 años con un sabor suave y equilibrado."
   },
   {
@@ -102,5 +102,77 @@
     "precio": 20.99,
     "imagen": "Whiskey_Generico",
     "descripcion": "Un whisky accesible con un sabor equilibrado."
-  }
+  },
+  {
+      "id": 216,
+      "tipo": "Vodka",
+      "nombre": "Absolut",
+      "precio": 19.99,
+      "imagen": "Vodka_Absolut",
+      "descripcion": "Vodka sueco premium con sabor limpio y fresco."
+    },
+    {
+      "id": 217,
+      "tipo": "Vodka",
+      "nombre": "Bombay",
+      "precio": 22.50,
+      "imagen": "Vodka_Bombay",
+      "descripcion": "Vodka aromático con ligeras notas especiadas y cítricas."
+    },
+    {
+      "id": 218,
+      "tipo": "Vodka",
+      "nombre": "Genérico",
+      "precio": 15.00,
+      "imagen": "Vodka_Generico",
+      "descripcion": "Vodka clásico, suave y versátil ideal para cócteles."
+    },
+    {
+      "id": 219,
+      "tipo": "Vodka",
+      "nombre": "Grey Goose",
+      "precio": 29.99,
+      "imagen": "Vodka_Greygoose",
+      "descripcion": "Vodka francés de lujo con sabor sedoso y acabado elegante."
+    },
+    {
+      "id": 220,
+      "tipo": "Vodka",
+      "nombre": "Smirnoff",
+      "precio": 17.50,
+      "imagen": "Vodka_Smirnoff",
+      "descripcion": "Vodka popular y accesible conocido por su pureza y sabor neutro."
+    },
+    {
+        "id": 221,
+        "tipo": "Vino",
+        "nombre": "Blanco Adega",
+        "precio": 12.99,
+        "imagen": "Vino_Blancoadega",
+        "descripcion": "Vino blanco joven con notas frescas y afrutadas."
+      },
+      {
+        "id": 222,
+        "tipo": "Vino",
+        "nombre": "Blanco Valserrano",
+        "precio": 14.50,
+        "imagen": "Vino_blancovalserrano",
+        "descripcion": "Vino blanco seco con aromas florales y un sabor equilibrado."
+      },
+      {
+        "id": 223,
+        "tipo": "Vino",
+        "nombre": "Duquesa",
+        "precio": 16.75,
+        "imagen": "Vino_Duquesa",
+        "descripcion": "Vino tinto elegante y estructurado con matices de frutos rojos."
+      },
+      {
+        "id": 224,
+        "tipo": "Vino",
+        "nombre": "Genérico",
+        "precio": 10.00,
+        "imagen": "Vino_generico",
+        "descripcion": "Vino versátil, ideal para cualquier ocasión, con sabor suave y ligero."
+      }
 ]

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -26,8 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText emailField, passwordField;
     private Button loginButton, btnGoogle;
+    private TextView createAccount;
     private CheckBox termsCheckbox;
-    private FirebaseAuth auth; // Firebase Authentication
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,21 +45,18 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         btnGoogle = findViewById(R.id.btn_google);
         termsCheckbox = findViewById(R.id.termsCheckbox);
+        createAccount = findViewById(R.id.createAccount); // Botón de Crear Cuenta Nueva
 
         // Evento de clic para iniciar sesión con correo y contraseña
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarSesionConCorreo();
-            }
-        });
+        loginButton.setOnClickListener(v -> iniciarSesionConCorreo());
 
         // Evento de clic para iniciar sesión con Google
-        btnGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iniciarSesionConGoogle();
-            }
+        btnGoogle.setOnClickListener(v -> iniciarSesionConGoogle());
+
+        // Evento de clic para ir a la pantalla de registro
+        createAccount.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Registro.class);
+            startActivity(intent);
         });
     }
 
@@ -81,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Inicio de sesión exitoso
                         FirebaseUser user = auth.getCurrentUser();
                         Toast.makeText(this, "Bienvenido, " + user.getEmail(), Toast.LENGTH_SHORT).show();
 
@@ -90,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        // Error al iniciar sesión
                         Toast.makeText(this, "Error: Verifica tus credenciales", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -121,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
-            // Usuario autenticado correctamente con Google
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
             // Redirigir a la pantalla principal
@@ -129,12 +125,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            // Manejo de errores
-            if (response != null) {
+            if (response != null && response.getError() != null) {
                 int errorCode = response.getError().getErrorCode();
                 System.out.println("Error de autenticación: " + errorCode);
             }
         }
     }
 }
-

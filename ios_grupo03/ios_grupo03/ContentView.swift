@@ -7,13 +7,15 @@ let usuarios = [
 ]
 
 struct ContentView: View {
-    @StateObject private var gestorDatos = GestorDatos() // 🔹 Se crea aquí para mantenerlo en toda la app
+    @StateObject private var gestorDatos = GestorDatos()
 
     @State private var usr: String = ""
     @State private var pwd: String = ""
-    @State private var isOn: Bool = false
-    @State private var mostrarError: Bool = false
-    @State private var usuarioAutenticado: String? = nil // Guarda el usuario autenticado
+    @State private var aceptarTerminos: Bool = false
+    @State private var esMayorDeEdad: Bool = false
+    @State private var mostrarAlerta: Bool = false
+    @State private var mensajeAlerta: String = ""
+    @State private var usuarioAutenticado: String? = nil
 
     var body: some View {
         NavigationStack {
@@ -42,22 +44,39 @@ struct ContentView: View {
                     .cornerRadius(8)
                     .padding(.horizontal, 20)
 
-                HStack {
-                    Toggle("", isOn: $isOn)
-                        .labelsHidden()
-                    Text("Aceptar términos y condiciones")
-                        .font(.subheadline)
+                VStack(spacing: 10) {
+                    HStack {
+                        Toggle("", isOn: $aceptarTerminos)
+                            .labelsHidden()
+                        Text("Aceptar términos y condiciones")
+                            .font(.subheadline)
+                    }
+
+                    HStack {
+                        Toggle("", isOn: $esMayorDeEdad)
+                            .labelsHidden()
+                        Text("Confirmo que soy mayor de 18 años")
+                            .font(.subheadline)
+                    }
                 }
                 .padding(.horizontal, 20)
 
                 Button(action: {
-                    if autenticarUsuario(usuario: usr, contraseña: pwd) && isOn {
-                        usuarioAutenticado = usr // Guarda el usuario autenticado
-                        isOn = false
+                    if !esMayorDeEdad {
+                        mensajeAlerta = "No puedes acceder sin cumplir la mayoría de edad"
+                        mostrarAlerta = true
+                    } else if !aceptarTerminos {
+                        mensajeAlerta = "Debes aceptar términos y condiciones para acceder"
+                        mostrarAlerta = true
+                    } else if autenticarUsuario(usuario: usr, contraseña: pwd) {
+                        usuarioAutenticado = usr
+                        aceptarTerminos = false
+                        esMayorDeEdad = false
                         pwd = ""
                         usr = ""
                     } else {
-                        mostrarError = true
+                        mensajeAlerta = "Usuario o contraseña incorrectos"
+                        mostrarAlerta = true
                     }
                 }) {
                     Text("Iniciar Sesión")
@@ -70,20 +89,17 @@ struct ContentView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 100)
-
-                if mostrarError {
-                    Text("Usuario o contraseña incorrectos")
-                        .foregroundColor(.red)
-                        .padding()
-                }
             }
             .padding()
+            .alert(mensajeAlerta, isPresented: $mostrarAlerta) {
+                Button("OK", role: .cancel) { }
+            }
             .navigationDestination(isPresented: Binding(
                 get: { usuarioAutenticado != nil },
                 set: { if !$0 { usuarioAutenticado = nil } }
             )) {
                 if let usuario = usuarioAutenticado {
-                    VistaPrincipal(gestorDatos: gestorDatos, usuario: usuario) // 🔹 Pasamos gestorDatos
+                    VistaPrincipal(gestorDatos: gestorDatos, usuario: usuario)
                 }
             }
         }
