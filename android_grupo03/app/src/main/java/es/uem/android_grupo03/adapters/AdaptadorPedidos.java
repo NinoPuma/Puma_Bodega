@@ -1,7 +1,6 @@
 package es.uem.android_grupo03.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import es.uem.android_grupo03.PedidoDetalleActivity;
 import es.uem.android_grupo03.R;
 import es.uem.android_grupo03.models.PedidoModelo;
 
@@ -43,14 +41,15 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.View
         PedidoModelo pedido = listaPedidos.get(position);
 
         holder.estadoPedido.setText("Estado: " + Objects.requireNonNullElse(pedido.getEstado(), "Desconocido"));
+
+        // Vuelve a hacer visible la fecha
+        holder.fechaEntrega.setVisibility(View.VISIBLE);
         holder.fechaEntrega.setText("📅 Llega el " + convertirFecha(pedido.getTimestamp()));
 
-        // Limpiar la vista antes de agregar nuevos productos
         holder.contenedorProductos.removeAllViews();
 
         double totalPedido = 0.0;
 
-        // **Iterar sobre los productos del pedido**
         if (pedido.getLicores() != null) {
             for (PedidoModelo.LicorPedido licor : pedido.getLicores()) {
                 View productoView = LayoutInflater.from(context).inflate(R.layout.tarjet_bebida_pedido, holder.contenedorProductos, false);
@@ -60,28 +59,25 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.View
                 TextView precioProducto = productoView.findViewById(R.id.tvPrecioProducto);
                 ImageView imagenProducto = productoView.findViewById(R.id.ivProducto);
 
-                nombreProducto.setText(Objects.requireNonNullElse(licor.getNombre(), "Producto sin nombre"));
+                nombreProducto.setText(licor.getNombre());
                 cantidadProducto.setText("Cantidad: " + licor.getCantidad());
-                precioProducto.setText("$" + String.format(Locale.US, "%.2f", licor.getPrecio()));
 
-                // **Cargar imagen**
+                double precioCalculado = licor.getPrecio() * licor.getCantidad();
+                precioProducto.setText(String.format(Locale.US, "$%.2f", precioCalculado));
+
                 cargarImagenProducto(imagenProducto, licor.getImagen());
 
-                totalPedido += licor.getPrecio() * licor.getCantidad();
+                totalPedido += precioCalculado;
+
                 holder.contenedorProductos.addView(productoView);
             }
         }
 
-        // **Mostrar total**
         holder.totalPedido.setText("Total: $" + String.format(Locale.US, "%.2f", totalPedido));
 
-        // **Manejo del clic para abrir detalles del pedido**
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, PedidoDetalleActivity.class);
-            intent.putExtra("pedido", (CharSequence) pedido);
-            context.startActivity(intent);
-        });
+        holder.itemView.setOnClickListener(null);
     }
+
 
     @Override
     public int getItemCount() {
@@ -113,15 +109,7 @@ public class AdaptadorPedidos extends RecyclerView.Adapter<AdaptadorPedidos.View
     }
 
     private void cargarImagenProducto(ImageView imageView, String imagenNombre) {
-        if (imagenNombre != null && !imagenNombre.isEmpty()) {
-            int imagenRes = context.getResources().getIdentifier(imagenNombre, "drawable", context.getPackageName());
-            if (imagenRes != 0) {
-                imageView.setImageResource(imagenRes);
-            } else {
-                imageView.setImageResource(R.drawable.whiskey_generico);
-            }
-        } else {
-            imageView.setImageResource(R.drawable.whiskey_generico);
-        }
+        int imagenRes = context.getResources().getIdentifier(imagenNombre, "drawable", context.getPackageName());
+        imageView.setImageResource(imagenRes != 0 ? imagenRes : R.drawable.whiskey_generico);
     }
 }

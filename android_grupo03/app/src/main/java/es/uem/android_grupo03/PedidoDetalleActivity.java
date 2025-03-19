@@ -8,11 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import es.uem.android_grupo03.adapters.AdaptadorProductosPedido;
-import es.uem.android_grupo03.models.LicorModelo;
 import es.uem.android_grupo03.models.PedidoModelo;
 
 public class PedidoDetalleActivity extends AppCompatActivity {
@@ -38,28 +35,21 @@ public class PedidoDetalleActivity extends AppCompatActivity {
         // Recibir datos del intent
         PedidoModelo pedido = (PedidoModelo) getIntent().getSerializableExtra("pedido");
 
+
         if (pedido != null) {
             tvEstado.setText("Estado: " + pedido.getEstado());
             tvFecha.setText("📅 Fecha: " + convertirFecha(pedido.getTimestamp()));
-            tvTotal.setText("Total: $" + String.format(Locale.US, "%.2f", pedido.getPrecioTotal()));
 
-            // 🔥 Convertir LicorPedido a LicorModelo asegurando los tipos de datos correctos
-            List<LicorModelo> productos = new ArrayList<>();
-
-            for (PedidoModelo.LicorPedido licorPedido : pedido.getLicores()) {
-                LicorModelo licorModelo = new LicorModelo(
-                        licorPedido.getNombre(),
-                        licorPedido.getDescripcion() != null ? licorPedido.getDescripcion() : "Sin descripción",
-                        licorPedido.getImagen() != null ? licorPedido.getImagen() : "imagen_por_defecto",
-                        (float) licorPedido.getPrecio(),  // 🔥 Convertir double a float
-                        licorPedido.getTipo() != null ? licorPedido.getTipo() : "Desconocido",
-                        (int) licorPedido.getId()  // 🔥 Convertir long a int
-                );
-                productos.add(licorModelo);
+            // Calcular total desde los productos
+            double totalCalculado = 0.0;
+            for (PedidoModelo.LicorPedido licor : pedido.getLicores()) {
+                totalCalculado += licor.getPrecio() * licor.getCantidad();
             }
 
-            // Configurar el adaptador con la lista convertida
-            adaptadorProductos = new AdaptadorProductosPedido(this, productos);
+            tvTotal.setText("Total: $" + String.format(Locale.US, "%.2f", totalCalculado));
+
+            // Configurar el adaptador directamente con los datos originales (sin conversión innecesaria)
+            adaptadorProductos = new AdaptadorProductosPedido(this, pedido.getLicores());
             recyclerViewProductos.setAdapter(adaptadorProductos);
 
             // Botón para volver atrás
@@ -67,7 +57,7 @@ public class PedidoDetalleActivity extends AppCompatActivity {
         }
     }
 
-    // ✅ Método para convertir timestamp a fecha legible
+    // Método para convertir timestamp a fecha legible
     private String convertirFecha(long timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return sdf.format(new java.util.Date(timestamp));

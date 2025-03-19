@@ -1,149 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="8dp"
-    app:strokeColor="@color/dark_yellow"
     app:cardBackgroundColor="@color/white"
+    app:strokeColor="@color/dark_yellow"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp">
 
-        <!-- Estado del Pedido y Fecha de Entrega -->
+        <!-- Imagen -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/ivProducto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true" />
+        </androidx.cardview.widget.CardView>
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:gravity="center_vertical">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="12dp">
 
             <TextView
-                android:id="@+id/tvEstadoPedido"
+                android:id="@+id/tvNombreProducto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="En camino"
+                android:text="Whiskey Premium"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_yellow"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/tvCantidadProducto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cantidad: 2"
+                android:textSize="16sp"
+                android:textColor="@color/dark_gray" />
+
+            <!-- Precio individual del producto -->
+            <TextView
+                android:id="@+id/tvPrecioProducto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$49.99"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/dark_yellow"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:layout_marginEnd="8dp"/>
-
-            <TextView
-                android:id="@+id/tvFechaEntrega"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Llega el 15 de Marzo"
-                android:textSize="16sp"
-                android:textColor="@color/dark_gray"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_gravity="end"/>
+                android:layout_marginTop="4dp"/>
         </LinearLayout>
 
-        <!-- Línea Divisoria -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dark_yellow"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- Lista de Productos -->
-        <LinearLayout
-            android:id="@+id/contenedorProductos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Tarjeta de Producto -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp">
-
-                <!-- Imagen del Producto -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="6dp"
-                    android:background="@color/white">
-
-                    <ImageView
-                        android:id="@+id/ivProducto"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:clipToOutline="true"/>
-                </androidx.cardview.widget.CardView>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingLeft="12dp">
-
-                    <TextView
-                        android:id="@+id/tvNombreProducto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Whiskey Premium"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/dark_yellow"
-                        android:maxLines="1"
-                        android:ellipsize="end"/>
-
-                    <TextView
-                        android:id="@+id/tvCantidadProducto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cantidad: 2"
-                        android:textSize="16sp"
-                        android:textColor="@color/dark_gray"/>
-
-                    <TextView
-                        android:id="@+id/tvPrecioProducto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="$49.99"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/dark_yellow"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Línea Divisoria -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dark_yellow"
-            android:layout_marginVertical="8dp"/>
-
-        <!-- Total del Pedido -->
-        <TextView
-            android:id="@+id/tvTotalPedido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Total: $99.98"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/dark_yellow"
-            android:gravity="end"/>
     </LinearLayout>
+
 </com.google.android.material.card.MaterialCardView>

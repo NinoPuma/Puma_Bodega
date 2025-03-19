@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Locale;
 
 import es.uem.android_grupo03.R;
-import es.uem.android_grupo03.models.LicorModelo;
+import es.uem.android_grupo03.models.PedidoModelo;
 
 public class AdaptadorProductosPedido extends RecyclerView.Adapter<AdaptadorProductosPedido.ViewHolder> {
     private Context context;
-    private List<LicorModelo> listaProductos;
+    private List<PedidoModelo.LicorPedido> listaProductos;
 
-    public AdaptadorProductosPedido(Context context, List<LicorModelo> listaProductos) {
+    public AdaptadorProductosPedido(Context context, List<PedidoModelo.LicorPedido> listaProductos) {
         this.context = context;
         this.listaProductos = listaProductos;
     }
@@ -34,11 +34,10 @@ public class AdaptadorProductosPedido extends RecyclerView.Adapter<AdaptadorProd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        LicorModelo producto = listaProductos.get(position);
+        PedidoModelo.LicorPedido producto = listaProductos.get(position);
         holder.tvNombre.setText(producto.getNombre());
         holder.tvPrecio.setText(String.format(Locale.US, "$%.2f", producto.getPrecio()));
 
-        // Asigna imagen si está en drawable
         int imagenRes = context.getResources().getIdentifier(producto.getImagen(), "drawable", context.getPackageName());
         holder.ivProducto.setImageResource(imagenRes != 0 ? imagenRes : R.drawable.whiskey_generico);
     }
