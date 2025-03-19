@@ -81,7 +81,7 @@
         android:elevation="6dp"
         app:icon="@drawable/ic_google"
         app:iconGravity="textStart"
-        app:iconPadding="8dp"/>
+         app:iconPadding="8dp"/>
 
     <TextView
         android:id="@+id/createAccount"
