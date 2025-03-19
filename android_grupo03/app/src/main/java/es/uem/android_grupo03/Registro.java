@@ -35,12 +35,7 @@ public class Registro extends AppCompatActivity {
         databaseRef = FirebaseDatabase.getInstance().getReference("perfiles");
 
         // Referencias a los elementos de la UI (IDs corregidos)
-        emailInput = findViewById(R.id.emailInput);
-        passwordInput = findViewById(R.id.passwordInput);
-        nombreInput = findViewById(R.id.nombreInput);
-        direccionInput = findViewById(R.id.direccionInput);
-        codigoPostalInput = findViewById(R.id.codigoPostalInput);
-        btnRegistro = findViewById(R.id.btnRegistro);
+
 
         // Evento de clic para registrar usuario
         btnRegistro.setOnClickListener(v -> registrarUsuario());

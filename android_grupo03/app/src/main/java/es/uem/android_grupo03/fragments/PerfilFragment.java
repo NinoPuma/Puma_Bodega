@@ -96,7 +96,7 @@ public class PerfilFragment extends Fragment {
         botonCerrarSesion.setOnClickListener(v -> cerrarSesion());
 
         // Botón para guardar cambios en Firebase
-        botonGuardarCambios.setOnClickListener(v -> guardarDatosUsuario());
+
 
         // Botón para cerrar sesión
         botonCerrarSesion.setOnClickListener(v -> cerrarSesion());
@@ -159,56 +159,9 @@ public class PerfilFragment extends Fragment {
         cameraLauncher.launch(null);
     }
 
-    // Cargar datos del usuario desde Firebase
-    private void cargarDatosUsuario() {
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String nombre = snapshot.child("nombre").getValue(String.class);
-                    String direccion = snapshot.child("direccion").getValue(String.class);
-                    Boolean newsletter = snapshot.child("newsletter").getValue(Boolean.class);
 
-                    if (nombre != null) editarNombreUsuario.setText(nombre);
-                    if (direccion != null) editarDireccion.setText(direccion);
-                    if (newsletter != null) toggleNewsletter.setChecked(newsletter);
-                } else {
-                    Toast.makeText(getContext(), "No se encontraron datos de usuario", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Error al cargar los datos", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
-    // Guardar datos del usuario en Firebase
-    private void guardarDatosUsuario() {
-        String nombre = editarNombreUsuario.getText().toString().trim();
-        String direccion = editarDireccion.getText().toString().trim();
-        boolean newsletter = toggleNewsletter.isChecked();
 
-        if (nombre.isEmpty() || direccion.isEmpty()) {
-            Toast.makeText(getContext(), "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        Map<String, Object> datosActualizados = new HashMap<>();
-        datosActualizados.put("nombre", nombre);
-        datosActualizados.put("direccion", direccion);
-        datosActualizados.put("newsletter", newsletter);
-
-        databaseReference.updateChildren(datosActualizados)
-                .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Datos guardados", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al guardar datos", Toast.LENGTH_SHORT).show());
-    }
-
-    // Método para cerrar sesión
-    private void cerrarSesion() {
-        auth.signOut();
-        Toast.makeText(getContext(), "Sesión cerrada", Toast.LENGTH_SHORT).show();
-        // Aquí puedes redirigir al usuario a la pantalla de inicio de sesión
-    }
 }
