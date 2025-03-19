@@ -46,7 +46,7 @@ public class InicioFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         licorList = new ArrayList<>();
-        adaptadorBebidas = new AdaptadorBebidas(getContext(), licorList);
+        adaptadorBebidas = new AdaptadorBebidas(getContext(), new ArrayList<>());
         recyclerView.setAdapter(adaptadorBebidas);
 
         configurarSpinner();
@@ -77,8 +77,7 @@ public class InicioFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -132,17 +131,10 @@ public class InicioFragment extends Fragment {
         String categoriaFiltrada = convertirCategoria(categoria.trim());
 
         System.out.println("📌 Filtrando por categoría: " + categoriaFiltrada);
-        System.out.println("📋 Lista de bebidas en memoria:");
 
         for (LicorModelo licor : licorList) {
-            if (licor.getTipo() != null) {
-                String tipoLicor = convertirCategoria(licor.getTipo().trim());
-
-                System.out.println("🔍 Revisando: " + licor.getNombre() + " - Tipo en Firebase: " + tipoLicor);
-
-                if (tipoLicor.equalsIgnoreCase(categoriaFiltrada)) {
-                    bebidasFiltradas.add(licor);
-                }
+            if (licor.getTipo().equalsIgnoreCase(categoriaFiltrada)) {
+                bebidasFiltradas.add(licor);
             }
         }
 
@@ -157,21 +149,27 @@ public class InicioFragment extends Fragment {
     }
 
     private String convertirCategoria(String categoria) {
-        if (categoria == null) return "";
+        if (categoria == null || categoria.isEmpty()) return "";
+
         categoria = categoria.trim().toLowerCase();
 
         switch (categoria) {
             case "whiskey":
             case "whisky":
-                return "whisky";
+                return "Whisky";
             case "ron":
-                return "ron";
+                return "Ron";
             case "vodka":
-                return "vodka";
+                return "Vodka";
             case "vino":
-                return "vino";
+            case "tinto":
+            case "blanco":
+            case "rosado":
+            case "espumoso":
+                return "Vino"; // 🔹 Agrupar todos los tipos de vino bajo "Vino"
             default:
-                return categoria;
+                return categoria.substring(0, 1).toUpperCase() + categoria.substring(1);
         }
     }
 }
+
