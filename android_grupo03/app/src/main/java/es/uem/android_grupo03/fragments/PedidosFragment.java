@@ -94,7 +94,7 @@ public class PedidosFragment extends Fragment {
                 .child(userId)
                 .child("pedidos");
 
-        pedidosRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        pedidosRef.addValueEventListener(new ValueEventListener() { // 🔥 Cambio aquí
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaPedidos.clear();
@@ -140,6 +140,7 @@ public class PedidosFragment extends Fragment {
             }
         });
     }
+
 
     private LicorModelo obtenerLicorPorNombre(String nombre) {
         for (LicorModelo licor : listaLicoresGlobal) {
