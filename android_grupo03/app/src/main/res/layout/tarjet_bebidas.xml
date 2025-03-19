@@ -1,92 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:layout_marginVertical="6dp"
-    android:elevation="8dp"
-    app:cardBackgroundColor="#F0F0F0"
+    android:layout_margin="12dp"
     app:cardCornerRadius="16dp"
-    app:cardUseCompatPadding="true">
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="@color/white"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:orientation="horizontal">
 
-        <!-- Imagen de la bebida con bordes redondeados -->
-        <ImageView
-            android:id="@+id/iv1"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="16dp"
-            android:clipToOutline="true"
-            android:contentDescription="Imagen de la bebida"
-            android:padding="4dp"
-            android:scaleType="centerCrop" />
+        <!-- 📌 Imagen de la bebida -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/ivBebida"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true"/>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="12dp">
 
-            <!-- Nombre de la bebida con estilo negrita -->
+            <!-- 📌 Nombre de la bebida -->
             <TextView
-                android:id="@+id/tvName"
+                android:id="@+id/tvNombreBebida"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="Nombre de la bebida"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <!-- Precio de la bebida con color destacado -->
-            <TextView
-                android:id="@+id/tvPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="4dp"
-                android:text="$0.00"
-                android:textColor="#000000"
+                android:text="Whiskey Premium"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/dark_yellow"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"/>
 
-            <!-- Descripción breve con color suave -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:paddingTop="2dp"
-                    android:text="Descripción breve"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/boton_anadir"
-                android:layout_width="106dp"
+            <!-- 📌 Precio -->
+            <TextView
+                android:id="@+id/tvPrecioBebida"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="125dp"
-                android:layout_weight="1"
-                android:backgroundTint="#4CAF50"
-                android:text="Añade al carrito"
-                android:textColor="#000000" />
+                android:text="$49.99"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_gray"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif"/>
 
+            <!-- 📌 Descripción breve -->
+            <TextView
+                android:id="@+id/tvDescripcionBebida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Un delicioso whiskey con notas de vainilla y roble."
+                android:textSize="14sp"
+                android:textColor="@color/dark_gray"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginTop="4dp"/>
+
+            <!-- 📌 Botón para añadir al carrito -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botonAnadir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Añadir al carrito"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/dark_yellow"
+                app:cornerRadius="12dp"
+                android:layout_marginTop="10dp"
+                android:elevation="6dp"/>
         </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

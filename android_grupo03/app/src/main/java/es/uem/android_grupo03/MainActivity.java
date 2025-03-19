@@ -54,10 +54,14 @@ public class MainActivity extends AppCompatActivity {
         btnGoogle.setOnClickListener(v -> iniciarSesionConGoogle());
 
         // Evento de clic para ir a la pantalla de registro
-        createAccount.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, Registro.class);
-            startActivity(intent);
-        });
+        if (createAccount != null) {
+            createAccount.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, Registro.class);
+                startActivity(intent);
+            });
+        } else {
+            Toast.makeText(this, "Error: No se encontró el botón de crear cuenta", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void iniciarSesionConCorreo() {

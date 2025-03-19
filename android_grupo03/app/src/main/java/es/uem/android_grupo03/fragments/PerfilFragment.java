@@ -30,6 +30,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import es.uem.android_grupo03.MainActivity;
 import es.uem.android_grupo03.R;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PerfilFragment extends Fragment {
 
@@ -93,6 +95,12 @@ public class PerfilFragment extends Fragment {
         botonGuardarCambios.setOnClickListener(v -> guardarCambiosPerfil());
         botonCerrarSesion.setOnClickListener(v -> cerrarSesion());
 
+        // Botón para guardar cambios en Firebase
+
+
+        // Botón para cerrar sesión
+        botonCerrarSesion.setOnClickListener(v -> cerrarSesion());
+
         return view;
     }
 
@@ -150,4 +158,10 @@ public class PerfilFragment extends Fragment {
     private void abrirCamara() {
         cameraLauncher.launch(null);
     }
+
+
+
+
+
+
 }

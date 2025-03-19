@@ -35,7 +35,7 @@ public class AdaptadorBebidas extends RecyclerView.Adapter<AdaptadorBebidas.Bebi
 
     public AdaptadorBebidas(Context context, List<LicorModelo> licorList) {
         this.context = context;
-        this.licorList = licorList;
+        this.licorList = licorList != null ? licorList : new ArrayList<>();
     }
 
     @NonNull
@@ -67,6 +67,12 @@ public class AdaptadorBebidas extends RecyclerView.Adapter<AdaptadorBebidas.Bebi
 
     private int getDrawableResourceId(String imageName) {
         return context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
+    }
+
+    public void actualizarLista(List<LicorModelo> nuevaLista) {
+        licorList.clear(); // Limpia la lista actual
+        licorList.addAll(nuevaLista); // Agrega los nuevos datos
+        notifyDataSetChanged(); // Notifica al RecyclerView que actualice la UI
     }
 
     private void agregarAlCarrito(LicorModelo licor) {
@@ -139,11 +145,12 @@ public class AdaptadorBebidas extends RecyclerView.Adapter<AdaptadorBebidas.Bebi
 
         public BebidasHolder(@NonNull View itemView) {
             super(itemView);
-            iv = itemView.findViewById(R.id.iv1);
-            tvName = itemView.findViewById(R.id.tvName);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvDescription = itemView.findViewById(R.id.tvDescription);
-            btnAddToCart = itemView.findViewById(R.id.boton_anadir);
+            iv = itemView.findViewById(R.id.ivBebida); // Cambio de iv1 -> ivBebida
+            tvName = itemView.findViewById(R.id.tvNombreBebida); // Cambio de tvName -> tvNombreBebida
+            tvPrice = itemView.findViewById(R.id.tvPrecioBebida); // Cambio de tvPrice -> tvPrecioBebida
+            tvDescription = itemView.findViewById(R.id.tvDescripcionBebida); // Cambio de tvDescription -> tvDescripcionBebida
+            btnAddToCart = itemView.findViewById(R.id.botonAnadir); // Cambio de boton_anadir -> botonAnadir
         }
     }
+
 }

@@ -1,29 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical">
+    android:background="@color/very_light_gray"
+    android:orientation="vertical"
+    android:padding="8dp">
 
-    <!-- Título en la parte superior -->
+    <!-- 📌 Título en la parte superior -->
     <TextView
         android:id="@+id/tituloTienda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#787777"
+        android:background="@color/dark_yellow"
         android:gravity="center"
         android:padding="16dp"
-        android:text="Bienvenido a la tienda Pumabodega"
-        android:textColor="@android:color/black"
+        android:text="Bienvenido a Pumabodega"
+        android:textColor="@color/black"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"/>
 
-    <!-- RecyclerView debajo del título -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+    <!-- 📌 Toolbar con Spinner para categorías -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/light_gray"
+        android:elevation="4dp"
+        android:paddingHorizontal="8dp">
+
+        <Spinner
+            android:id="@+id/spinnerCategorias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:popupBackground="@color/white"
+            android:textColor="@color/black"
+            android:padding="8dp"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- 📌 RecyclerView envuelto en CardView para mejor presentación -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="8dp" />
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        android:background="@color/white">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:clipToPadding="false"/>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

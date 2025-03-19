@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/very_dark_gray"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Botón de regreso -->
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_back"
+        android:color="@color/light_gray"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Regresar"/>
+
+    <!-- Estado del Pedido -->
+    <TextView
+        android:id="@+id/tvEstadoPedidoDetalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estado del Pedido"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_yellow"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Fecha del Pedido -->
+    <TextView
+        android:id="@+id/tvFechaPedidoDetalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fecha del Pedido"
+        android:textSize="18sp"
+        android:textColor="@color/light_gray"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Lista de productos en el pedido -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProductosPedido"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:background="@color/dark_gray"
+        android:elevation="4dp"
+        android:clipToPadding="false"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Total del Pedido -->
+    <TextView
+        android:id="@+id/tvTotalPedidoDetalle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total del Pedido"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_red"
+        android:gravity="end"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

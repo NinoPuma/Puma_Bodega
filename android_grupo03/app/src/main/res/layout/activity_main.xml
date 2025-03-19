@@ -1,77 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="24dp"
+    android:gravity="center"
+    android:background="@color/very_light_gray"
     tools:context=".MainActivity">
 
+    <!-- Logo -->
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="187dp"
+        android:layout_width="230dp"
+        android:layout_height="166dp"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
         app:srcCompat="@drawable/logo_proyecto_integrador" />
 
-    <EditText
-        android:id="@+id/emailOrPhone"
+    <!-- Campo de Correo/Teléfono -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:hint="Correo electrónico o teléfono"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"/>
+        app:boxBackgroundMode="filled"
+        app:boxStrokeColor="@color/dark_yellow"
+        app:boxBackgroundColor="@color/white"
+        app:cornerRadius="12dp">
 
-    <EditText
-        android:id="@+id/password"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailOrPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/dark_gray"
+            android:textCursorDrawable="@color/dark_yellow" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Campo de Contraseña -->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:padding="12dp"/>
+        app:boxBackgroundMode="filled"
+        app:boxStrokeColor="@color/dark_yellow"
+        app:boxBackgroundColor="@color/white"
+        app:cornerRadius="12dp"
+        app:endIconMode="password_toggle">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColor="@color/dark_gray"
+            android:textCursorDrawable="@color/dark_yellow"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Checkbox de Términos -->
     <CheckBox
         android:id="@+id/termsCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Aceptar términos y condiciones"
+        android:textColor="@color/dark_gray"
         android:layout_gravity="center"
-        android:gravity="center" />
+        android:layout_marginTop="8dp"/>
 
-    <Button
+    <!-- Botón de Iniciar Sesión -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="Iniciar Sesión"
-        android:textColor="@android:color/white"
-        android:padding="12dp"
-        android:backgroundTint="@color/black"/>
+        android:textColor="@color/black"
+        android:backgroundTint="@color/dark_yellow"
+        app:cornerRadius="16dp"
+        android:elevation="6dp"
+        android:fontFamily="sans-serif-medium"/>
 
-    <!-- Botón para iniciar sesión con Google -->
-    <Button
+    <!-- Botón de Iniciar con Google -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_google"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="Iniciar sesión con Google"
-        android:textColor="@android:color/white"
-        android:padding="12dp"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:gravity="center"/>
+        android:textColor="@color/white"
+        android:backgroundTint="@color/dark_red"
+        app:cornerRadius="16dp"
+        android:elevation="6dp"
+        app:icon="@drawable/ic_google"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        android:fontFamily="sans-serif-medium"/>
 
+    <!-- Link para Crear Cuenta -->
     <TextView
         android:id="@+id/createAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="Crear cuenta nueva"
-        android:textColor="#2196F3"
-        android:textStyle="bold"/>
-
+        android:textColor="@color/dark_red"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"/>
 </LinearLayout>

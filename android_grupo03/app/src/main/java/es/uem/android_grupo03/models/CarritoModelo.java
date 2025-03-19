@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CarritoModelo {
-    private Map<String, Integer> licores; // 🔥 Ahora usamos String como clave
+    private Map<String, Integer> licores;
 
     public CarritoModelo() {
         this.licores = new HashMap<>();
@@ -20,7 +20,7 @@ public class CarritoModelo {
 
     // Método para agregar un licor al carrito
     public void agregarLicor(LicorModelo licor, int cantidad) {
-        String licorId = licor.getNombre();  // 🔥 Usamos el nombre como clave
+        String licorId = licor.getNombre();
 
         if (licores.containsKey(licorId)) {
             licores.put(licorId, licores.get(licorId) + cantidad);

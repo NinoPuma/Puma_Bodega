@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -5,40 +6,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/very_light_gray">
 
     <!-- Título -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="REGÍSTRATE AHORA"
+        android:text="REGÍSTRATE Y DISFRUTA"
         android:textSize="28sp"
         android:textStyle="bold"
-
-        android:layout_marginBottom="16dp"
+        android:textColor="@color/dark_yellow"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-medium"
         android:layout_gravity="center"/>
 
-    <!-- Tarjeta contenedora -->
+    <!-- Tarjeta de formulario -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
         android:padding="20dp"
-        app:cardBackgroundColor="@color/white">
+        android:backgroundTint="@color/dark_gray">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Email -->
+            <!-- Campo de Email -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="✉️ Email"
+                android:hint="Correo Electrónico"
                 app:boxBackgroundMode="filled"
-                >
+                app:boxBackgroundColor="@color/light_gray"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailInput"
@@ -48,13 +52,14 @@
                     android:textColor="@color/black"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Usuario -->
+            <!-- Campo de Usuario -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="👤 Nombre"
+                android:hint="Nombre de Usuario"
                 app:boxBackgroundMode="filled"
-                >
+                app:boxBackgroundColor="@color/light_gray"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nombreInput"
@@ -64,13 +69,13 @@
                     android:textColor="@color/black"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Contraseña -->
+            <!-- Campo de Contraseña -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="🔑 Contraseña"
+                android:hint="Contraseña"
                 app:boxBackgroundMode="filled"
-
+                app:boxBackgroundColor="@color/light_gray"
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -81,13 +86,14 @@
                     android:textColor="@color/black"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Código Postal -->
+            <!-- Campo de Código Postal -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="📍 Código Postal"
+                android:hint="Código Postal"
                 app:boxBackgroundMode="filled"
-                >
+                app:boxBackgroundColor="@color/light_gray"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/codigoPostalInput"
@@ -97,13 +103,14 @@
                     android:textColor="@color/black"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Dirección -->
+            <!-- Campo de Dirección -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="🏠 Dirección"
+                android:hint="Dirección"
                 app:boxBackgroundMode="filled"
-                >
+                app:boxBackgroundColor="@color/light_gray"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/direccionInput"
@@ -120,12 +127,12 @@
         android:id="@+id/btnRegistro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="¡REGÍSTRATE YA!"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/white"
+        android:text="ÚNETE AHORA"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/dark_yellow"
+        android:textColor="@color/black"
         app:cornerRadius="20dp"
-        android:elevation="8dp"
+        android:elevation="6dp"
         android:textStyle="bold"
-        android:textAllCaps="true"
-        />
+        android:textAllCaps="true"/>
 </LinearLayout>

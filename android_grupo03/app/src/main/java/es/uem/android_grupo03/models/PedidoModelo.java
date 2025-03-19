@@ -9,19 +9,43 @@ public class PedidoModelo {
     private String estado;
     private long timestamp;
     private List<LicorPedido> licores;
+    private double precioTotal;
 
+    // ✅ Clase interna `LicorPedido`
     public static class LicorPedido {
         private String nombre;
         private int cantidad;
         private double precio;
         private String imagen;
+        private String descripcion;
+        private String tipo;
+        private long id;
 
+        // 🔥 Constructor vacío requerido por Firebase
+        public LicorPedido() {}
+
+        // 🔥 Constructor con parámetros
+        public LicorPedido(String nombre, int cantidad, double precio, String imagen, String descripcion, String tipo, long id) {
+            this.nombre = nombre;
+            this.cantidad = Math.max(cantidad, 1);
+            this.precio = Math.max(precio, 0.0);
+            this.imagen = (imagen != null && !imagen.isEmpty()) ? imagen : "imagen_default";
+            this.descripcion = descripcion != null ? descripcion : "Sin descripción";
+            this.tipo = tipo != null ? tipo : "Desconocido";
+            this.id = id > 0 ? id : -1;
+        }
+
+        // ✅ Getters
         public String getNombre() { return nombre; }
         public int getCantidad() { return cantidad; }
         public double getPrecio() { return precio; }
         public String getImagen() { return imagen; }
+        public String getDescripcion() { return descripcion; }
+        public String getTipo() { return tipo; }
+        public long getId() { return id; }
     }
 
+    // ✅ Getters y Setters para `PedidoModelo`
     public String getUsuarioId() { return usuarioId; }
     public void setUsuarioId(String usuarioId) { this.usuarioId = usuarioId; }
 
@@ -31,29 +55,14 @@ public class PedidoModelo {
     public long getTimestamp() { return timestamp; }
     public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
 
-    public List<LicorPedido> getLicores() { return licores; }
+    public double getPrecioTotal() { return precioTotal; }
+    public void setPrecioTotal(double precioTotal) { this.precioTotal = precioTotal; }
 
-    public void setLicores(Object licoresObject) {
-        if (licoresObject instanceof List) {
-            this.licores = (List<LicorPedido>) licoresObject;
-        } else if (licoresObject instanceof Map) {
-            Map<String, Object> licoresMap = (Map<String, Object>) licoresObject;
-            List<LicorPedido> listaLicores = new ArrayList<>();
+    public List<LicorPedido> getLicores() {
+        return licores != null ? licores : new ArrayList<>();
+    }
 
-            for (Object value : licoresMap.values()) {
-                if (value instanceof Map) {
-                    Map<String, Object> licorData = (Map<String, Object>) value;
-                    LicorPedido licor = new LicorPedido();
-                    licor.nombre = (String) licorData.get("nombre");
-                    licor.cantidad = ((Long) licorData.get("cantidad")).intValue();
-                    licor.precio = ((Double) licorData.get("precio"));
-                    licor.imagen = (String) licorData.get("imagen");
-                    listaLicores.add(licor);
-                }
-            }
-            this.licores = listaLicores;
-        } else {
-            this.licores = new ArrayList<>();
-        }
+    public void setLicores(List<LicorPedido> licores) {
+        this.licores = licores;
     }
 }

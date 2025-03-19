@@ -34,7 +34,7 @@ public class Registro extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         databaseRef = FirebaseDatabase.getInstance().getReference("perfiles");
 
-        // Referencias a los elementos de la UI (IDs corregidos)
+        // Vincular elementos de la UI con sus respectivos IDs en el layout
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
         nombreInput = findViewById(R.id.nombreInput);
@@ -42,8 +42,12 @@ public class Registro extends AppCompatActivity {
         codigoPostalInput = findViewById(R.id.codigoPostalInput);
         btnRegistro = findViewById(R.id.btnRegistro);
 
-        // Evento de clic para registrar usuario
-        btnRegistro.setOnClickListener(v -> registrarUsuario());
+        // Verificar si el botón de registro está correctamente referenciado
+        if (btnRegistro != null) {
+            btnRegistro.setOnClickListener(v -> registrarUsuario());
+        } else {
+            Toast.makeText(this, "Error: No se encontró el botón de registro", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void registrarUsuario() {
