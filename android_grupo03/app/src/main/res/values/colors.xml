@@ -2,12 +2,7 @@
     <!-- Colores principales -->
     <color name="primary">#FF5722</color> <!-- Naranja vibrante -->
     <color name="primary_dark">#E64A19</color> <!-- Naranja oscuro -->
-    <color name="accent">#FFC107</color> <!-- Amarillo fuerte -->
 
-    <!-- Colores de fondo y bordes -->
-    <color name="light_gray">#D6D6D6</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#9C9393</color>
 
 
     <!-- Para el stepper (fondos con gradientes en xml) -->
@@ -16,19 +11,28 @@
     <color name="yellow">#FFC107</color> <!-- Amarillo fuerte -->
     <color name="red">#FF0707</color> <!-- Amarillo fuerte -->
 
+    <color name="very_light_gray">#F5F5F5</color>
+    <color name="black">#000000</color>
+    <color name="dark_red">#A33D3D</color>
+    <color name="accent">#C8A951</color>
+    <color name="dark_gray">#2B2B2B</color>
+    <color name="white">#FFFFFF</color>
+    <color name="dark_yellow">#C8A951</color>
+    <color name="very_dark_gray">#121212</color>
+
+
 
 
     <!-- Botón de eliminar -->
     <color name="red_primary">#000000</color>
-    <color name="dark_red">#000000</color>
     <color name="purple_500">#4D11C0FF</color>
     <color name="gray">#C0BEBE</color>
-    <color name="dark_gray">#979595</color>
 
     <color name="colorPrecio">#FF5722</color> <!-- Naranja vibrante -->
     <color name="colorTextoPrincipal">#C6BFBF</color> <!-- Negro suave -->
     <color name="colorTextoSecundario">#444343</color> <!-- Gris medio -->
     <color name="colorDivider">#FFFFFF</color> <!-- Gris claro -->
 
+    <color name="light_gray">#D6D6D6</color>
 
 </resources>
