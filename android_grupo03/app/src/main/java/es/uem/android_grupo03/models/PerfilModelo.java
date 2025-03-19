@@ -1,5 +1,7 @@
 package es.uem.android_grupo03.models;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class PerfilModelo {
@@ -8,6 +10,8 @@ public class PerfilModelo {
     private String codigoPostal;
     private String correo;
     private String fotoPerfilUrl;
+    private List<PedidoModelo.LicorPedido> licores; // 🔥 Usar el nuevo LicorPedido
+
 
     public PerfilModelo(String nombre, String direccion, String codigoPostal, String correo, String fotoPerfilUrl) {
         this.nombre = nombre;
@@ -39,6 +43,10 @@ public class PerfilModelo {
 
     public String getFotoPerfilUrl() {
         return fotoPerfilUrl;
+    }
+
+    public List<PedidoModelo.LicorPedido> getLicores() {
+        return licores != null ? licores : new ArrayList<>();
     }
 
     @Override

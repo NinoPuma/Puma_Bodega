@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:padding="16dp"
-    android:background="#FFFFFF">
+    android:background="@color/black">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,78 +23,84 @@
                 android:id="@+id/perfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Perfil"
-                android:textColor="#388E3C"
-                android:textSize="26sp"
+                android:text="👤 Perfil"
+                android:textColor="@color/yellow"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/botonCerrarSesion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:backgroundTint="#D32F2F"
+                android:backgroundTint="@color/red"
                 android:text="Cerrar Sesión"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:padding="8dp"
-                android:elevation="4dp"/>
+                android:elevation="6dp"/>
         </RelativeLayout>
 
         <!-- Imagen de Perfil -->
         <ImageView
             android:id="@+id/fotoPerfil"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:src="@mipmap/ic_launcher"
             android:layout_marginTop="16dp"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:background="@color/dark_gray"
+            android:padding="8dp"
+            android:clipToOutline="true"/>
 
         <!-- Botón para Cambiar Foto -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/botonFoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cambiar foto"
-            android:backgroundTint="#388E3C"
-            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/yellow"
+            android:textColor="@color/black"
             android:layout_marginTop="8dp"
-            android:elevation="4dp"/>
+            android:elevation="6dp"/>
 
         <!-- Datos del Usuario -->
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp"
-            android:backgroundTint="#FAFAFA">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            android:backgroundTint="@color/dark_gray">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
-
-
-                <EditText
-                    android:id="@+id/editarNombreUsuario"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre de prueba"
-                    android:padding="10dp"
-                    android:textSize="16sp" />
+                    android:hint="Nombre">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editarNombreUsuario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-
-                <EditText
-                    android:id="@+id/editarDireccion"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Dirección de prueba"
-                    android:padding="10dp"
-                    android:textSize="16sp" />
+                    android:hint="Dirección">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editarDireccion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:id="@+id/cargarCorreo"
@@ -102,35 +108,35 @@
                     android:layout_height="wrap_content"
                     android:text="correo@ejemplo.com"
                     android:textSize="16sp"
-                    android:textColor="#555555"
+                    android:textColor="@color/gray"
                     android:textStyle="italic"
                     android:padding="10dp"
-
                     android:enabled="false"/>
 
-                <EditText
-                    android:id="@+id/editarCodigoPostal"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Código Postal"
-                    android:padding="10dp"
-                    android:textSize="16sp" />
+                    android:hint="Código Postal">
 
-
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editarCodigoPostal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"/>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Botón Guardar Cambios -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/botonGuardarCambios"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#388E3C"
+            android:backgroundTint="@color/yellow"
             android:text="Guardar cambios"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/black"
             android:padding="12dp"
-            android:elevation="4dp"/>
+            android:elevation="6dp"/>
     </LinearLayout>
 </ScrollView>

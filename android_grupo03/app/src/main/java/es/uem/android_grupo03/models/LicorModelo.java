@@ -1,42 +1,57 @@
 package es.uem.android_grupo03.models;
 
+import java.util.Objects;
+
 public class LicorModelo {
-    private String nombre;
-    private String descripcion;
-    private String imagen;
-    private double precio;
+    private int id;
     private String tipo;
-    private int id; // 🔥 Agrega este campo si está en Firebase
+    private String nombre;
+    private String imagen;
+    private float precio;  // ✅ Mantener como float
+    private String descripcion;
 
-    // 🔥 Constructor vacío requerido por Firebase
-    public LicorModelo() {}
-
-    // 🔥 Constructor con todos los parámetros
-    public LicorModelo(String nombre, String descripcion, String imagen, double precio, String tipo, int id) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.imagen = imagen;
+    // 🔥 Constructor con parámetros
+    public LicorModelo(String nombre, String descripcion, String imagen, float precio, String tipo, int id) {
+        this.nombre = Objects.requireNonNullElse(nombre, "Sin nombre");
+        this.descripcion = Objects.requireNonNullElse(descripcion, "Sin descripción");
+        this.imagen = (imagen != null && !imagen.isEmpty()) ? imagen : "imagen_default";
         this.precio = precio;
-        this.tipo = tipo;
+        this.tipo = Objects.requireNonNullElse(tipo, "Desconocido");
         this.id = id;
     }
 
-    // 🔥 Getters y Setters
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    // 🔥 Constructor vacío (Firebase lo necesita)
+    public LicorModelo() {}
 
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-
-    public String getImagen() { return imagen; }
-    public void setImagen(String imagen) { this.imagen = imagen; }
-
-    public double getPrecio() { return precio; }
-    public void setPrecio(double precio) { this.precio = precio; }
-
-    public String getTipo() { return tipo; }
-    public void setTipo(String tipo) { this.tipo = tipo; }
-
+    // ✅ Getters
     public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getTipo() { return tipo; }
+    public String getNombre() { return nombre; }
+    public String getImagen() { return imagen; }
+    public float getPrecio() { return precio; }  // ✅ Mantener como float
+    public String getDescripcion() { return descripcion; }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public void setPrecio(float precio) {
+        this.precio = precio;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 }

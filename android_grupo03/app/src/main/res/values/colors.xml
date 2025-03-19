@@ -9,10 +9,13 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#9C9393</color>
 
+
     <!-- Para el stepper (fondos con gradientes en xml) -->
     <color name="stepper_start">#E3F2FD</color>
     <color name="stepper_end">#BBDEFB</color>
     <color name="yellow">#FFC107</color> <!-- Amarillo fuerte -->
+    <color name="red">#FF0707</color> <!-- Amarillo fuerte -->
+
 
 
     <!-- Botón de eliminar -->

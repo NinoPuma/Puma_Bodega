@@ -1,6 +1,7 @@
 package es.uem.android_grupo03.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -25,6 +27,7 @@ import java.util.List;
 
 import es.uem.android_grupo03.R;
 import es.uem.android_grupo03.adapters.AdaptadorPedidos;
+import es.uem.android_grupo03.models.LicorModelo;
 import es.uem.android_grupo03.models.PedidoModelo;
 
 public class PedidosFragment extends Fragment {
@@ -56,6 +59,11 @@ public class PedidosFragment extends Fragment {
 
         return view;
     }
+    private void actualizarUI(List<PedidoModelo> pedidos) {
+        listaPedidos.clear();  // Limpiar lista antes de actualizar
+        listaPedidos.addAll(pedidos); // Agregar los nuevos pedidos
+        adaptadorPedidos.notifyDataSetChanged(); // Notificar cambios al adaptador
+    }
 
     private void cargarPedidosUsuario(String userId) {
         pedidosRef = FirebaseDatabase.getInstance()
@@ -63,25 +71,28 @@ public class PedidosFragment extends Fragment {
                 .child(userId)
                 .child("pedidos");
 
-        pedidosRef.addValueEventListener(new ValueEventListener() {
+        pedidosRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listaPedidos.clear();
-                for (DataSnapshot pedidoSnapshot : snapshot.getChildren()) {
-                    PedidoModelo pedido = new PedidoModelo();
-                    pedido.setUsuarioId(pedidoSnapshot.child("usuarioId").getValue(String.class));
-                    pedido.setEstado(pedidoSnapshot.child("estado").getValue(String.class));
-                    pedido.setTimestamp(pedidoSnapshot.child("timestamp").getValue(Long.class));
-                    pedido.setLicores(pedidoSnapshot.child("licores").getValue()); // Convierte HashMap a List
-                    listaPedidos.add(pedido);
+                List<PedidoModelo> pedidos = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    try {
+                        PedidoModelo pedido = dataSnapshot.getValue(PedidoModelo.class);
+                        if (pedido != null) {
+                            pedidos.add(pedido);
+                        }
+                    } catch (DatabaseException e) {
+                        Log.e("FirebaseError", "Error al convertir datos: " + e.getMessage());
+                    }
                 }
-                adaptadorPedidos.actualizarPedidos(listaPedidos);
+                actualizarUI(pedidos);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Error al cargar los pedidos", Toast.LENGTH_SHORT).show();
+                Log.e("FirebaseError", "Error en la consulta: " + error.getMessage());
             }
         });
+
     }
 }

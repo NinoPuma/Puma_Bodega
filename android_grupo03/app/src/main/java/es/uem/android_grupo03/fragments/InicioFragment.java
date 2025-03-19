@@ -34,27 +34,22 @@ public class InicioFragment extends Fragment {
     private DatabaseReference databaseReference;
     private List<LicorModelo> licorList;
     private AdaptadorBebidas adaptadorBebidas;
-    private boolean isDataLoaded = false; // 🔥 Variable para evitar errores de carga
+    private boolean isDataLoaded = false;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);
 
-        // Inicializar vistas
         recyclerView = view.findViewById(R.id.rv);
         spinnerCategorias = view.findViewById(R.id.spinnerCategorias);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Inicializar lista y adaptador
         licorList = new ArrayList<>();
         adaptadorBebidas = new AdaptadorBebidas(getContext(), licorList);
         recyclerView.setAdapter(adaptadorBebidas);
 
-        // Configurar el Spinner
         configurarSpinner();
-
-        // Cargar bebidas desde Firebase
         cargarBebidasDesdeFirebase();
 
         return view;
@@ -83,7 +78,6 @@ public class InicioFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // No hacer nada
             }
         });
     }
@@ -91,7 +85,7 @@ public class InicioFragment extends Fragment {
     private void cargarBebidasDesdeFirebase() {
         databaseReference = FirebaseDatabase.getInstance().getReference("licores");
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (getContext() == null) return;
@@ -102,7 +96,6 @@ public class InicioFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     LicorModelo licor = dataSnapshot.getValue(LicorModelo.class);
                     if (licor != null && licor.getTipo() != null && !licor.getTipo().isEmpty()) {
-                        // Normaliza el nombre del tipo
                         licor.setTipo(convertirCategoria(licor.getTipo()));
 
                         System.out.println("✅ Bebida cargada: " + licor.getNombre() + " - Tipo: " + licor.getTipo());
@@ -111,10 +104,11 @@ public class InicioFragment extends Fragment {
                 }
 
                 System.out.println("✅ Total de bebidas cargadas: " + licorList.size());
-                isDataLoaded = true; // 🔥 Ahora los datos están listos
+                isDataLoaded = true;
 
-                // 🔥 Filtrar automáticamente después de cargar los datos
-                actualizarBebidas(spinnerCategorias.getSelectedItem().toString());
+                if (spinnerCategorias.getSelectedItem() != null) {
+                    actualizarBebidas(spinnerCategorias.getSelectedItem().toString());
+                }
 
                 adaptadorBebidas.notifyDataSetChanged();
             }
@@ -169,13 +163,13 @@ public class InicioFragment extends Fragment {
         switch (categoria) {
             case "whiskey":
             case "whisky":
-                return "whisky"; // En Firebase está como "Whisky"
+                return "whisky";
             case "ron":
-                return "ron"; // En Firebase está como "Ron"
+                return "ron";
             case "vodka":
-                return "vodka"; // En Firebase está como "Vodka"
+                return "vodka";
             case "vino":
-                return "vino"; // En Firebase está como "Vino"
+                return "vino";
             default:
                 return categoria;
         }

@@ -2,17 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/black"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp">
 
     <!-- Botón de regreso -->
     <ImageView
         android:id="@+id/ivBack"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/ic_back"
-        android:layout_marginBottom="12dp"/>
+        android:tint="@color/white"
+        android:layout_marginBottom="16dp"/>
 
     <!-- Estado del Pedido -->
     <TextView
@@ -20,9 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Estado del Pedido"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="@color/yellow"
         android:layout_marginBottom="8dp"/>
 
     <!-- Fecha del Pedido -->
@@ -31,8 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fecha del Pedido"
-        android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:textColor="@color/gray"
         android:layout_marginBottom="12dp"/>
 
     <!-- Lista de productos en el pedido -->
@@ -41,7 +42,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="8dp"/>
+        android:padding="8dp"
+        android:background="@color/dark_gray"
+        android:clipToPadding="false"/>
 
     <!-- Total del Pedido -->
     <TextView
@@ -49,9 +52,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Total del Pedido"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@color/red"
         android:gravity="end"
         android:layout_marginTop="16dp"/>
 </LinearLayout>
