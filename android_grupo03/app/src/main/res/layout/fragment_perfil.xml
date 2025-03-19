@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:padding="16dp"
-    android:background="@color/black">
+    android:background="@color/very_light_gray">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,17 +24,18 @@
                 android:id="@+id/perfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="👤 Perfil"
-                android:textColor="@color/yellow"
+                android:text="Perfil"
+                android:textColor="@color/dark_yellow"
                 android:textSize="28sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/botonCerrarSesion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:backgroundTint="@color/red"
+                android:backgroundTint="@color/dark_red"
                 android:text="Cerrar Sesión"
                 android:textColor="@color/white"
                 android:padding="8dp"
@@ -45,12 +47,13 @@
             android:id="@+id/fotoPerfil"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:src="@mipmap/ic_launcher"
             android:layout_marginTop="16dp"
             android:scaleType="centerCrop"
-            android:background="@color/dark_gray"
+            android:background="@color/light_gray"
             android:padding="8dp"
-            android:clipToOutline="true"/>
+            android:clipToOutline="true"
+            android:src="@mipmap/ic_launcher"
+            android:elevation="4dp"/>
 
         <!-- Botón para Cambiar Foto -->
         <com.google.android.material.button.MaterialButton
@@ -58,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cambiar foto"
-            android:backgroundTint="@color/yellow"
+            android:backgroundTint="@color/dark_yellow"
             android:textColor="@color/black"
             android:layout_marginTop="8dp"
             android:elevation="6dp"/>
@@ -69,8 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            android:backgroundTint="@color/dark_gray">
+            app:cardElevation="6dp"
+            android:backgroundTint="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,25 +84,31 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre">
+                    android:hint="Nombre"
+                    app:boxBackgroundMode="filled"
+                    app:boxBackgroundColor="@color/light_gray"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editarNombreUsuario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/black"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Dirección">
+                    android:hint="Dirección"
+                    app:boxBackgroundMode="filled"
+                    app:boxBackgroundColor="@color/light_gray"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editarDireccion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/black"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -108,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:text="correo@ejemplo.com"
                     android:textSize="16sp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/dark_gray"
                     android:textStyle="italic"
                     android:padding="10dp"
                     android:enabled="false"/>
@@ -116,13 +125,16 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Código Postal">
+                    android:hint="Código Postal"
+                    app:boxBackgroundMode="filled"
+                    app:boxBackgroundColor="@color/light_gray"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editarCodigoPostal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/black"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -133,7 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/yellow"
+            android:backgroundTint="@color/dark_yellow"
             android:text="Guardar cambios"
             android:textColor="@color/black"
             android:padding="12dp"
