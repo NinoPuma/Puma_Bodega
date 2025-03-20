@@ -37,7 +37,7 @@ public class CarritoFragment extends Fragment {
     private CarritoModelo carritoModelo;
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
-    private Button btnRealizarPedido;
+    private Button btnRealizarPedido, btnVaciarCarrito;  // 📌 Añadir botón de vaciar carrito
 
     @Nullable
     @Override
@@ -46,6 +46,8 @@ public class CarritoFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.rv);
         btnRealizarPedido = view.findViewById(R.id.btn_realizar_pedido);
+        btnVaciarCarrito = view.findViewById(R.id.btnVaciarCarrito); // 📌 Referencia al botón
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         auth = FirebaseAuth.getInstance();
@@ -62,6 +64,9 @@ public class CarritoFragment extends Fragment {
         }
 
         btnRealizarPedido.setOnClickListener(v -> realizarPedido());
+
+        // 📌 Agregar funcionalidad al botón de vaciar carrito
+        btnVaciarCarrito.setOnClickListener(v -> vaciarCarrito());
 
         return view;
     }
@@ -85,8 +90,6 @@ public class CarritoFragment extends Fragment {
                     if (licor != null) {
                         nuevosLicores.add(licor);
                         nuevasCantidades.add(cantidad);
-
-                        // 💡 Ahora agregamos los productos a `carritoModelo`
                         carritoModelo.agregarLicor(licor, cantidad);
                     }
                 }
@@ -101,8 +104,6 @@ public class CarritoFragment extends Fragment {
         });
     }
 
-
-
     private void realizarPedido() {
         if (carritoModelo == null || carritoModelo.getLicores() == null || carritoModelo.getLicores().isEmpty()) {
             Toast.makeText(getContext(), "El carrito está vacío", Toast.LENGTH_SHORT).show();
@@ -112,8 +113,6 @@ public class CarritoFragment extends Fragment {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
-
-            // Guardar dentro de "perfiles/{usuarioId}/pedidos"
             DatabaseReference pedidosRef = FirebaseDatabase.getInstance()
                     .getReference("perfiles")
                     .child(userId)
@@ -135,22 +134,25 @@ public class CarritoFragment extends Fragment {
         }
     }
 
-
-
-
-    // Vaciar el carrito después de realizar el pedido
+    // 🚮 Vaciar el carrito cuando se presiona el botón
     private void vaciarCarrito() {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(getContext(), "Usuario no autenticado", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         DatabaseReference carritoRef = FirebaseDatabase.getInstance()
                 .getReference("perfiles")
-                .child(auth.getCurrentUser().getUid())
+                .child(currentUser.getUid())
                 .child("carrito");
 
         carritoRef.removeValue()
                 .addOnSuccessListener(aVoid -> {
                     carritoModelo.getLicores().clear();
                     adaptadorCarrito.actualizarCarrito(new ArrayList<>(), new ArrayList<>());
+                    Toast.makeText(getContext(), "Carrito vaciado", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al vaciar el carrito", Toast.LENGTH_SHORT).show());
     }
-
 }

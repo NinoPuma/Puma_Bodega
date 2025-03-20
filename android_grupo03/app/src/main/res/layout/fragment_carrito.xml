@@ -7,21 +7,21 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Título en la parte superior -->
+    <!-- 📌 Título en la parte superior -->
     <TextView
         android:id="@+id/tituloTienda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/dark_gray"
+        android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:padding="16dp"
-        android:text="Bienvenido a Pumabodega"
+        android:text="Bienvenido a Carrito"
         android:textColor="@color/dark_yellow"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-medium"/>
+        android:textStyle="bold" />
 
-    <!-- RecyclerView para mostrar los productos del carrito -->
+    <!-- 📌 RecyclerView para mostrar los productos del carrito -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
@@ -34,18 +34,30 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"/>
 
-    <!-- Botón para realizar el pedido -->
+    <!-- 📌 Botón para vaciar todo el carrito -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnVaciarCarrito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="VACIAR CARRITO"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:backgroundTint="@color/dark_red"
+        android:elevation="6dp"
+        android:textStyle="bold"/>
+
+    <!-- 📌 Botón para realizar el pedido -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_realizar_pedido"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="REALIZAR PEDIDO"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:backgroundTint="@color/dark_yellow"
         android:elevation="6dp"
-        android:textStyle="bold">
+        android:textStyle="bold"/>
 
-    </com.google.android.material.button.MaterialButton>
 </LinearLayout>

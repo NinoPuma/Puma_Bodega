@@ -19,7 +19,7 @@ import es.uem.android_grupo03.models.LicorModelo;
 public class AdaptadorCarrito extends RecyclerView.Adapter<AdaptadorCarrito.ViewHolder> {
     private Context context;
     private List<LicorModelo> licoresEnCarrito;
-    private List<Integer> cantidades; // Nueva lista para almacenar cantidades
+    private List<Integer> cantidades;
 
     public AdaptadorCarrito(Context context) {
         this.context = context;
@@ -74,10 +74,17 @@ public class AdaptadorCarrito extends RecyclerView.Adapter<AdaptadorCarrito.View
         }
     }
 
-    // 👇🏽 ACTUALIZAR LA LISTA CUANDO SE MODIFIQUE EL CARRITO
+    // 🔄 Método para actualizar la lista cuando cambie el carrito
     public void actualizarCarrito(List<LicorModelo> nuevosLicores, List<Integer> nuevasCantidades) {
         this.licoresEnCarrito = nuevosLicores;
         this.cantidades = nuevasCantidades;
-        notifyDataSetChanged();  // 👈 REFRESCAR UI
+        notifyDataSetChanged(); // 🔄 Refrescar UI
+    }
+
+    // 🚮 Método para vaciar el carrito
+    public void vaciarCarrito() {
+        this.licoresEnCarrito.clear();
+        this.cantidades.clear();
+        notifyDataSetChanged(); // 🔄 Refrescar UI después de vaciar
     }
 }

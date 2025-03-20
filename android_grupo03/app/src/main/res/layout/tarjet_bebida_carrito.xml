@@ -104,16 +104,5 @@
                     android:scaleType="fitCenter"/>
             </LinearLayout>
         </LinearLayout>
-
-        <!-- 📌 Botón de eliminar -->
-        <ImageButton
-            android:id="@+id/btnEliminarCarrito"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:padding="6dp"
-            android:background="@color/dark_red"
-            android:src="@drawable/ic_delete"
-            android:contentDescription="Eliminar producto"
-            android:elevation="4dp"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
