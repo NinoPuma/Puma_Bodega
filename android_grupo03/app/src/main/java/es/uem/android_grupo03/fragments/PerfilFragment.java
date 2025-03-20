@@ -30,16 +30,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import es.uem.android_grupo03.MainActivity;
 import es.uem.android_grupo03.R;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PerfilFragment extends Fragment {
 
     private ImageView fotoPerfil;
     private EditText editarNombreUsuario, editarDireccion, editarCodigoPostal;
     private TextView cargarCorreo;
-    private Switch toggleNewsletter;
-    private Button botonGuardarCambios, botonCerrarSesion;
+    private Button botonGuardarCambios, botonCerrarSesion, botonFoto;
 
     private ActivityResultLauncher<Void> cameraLauncher;
     private ActivityResultLauncher<String> requestCameraPermissionLauncher;
@@ -61,6 +58,7 @@ public class PerfilFragment extends Fragment {
         cargarCorreo = view.findViewById(R.id.cargarCorreo);
         botonGuardarCambios = view.findViewById(R.id.botonGuardarCambios);
         botonCerrarSesion = view.findViewById(R.id.botonCerrarSesion);
+        botonFoto = view.findViewById(R.id.botonFoto); // Botón para cambiar foto
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
@@ -95,11 +93,8 @@ public class PerfilFragment extends Fragment {
         botonGuardarCambios.setOnClickListener(v -> guardarCambiosPerfil());
         botonCerrarSesion.setOnClickListener(v -> cerrarSesion());
 
-        // Botón para guardar cambios en Firebase
-
-
-        // Botón para cerrar sesión
-        botonCerrarSesion.setOnClickListener(v -> cerrarSesion());
+        // Botón para cambiar foto
+        botonFoto.setOnClickListener(v -> solicitarPermisoCamara());
 
         return view;
     }
@@ -158,10 +153,4 @@ public class PerfilFragment extends Fragment {
     private void abrirCamara() {
         cameraLauncher.launch(null);
     }
-
-
-
-
-
-
 }
