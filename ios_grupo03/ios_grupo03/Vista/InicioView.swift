@@ -20,13 +20,13 @@ struct Inicio: View {
             
             ListaLicores(gestorDatos: gestorDatos, tipo: "Ron")
                 .tabItem {
-                    Label("Ron", systemImage: "flame.fill")
+                    Label("Ron", systemImage: "mug.fill") // 🏝 Nuevo icono para Ron
                 }
                 .tag(3)
             
             ListaLicores(gestorDatos: gestorDatos, tipo: "Vodka")
                 .tabItem {
-                    Label("Vodka", systemImage: "bolt.fill")
+                    Label("Vodka", systemImage: "snowflake") // ❄️ Nuevo icono para Vodka
                 }
                 .tag(4)
         }

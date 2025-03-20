@@ -87,19 +87,19 @@ class GestorDatos: ObservableObject {
 
     // ✅ Cargar un perfil específico
     func cargarPerfil(nombre: String) {
-        if perfilActual?.nombre == nombre { return }
-        
-        if perfiles.isEmpty { cargarPerfiles() }
-
-        DispatchQueue.main.async {
-            self.perfilActual = self.perfiles.first(where: { $0.nombre == nombre })
-            if let perfil = self.perfilActual {
-                print("✅ Perfil cargado: \(perfil.nombre)")
-            } else {
-                print("❌ ERROR: No se encontró el perfil de \(nombre)")
+            if perfiles.isEmpty {
+                cargarPerfiles()
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.perfilActual = self.perfiles.first(where: { $0.nombre == nombre })
+                if let perfil = self.perfilActual {
+                    print("✅ Perfil cargado: \(perfil.nombre), Suscrito: \(perfil.suscritoNewsletter)")
+                } else {
+                    print("❌ ERROR: No se encontró el perfil de \(nombre)")
+                }
             }
         }
-    }
     
     func calcularTotalCarrito() -> Float {
         guard let perfil = perfilActual else { return 0 }
@@ -217,21 +217,29 @@ class GestorDatos: ObservableObject {
         }
 
         // ✅ Cargar perfiles desde JSON
-        func cargarPerfiles() {
+    func cargarPerfiles() {
             let url = obtenerURLArchivo()
             
             guard FileManager.default.fileExists(atPath: url.path) else {
-                print("❌ ERROR: No se encontró el archivo JSON de perfiles")
+                print("❌ ERROR: No se encontró el archivo JSON de perfiles en \(url.path)")
                 return
             }
             
             do {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
-                let jsonCompleto = try decoder.decode([String: [Perfil]].self, from: data)
+                var jsonCompleto = try decoder.decode([String: [Perfil]].self, from: data)
+                
+                // ✅ Asegurar que `suscritoNewsletter` tiene un valor por defecto
+                for i in 0..<jsonCompleto["perfiles"]!.count {
+                    if jsonCompleto["perfiles"]![i].suscritoNewsletter == nil {
+                        jsonCompleto["perfiles"]![i].suscritoNewsletter = false
+                    }
+                }
                 
                 DispatchQueue.main.async {
                     self.perfiles = jsonCompleto["perfiles"] ?? []
+                    print("✅ Perfiles cargados: \(self.perfiles.count)")
                 }
             } catch {
                 print("❌ ERROR al cargar el JSON de perfiles: \(error)")
@@ -272,8 +280,7 @@ class GestorDatos: ObservableObject {
             }
         }
         
-    // ✅ Permitir editar perfil y guardar cambios
-        func actualizarPerfil(email: String, direccion: String, tarjeta: String) {
+    func actualizarPerfil(email: String, direccion: String, tarjeta: String, suscritoNewsletter: Bool) {
             guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else {
                 print("❌ ERROR: No se encontró el perfil")
                 return
@@ -282,6 +289,8 @@ class GestorDatos: ObservableObject {
             perfiles[perfilIndex].email = email
             perfiles[perfilIndex].direccion = direccion
             perfiles[perfilIndex].tarjeta = tarjeta
+            perfiles[perfilIndex].suscritoNewsletter = suscritoNewsletter // ✅ Guardamos la suscripción
+
             perfilActual = perfiles[perfilIndex]
             salvarJSON()
         }

@@ -46,20 +46,25 @@ struct ContentView: View {
 
                 VStack(spacing: 10) {
                     HStack {
-                        Toggle("", isOn: $aceptarTerminos)
-                            .labelsHidden()
-                        Text("Aceptar términos y condiciones")
-                            .font(.subheadline)
-                    }
-
-                    HStack {
                         Toggle("", isOn: $esMayorDeEdad)
                             .labelsHidden()
                         Text("Confirmo que soy mayor de 18 años")
                             .font(.subheadline)
+                        Spacer()
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 20)
+
+                    HStack {
+                        Toggle("", isOn: $aceptarTerminos)
+                            .labelsHidden()
+                        Text("Aceptar términos y condiciones")
+                            .font(.subheadline)
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 20)
                 }
-                .padding(.horizontal, 20)
 
                 Button(action: {
                     if !esMayorDeEdad {

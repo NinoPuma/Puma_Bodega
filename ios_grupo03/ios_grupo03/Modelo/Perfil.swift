@@ -13,4 +13,5 @@ struct Perfil: Codable, Identifiable{
     var pedidos: [Pedido]
     var tarjeta: String
     var carrito: [Carrito]
+    var suscritoNewsletter: Bool?
 }
