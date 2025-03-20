@@ -82,6 +82,9 @@ struct VistaPerfil: View {
                 suscritoNewsletter = perfil.suscritoNewsletter ?? false // ✅ Evita error si el JSON no tiene este valor
             }
         }
+        .alert(isPresented: $gestorDatos.mostrarAlerta) {
+            Alert(title: Text("Éxito"), message: Text(gestorDatos.mensajeAlerta), dismissButton: .default(Text("OK")))
+        }
     }
 
     // ✅ Método para mostrar los campos NO editables

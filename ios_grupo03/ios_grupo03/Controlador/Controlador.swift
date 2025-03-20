@@ -281,19 +281,26 @@ class GestorDatos: ObservableObject {
         }
         
     func actualizarPerfil(email: String, direccion: String, tarjeta: String, suscritoNewsletter: Bool) {
-            guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else {
-                print("❌ ERROR: No se encontró el perfil")
-                return
-            }
-            
-            perfiles[perfilIndex].email = email
-            perfiles[perfilIndex].direccion = direccion
-            perfiles[perfilIndex].tarjeta = tarjeta
-            perfiles[perfilIndex].suscritoNewsletter = suscritoNewsletter // ✅ Guardamos la suscripción
-
-            perfilActual = perfiles[perfilIndex]
-            salvarJSON()
+        guard let perfilIndex = perfiles.firstIndex(where: { $0.id == perfilActual?.id }) else {
+            print("❌ ERROR: No se encontró el perfil")
+            return
         }
+        
+        perfiles[perfilIndex].email = email
+        perfiles[perfilIndex].direccion = direccion
+        perfiles[perfilIndex].tarjeta = tarjeta
+        perfiles[perfilIndex].suscritoNewsletter = suscritoNewsletter // ✅ Guardamos la suscripción
+
+        perfilActual = perfiles[perfilIndex]
+        salvarJSON()
+        
+        // ✅ Mostrar mensaje de confirmación
+        DispatchQueue.main.async {
+            self.mensajeAlerta = "Datos guardados correctamente"
+            self.mostrarAlerta = true
+        }
+    }
+
         // ✅ Llamar a la copia en la inicialización
         init() {
             copiarJSONSiNoExiste()
