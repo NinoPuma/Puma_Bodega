@@ -78,7 +78,7 @@ public class PedidosFragment extends Fragment {
                         listaLicoresGlobal.add(licor);
                     }
                 }
-                cargarPedidosUsuario(userId); // Ahora carga pedidos
+                cargarPedidosUsuario(userId);
             }
 
             @Override
@@ -94,7 +94,7 @@ public class PedidosFragment extends Fragment {
                 .child(userId)
                 .child("pedidos");
 
-        pedidosRef.addValueEventListener(new ValueEventListener() { // 🔥 Cambio aquí
+        pedidosRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaPedidos.clear();
